@@ -3,7 +3,6 @@
 import App
 import BridgeUtils
 import loadspacehelper
-import MissionLib
 
 def CreateMenus():
 	pTopWindow = App.TopWindow_GetTopWindow()
@@ -114,7 +113,7 @@ def SetAlertLevel(pObject, pEvent):
 			global LastBoostTime
 			if LastBoostTime + BUG_BOOST_COOLDOWN_S < App.g_kUtopiaModule.GetGameTime():
 				velocity = pPlayer.GetVelocityTG()
-				velocity.Scale(1.6)
+				velocity.Scale(3)
 				pPlayer.SetVelocity(velocity)
 				LastBoostTime = App.g_kUtopiaModule.GetGameTime()
 
@@ -130,7 +129,8 @@ def SetAlertLevel(pObject, pEvent):
 					NDrones = NDrones + 1
 
 					SetEnemyGroup(pPlayer)
-					pShip = SpawnDroneShip('Bug', shipName, 30, pPlayer)
+					import MissionLib
+					pShip = SpawnDroneShip('Bug', shipName, 30, pPlayer, group = MissionLib.GetMission().GetNeutralGroup())
 					
 
 					pShip.SetMass(100)
@@ -140,6 +140,7 @@ def SetAlertLevel(pObject, pEvent):
 				targetName = GetCurrentTargetName(pPlayer)
 				if targetName:
 					for i in range(0, NDrones):
+						import MissionLib
 						pDrone = MissionLib.GetShip("Drone " + str(i))
 						if pDrone:
 							pKamakaze = App.PlainAI_Create(pDrone, 'MoveIn')
@@ -200,7 +201,8 @@ def SetAlertLevel(pObject, pEvent):
 					distance = SPAWN_DISTANCE * 2
 
 				SetEnemyGroup(pPlayer)
-				pShip = SpawnDroneShip(shipType, shipName, distance, pPlayer)
+				import MissionLib
+				pShip = SpawnDroneShip(shipType, shipName, distance, pPlayer, group = MissionLib.GetMission().GetFriendlyGroup())
 
 				dynamicGroup = App.ObjectGroup_FromModule("Bridge.XOMenuHandlers", "enemyGroup")
 				import QuickBattle.QuickBattleFriendlyAI
@@ -269,7 +271,8 @@ def ShowLog(pObject, pEvent):
 	pObject.CallNextHandler(pEvent)
 
 
-def SpawnDroneShip(shipType, shipName, distance, pPlayer, group = MissionLib.GetMission().GetFriendlyGroup()): # AAAAAAAAAAAA
+def SpawnDroneShip(shipType, shipName, distance, pPlayer, group): # AAAAAAAAAAAA
+	import MissionLib
 	pSetName = MissionLib.GetPlayerSet().GetName()
 	pSet = App.g_kSetManager.GetSet(pSetName)
 
