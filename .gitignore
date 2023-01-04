@@ -779,3 +779,29 @@ scripts/Tactical/Projectiles/TransphasicTorpedo.py
 scripts/Tactical/Projectiles/VerteronPulse.py
 scripts/Tactical/Projectiles/Torpedo Guide.txt
 
+!scripts/Bridge/XOMenuHandlers.py
+!scripts/KeyboardBinding.py
+!scripts/Maelstrom/Episode3/E3M2/E3M2.py
+!scripts/Maelstrom/Episode5/E5M2/E5M2.py
+!scripts/Maelstrom/Episode5/E5M4/E5M4.py
+!scripts/Maelstrom/Episode6/E6M1/E6M1.py
+!scripts/Maelstrom/Episode6/E6M2/E6M2.py
+!scripts/Maelstrom/Episode7/E7M1/E7M1.py
+!scripts/MissionLib.py
+!scripts/QuickBattle/QuickBattleFriendlyAI.py
+!scripts/Tactical/Projectiles/Photon 6 Akira.py
+!scripts/Tactical/Projectiles/Photon 9001.py
+!scripts/Tactical/Projectiles/PulsePhaser.py
+!scripts/Tactical/Projectiles/Quantum 2d.py
+!scripts/loadspacehelper.py
+!scripts/ships/Hardpoints/Akira.py
+!scripts/ships/Hardpoints/Bug.py
+!scripts/ships/Hardpoints/Defiant.py
+!scripts/ships/Hardpoints/Nova.py
+!scripts/ships/Hardpoints/Prometheus.py
+!scripts/ships/Hardpoints/Scimitar.py
+!scripts/ships/Hardpoints/Valdore.py
+!scripts/ships/Hardpoints/Warbird.py
+!scripts/ships/Hardpoints/probe.py
+!scripts/ships/Hardpoints/shuttle.py
+!scripts/ships/Hardpoints/transport.py
