@@ -293,22 +293,23 @@ def CreateGeronimo(pSet):
 	import DamageAkira
 	DamageAkira.AddDamage(pShip)
 
-	# Damage the ship...
-	pRepair = pShip.GetRepairSubsystem()
-	pRepair.TurnOff()	
+	# AAAAAAAAAAAAAAAAAAA prevent glass version of Akira from dying immediately
+	# # Damage the ship...
+	# pRepair = pShip.GetRepairSubsystem()
+	# pRepair.TurnOff()	
 		
-	# Destroy the shield generator
-	pShields = pShip.GetShields()
-	pShip.DamageSystem(pShields, 5000)
+	# # Destroy the shield generator
+	# pShields = pShip.GetShields()
+	# pShip.DamageSystem(pShields, 5000)
 
-	# Damage the Power Planet - 1000 pts of damage
-	pShip.DamageSystem(pShip.GetPowerSubsystem(), 1000)
-	# Damage the hull - 2000 pts of damage
-	pShip.DamageSystem(pShip.GetHull(), 2000)
-	# Damage the Impulse engines - 0 pts each
-	pImpulse = pShip.GetImpulseEngineSubsystem()
-	pShip.DamageSystem(pImpulse.GetChildSubsystem(0), 2200)
-	pShip.DamageSystem(pImpulse.GetChildSubsystem(1), 2400)
+	# # Damage the Power Planet - 1000 pts of damage
+	# pShip.DamageSystem(pShip.GetPowerSubsystem(), 1000)
+	# # Damage the hull - 2000 pts of damage
+	# pShip.DamageSystem(pShip.GetHull(), 2000)
+	# # Damage the Impulse engines - 0 pts each
+	# pImpulse = pShip.GetImpulseEngineSubsystem()
+	# pShip.DamageSystem(pImpulse.GetChildSubsystem(0), 2200)
+	# pShip.DamageSystem(pImpulse.GetChildSubsystem(1), 2400)
 
 
 ###############################################################################

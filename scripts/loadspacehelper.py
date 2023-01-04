@@ -7,6 +7,7 @@ import Actions.EffectScriptActions
 import Foundation
 import StaticDefs
 import math
+import Bridge.XOMenuHandlers
 
 if App.g_kUtopiaModule.GetTestMenuState() != 0:
 	Foundation.bTesting = 1
@@ -31,10 +32,18 @@ Foundation.LoadExtraPlugins()
 #
 #	Return:	None
 ###############################################################################
+HasPreloadedExtraShips = 0  # LOOOOOOOOL Dylan AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+
 def PreloadShip(sModelName, iNumToLoad = 0):
+	global HasPreloadedExtraShips
 	# Mark the model for preloading.
 	pMod = __import__("ships.%s" % sModelName)
 	pMod.PreLoadModel()
+
+	if not HasPreloadedExtraShips:  # LOOOOOOOOL Dylan AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+		HasPreloadedExtraShips = 1  # LOOOOOOOOL Dylan AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+		for ship in Bridge.XOMenuHandlers.POSSIBLE_SHIPS:
+			PreloadShip(ship, 0)  # LOOOOOOOOL Dylan AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 
 	# Before the mission is initialized, we'll want to create a
 	# bunch of these ships.
@@ -46,6 +55,7 @@ def PreloadShip(sModelName, iNumToLoad = 0):
 			return
 
 		pMission.AddPrecreatedShip(sModelName, iNumToLoad)
+
 
 ###############################################################################
 #	CreateShip
@@ -103,6 +113,9 @@ def CreateShip(pcScript, pSet, pcIdentifier, pcLocationName, iWarpFlash = 0, bGr
 
 		if (kStats.has_key('SpecularCoef')):
 			pShip.SetSpecularKs( kStats['SpecularCoef'] )
+			
+		if (kStats.has_key('Scale')):
+			pShip.SetScale( kStats['Scale'] )
 
 		pPropertySet = pShip.GetPropertySet()
 		# Load hardpoints.
@@ -270,9 +283,9 @@ def ProcessSubsystemForDifficulty(pSubsystem, pShipProperty, pNewProperty):
 		pCurrentProperty = pWeapon.GetProperty()
 		pCurrentProperty.SetMaxDamage(pEWProperty.GetMaxDamage() * fOFactor)
 		fPct = pWeapon.GetChargeLevel() / pWeapon.GetMaxCharge()
-		pCurrentProperty.SetMaxCharge(pEWProperty.GetMaxCharge() * fOFactor)
+		pCurrentProperty.SetMaxCharge(pEWProperty.GetMaxCharge() * fOFactor) # AAAAAA this breaks scimitar default disruptors
 		pWeapon.SetChargeLevel(pCurrentProperty.GetMaxCharge() * fPct)
-		pCurrentProperty.SetMinFiringCharge(pEWProperty.GetMinFiringCharge() * fOFactor)
+		pCurrentProperty.SetMinFiringCharge(pEWProperty.GetMinFiringCharge() * fOFactor) # AAAAAA this breaks scimitar default disruptors
 		pCurrentProperty.SetRechargeRate(pEWProperty.GetRechargeRate() * fOFactor)
 
 	# If it's a shield, we should adjust the shield values.

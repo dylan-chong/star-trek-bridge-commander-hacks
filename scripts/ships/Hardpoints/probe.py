@@ -8,7 +8,7 @@ import GlobalPropertyTemplates
 #################################################
 Hull = App.HullProperty_Create("Hull")
 
-Hull.SetMaxCondition(200.000000)
+Hull.SetMaxCondition(0.1 * 200.000000)
 Hull.SetCritical(1)
 Hull.SetTargetable(1)
 Hull.SetPrimary(1)
@@ -161,7 +161,7 @@ Probe = App.ShipProperty_Create("Probe")
 
 Probe.SetGenus(1)
 Probe.SetSpecies(710)
-Probe.SetMass(0.001000)
+Probe.SetMass(300000000000.0 * 0.001000)
 Probe.SetRotationalInertia(0.100000)
 Probe.SetShipName("Probe")
 Probe.SetModelFilename("data/Models/Misc/Probe/Probe.nif")

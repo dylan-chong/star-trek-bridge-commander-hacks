@@ -2298,8 +2298,9 @@ def PlayerArrivesOna():
 		MissionLib.AddCommandableShip("Venture")
 	if (pPrometheus != None):
 		import E6M1_AI_Venture_Ona
-		pPrometheus.SetAI(E6M1_AI_Venture_Ona.CreateAI(pPrometheus))
-		MissionLib.AddCommandableShip("USS Prometheus")
+		if pPrometheus: # AAAAAAAAAAAAAAAAAAAAAAAA
+			pPrometheus.SetAI(E6M1_AI_Venture_Ona.CreateAI(pPrometheus))
+			MissionLib.AddCommandableShip("USS Prometheus")
 		# MissionLib.DamageShip("Venture", 0.1, 0.15, 1)		
 	# set the g_iMissionPositionCounter to play the right dialogue
 	global g_iMissionPositionCounter
@@ -2674,7 +2675,8 @@ def ResetFedShipAIForSavoy3(pTGAction):
 			pVenture.SetAI(E6M1_AI_Venture_Savoy3.CreateAI(pVenture, g_pRescueTargets))
 		if (g_bPrometheusDestroyed == FALSE):
 			pPrometheus	= App.ShipClass_GetObject(pSet, "USS Prometheus")
-			pPrometheus.SetAI(E6M1_AI_Prometheus_Savoy3.CreateAI(pPrometheus, g_pRescueTargets))
+			if pPrometheus: #AAAAAAAAAAAAA
+				pPrometheus.SetAI(E6M1_AI_Prometheus_Savoy3.CreateAI(pPrometheus, g_pRescueTargets))
 	# If the Devore has been destroyed, check the others
 	elif (g_bSanFranciscoDestroyed == FALSE):
 		# The SF still exists, so make it the Rescue ship
@@ -2688,14 +2690,16 @@ def ResetFedShipAIForSavoy3(pTGAction):
 			pVenture.SetAI(E6M1_AI_Venture_Savoy3.CreateAI(pVenture, g_pRescueTargets))
 		if (g_bPrometheusDestroyed == FALSE):
 			pPrometheus	= App.ShipClass_GetObject(pSet, "USS Prometheus")
-			pPrometheus.SetAI(E6M1_AI_Prometheus_Savoy3.CreateAI(pPrometheus, g_pRescueTargets))
+			if pPrometheus: # AAAAAAAAAAAAAAAAAAAAAAAA
+				pPrometheus.SetAI(E6M1_AI_Prometheus_Savoy3.CreateAI(pPrometheus, g_pRescueTargets))
 	elif (g_bVentureDestroyed == FALSE):
 		# The Venture exists, so it becomes the rescue ship.
 		g_sRescueShipName = "Venture"
 		pVenture	= App.ShipClass_GetObject(pSet, "Venture")
 		pVenture.SetAI(E6M1_AI_Rescue.CreateAI(pVenture, g_pRescueTargets))
 		pPrometheus	= App.ShipClass_GetObject(pSet, "USS Prometheus")
-		pPrometheus.SetAI(E6M1_AI_Prometheus_Savoy3.CreateAI(pPrometheus, g_pRescueTargets))
+		if pPrometheus: # AAAAAAAAAAAAAAAAAAAAAAAA
+			pPrometheus.SetAI(E6M1_AI_Prometheus_Savoy3.CreateAI(pPrometheus, g_pRescueTargets))
 		MissionLib.RemoveCommandableShip("Venture")
 		
 	return 0
@@ -3066,7 +3070,8 @@ def ResetFedAIToSavoy1(pTGAction):
 	if (g_bPrometheusDestroyed == FALSE):
 		import E6M1_AI_Prometheus_Savoy1
 		pPrometheus = App.ShipClass_GetObject(None, "USS Prometheus")
-		pPrometheus.SetAI(E6M1_AI_Prometheus_Savoy1.CreateAI(pPrometheus))
+		if pPrometheus: # AAAAAAAAAAAAAAAAAAAAAAAA
+			pPrometheus.SetAI(E6M1_AI_Prometheus_Savoy1.CreateAI(pPrometheus))
 		
 	return 0
 
@@ -3761,7 +3766,8 @@ def ResetFedAIToStarbase(pTGAction):
 			MissionLib.RemoveCommandableShip("Venture")
 	if (g_bPrometheusDestroyed == FALSE):
 		pPrometheus = App.ShipClass_GetObject(None, "USS Prometheus")
-		pPrometheus.SetAI(E6M1_AI_WarpToStarbase.CreateAI(pPrometheus))
+		if pPrometheus: # AAAAAAAAAAAAAAAAAAAAAAAA
+			pPrometheus.SetAI(E6M1_AI_WarpToStarbase.CreateAI(pPrometheus))
 	# If Devore survived
 	if (g_bDevoreDestroyed == FALSE):
 		pDevore = App.ShipClass_GetObject(None, "Devore")

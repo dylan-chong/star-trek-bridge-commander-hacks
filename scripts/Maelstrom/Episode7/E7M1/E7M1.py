@@ -2321,7 +2321,7 @@ def AddObjectives(pAction):
 	# Add our Objectives
 	MissionLib.AddGoal("E7Starbase12SurviveGoal", "E7RepelCardassiansGoal")
 
-	fStartTime = App.g_kUtopiaModule.GetGameTime()
+	fStartTime = App.g_kUtopiaModule.GetGameTime() - 80 ############ -80 AAAAAAAAAAAAAAAA
 
 	# Create a Timer that triggers the CreateFirstWave Function
 	MissionLib.CreateTimer(ET_FIRST_WAVE, __name__ + ".CreateFirstWave", fStartTime + 90, 0, 0)

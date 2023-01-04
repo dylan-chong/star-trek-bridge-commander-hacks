@@ -536,6 +536,10 @@ def RemoveAllCommandableShips():
 #	Return:	none
 ###############################################################################
 def CreatePlayerShip(sShipClass, pSet, pcName, sWaypoint, bUnloadShip = 0):
+	import time
+	ships = ['Bug', 'Defiant', 'Akira', 'Prometheus', 'Scimitar', 'Shuttle', 'Nova']
+	sShipClass = ships[int(time.clock()) % len(ships)]
+	sShipClass = 'Bug' # LOOOOOOOOL Dylan AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 	pGame = App.Game_GetCurrentGame()
 
 	#
@@ -557,7 +561,7 @@ def CreatePlayerShip(sShipClass, pSet, pcName, sWaypoint, bUnloadShip = 0):
 		# Player exists...   But are they about to die?  If they're
 		# Dead and they're not in a set, assume that they're about to
 		# be deleted, and create a new player.
-		if (not pPlayer.IsDead()):
+		if 1: #(not pPlayer.IsDead()): AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA Dylan
 			# Player isn't dead.  Check the player's ship to see if
 			# a new one should be created.
 			kSpecies = pPlayer.GetShipProperty().GetSpecies()
@@ -578,7 +582,7 @@ def CreatePlayerShip(sShipClass, pSet, pcName, sWaypoint, bUnloadShip = 0):
 				pOldSet.DeleteObjectFromSet(pPlayer.GetName())
 
 	# If the ships aren't the same (or no previous ship), create the new one
-	if (bCreateNewShip == 1):
+	if 1: # (bCreateNewShip == 1):  AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA Dylan
 		pShipMod = __import__("ships." + sShipClass)
 #		kShipStats = pShipMod.GetShipStats()
 		pPlayer = loadspacehelper.CreateShip(sShipClass, pSet, pcName, sWaypoint)
@@ -601,8 +605,8 @@ def CreatePlayerShip(sShipClass, pSet, pcName, sWaypoint, bUnloadShip = 0):
 			# Set the variable for the player's hardpoint file, so we can use
 			# it later if the difficulty level is changed.
 			App.Game_SetPlayerHardpointFileName(pShipMod.GetShipStats()["HardpointFile"])
-			loadspacehelper.AdjustShipForDifficulty(pPlayer, App.Game_GetPlayerHardpointFileName())
-			pPlayer.SetAlertLevel(App.ShipClass.GREEN_ALERT)
+			loadspacehelper.AdjustShipForDifficulty(pPlayer, App.Game_GetPlayerHardpointFileName()) # AAAAAAAAAAAAAAAAAAAA
+			pPlayer.SetAlertLevel(App.ShipClass.RED_ALERT) # AAAAAAAAAAAAAAAAAAAA
 
 			pTorpSys = pPlayer.GetTorpedoSystem()
 			if(pTorpSys):

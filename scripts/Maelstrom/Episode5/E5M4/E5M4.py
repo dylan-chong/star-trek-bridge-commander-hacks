@@ -584,6 +584,8 @@ def ExitedWarp(pMission, pEvent):
 	if (pShip):
 		# It's a ship.
 		pSet = pShip.GetContainingSet()
+		if not(pSet):
+			return	
 		sSetName = pSet.GetName()
 
 		if (pPlayer.GetObjID() == pShip.GetObjID()) and ((sSetName == "Starbase12") or (sSetName[:len("Prendel")] == "Prendel")):

@@ -53,7 +53,7 @@ def GetName():
 	return("PulsePhaser")
 
 def GetDamage():
-	return 160.0
+	return 2 * 160.0
 
 def GetGuidanceLifetime():
 	return 0.0
@@ -62,4 +62,4 @@ def GetMaxAngularAccel():
 	return 0.1
 
 def GetLifetime():
-	return 10.0
+	return 0.1 * 10.0

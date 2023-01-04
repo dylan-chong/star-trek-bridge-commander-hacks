@@ -1,11 +1,11 @@
 ###############################################################################
-#	Filename:	KlingonTorpedo.py
+#	Filename:	PhasedPlasma.py
 #	
 #	Confidential and Proprietary, Copyright 2000 by Totally Games
 #	
-#	Script for filling in the attributes of klingon torpedoes.
+#	Script for filling in the attributes of antimatter torpedoes.
 #	
-#	Created:	11/3/00 -	Erik Novales
+#	Created:	07/3/01 -	Evan Birkby
 ###############################################################################
 
 import App
@@ -13,44 +13,45 @@ import App
 ###############################################################################
 #	Create(pTorp)
 #	
-#	Creates a klingon torpedo.
+#	Creates a Phased Plasma torpedo.
 #	
 #	Args:	pTorp - the torpedo, ready to be filled-in
 #	
 #	Return:	zero
 ###############################################################################
 def Create(pTorp):
-
 	kCoreColor = App.TGColorA()
-	kCoreColor.SetRGBA(250.0 / 255.0, 250.0 / 255.0, 255.0 / 255., 1.000000)	
+	kCoreColor.SetRGBA(255.0 / 255.0, 255.0 / 255.0, 255.0 / 255.0, 1.000000)
 	kGlowColor = App.TGColorA()
-	kGlowColor.SetRGBA(50.0 / 255.0, 100.0 / 255.0, 255.0 / 255.0, 1.000000)
+	kGlowColor.SetRGBA(255.0 / 255.0, 128.0 / 255.0, 64.0 / 255.0, 1.000000)	
+	kFlareColor = App.TGColorA()
+	kFlareColor.SetRGBA(255.0 / 255.0, 128.0 / 255.0, 64.0 / 255.0, 1.000000)
 
 	pTorp.CreateTorpedoModel(
-					"data/Textures/Tactical/DualQuantumCore.tga",
-					kCoreColor, 
-					1.00,
-					0.00,	 
-					"data/Textures/Tactical/DualQuantumGlow.tga", 
+					"data/Textures/Tactical/NXGlow.tga",
+					kCoreColor,
+					5 * 0.5,
+					5 * 8.0,	 
+					"data/Textures/Tactical/NXGlow.tga", 
 					kGlowColor,
-					0.1,	
-					1.0,	 
-					1.0,	
+					5 * 7.0,	
+					5 * 0.76,	 
+					5 * 0.72,	
 					"data/Textures/Tactical/TorpedoFlares.tga",
-					kGlowColor,										
-					0,	#8	
-					0.2,		
-					0.2)
+					kFlareColor,						
+					5 * 25,		
+					5 * 0.12,		
+					5 * 0.12)
 
 	pTorp.SetDamage( GetDamage() )
-	pTorp.SetDamageRadiusFactor(6 * 0.1)
+	pTorp.SetDamageRadiusFactor(10 * 0.1)
 	pTorp.SetGuidanceLifetime( GetGuidanceLifetime() )
 	pTorp.SetMaxAngularAccel( GetMaxAngularAccel() )
 
 	# Multiplayer specific stuff.  Please, if you create a new torp
 	# type. modify the SpeciesToTorp.py file to add the new type.
 	import Multiplayer.SpeciesToTorp
-	pTorp.SetNetType (Multiplayer.SpeciesToTorp.QUANTUM2D)
+	pTorp.SetNetType (Multiplayer.SpeciesToTorp.PHOTON1)
 
 	return(0)
 
@@ -58,16 +59,16 @@ def GetLaunchSpeed():
 	return(100.0)
 
 def GetLaunchSound():
-	return("Quantum Torpedo 2")
+	return("Photon Torpedo 9001")
 
 def GetPowerCost():
-	return(40.0)
+	return(20.0)
 
 def GetName():
-	return("2 QUANTUM")
+	return("9001 PHOTONIC")
 
 def GetDamage():
-	return 0.5 * 2200.0
+	return 0.5 * 20 * 250.0
 
 def GetGuidanceLifetime():
 	return 0.1

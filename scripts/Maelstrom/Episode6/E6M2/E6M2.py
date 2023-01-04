@@ -1211,7 +1211,7 @@ def ObjectDestroyed(TGObject, pEvent):
 			PodLost()
 				# If we've captured all the pods in a system, call our function
 				# for the Geble system... 
-			if (g_iCapturedGeblePods == 6) and (g_bAllGeblePodsCaptured == FALSE):
+			if (g_iCapturedGeblePods == 6 - 3) and (g_bAllGeblePodsCaptured == FALSE):
 				g_bAllGeblePodsCaptured = TRUE
 				AllGeblePodsCaptured()		
 		else:
@@ -1343,7 +1343,7 @@ def TractorTargetDocked(pTGObject, pEvent):
 				
 		# If we've captured all the pods in a system, call our function
 		# for the Geble system... # FIXME: SHAWN: set one pod to be docked to call the victory
-		if (g_iCapturedGeblePods == 6) and (g_bAllGeblePodsCaptured == FALSE):
+		if (g_iCapturedGeblePods == 6 - 3) and (g_bAllGeblePodsCaptured == FALSE):
 			g_bAllGeblePodsCaptured = TRUE
 			AllGeblePodsCaptured()
 		
