@@ -10,7 +10,7 @@ import GlobalPropertyTemplates
 #################################################
 
 AAAAAAHealthFactor = 100000
-AAAAAAHullHealthFactor = 50
+AAAAAAHullHealthFactor = 60
 AAAAAACriticalHealthFactor = AAAAAAHealthFactor
 AAAAAAEngineHealthFactor = AAAAAAHealthFactor
 AAAAAADisabledFactor = 0
@@ -52,7 +52,7 @@ ShieldGenerator.SetPosition2D(48.000000, 56.000000)
 ShieldGenerator.SetRepairComplexity(1.000000)
 ShieldGenerator.SetDisabledPercentage(AAAAAADisabledFactor * 0.500000)
 ShieldGenerator.SetRadius(0.020000)
-ShieldGenerator.SetNormalPowerPerSecond(0 * 180.000000)
+ShieldGenerator.SetNormalPowerPerSecond(0.001 * 180.000000)
 ShieldGeneratorShieldGlowColor = App.TGColorA()
 ShieldGeneratorShieldGlowColor.SetRGBA(0.498039, 0.247059, 1.000000, 1.000000)
 ShieldGenerator.SetShieldGlowColor(ShieldGeneratorShieldGlowColor)
@@ -83,7 +83,7 @@ SensorArray.SetRepairComplexity(1.000000)
 SensorArray.SetDisabledPercentage(AAAAAADisabledFactor * 0.500000)
 SensorArray.SetRadius(0.015000)
 SensorArray.SetNormalPowerPerSecond(0.01 * 90.000000)
-SensorArray.SetBaseSensorRange(99999 * 900.000000)
+SensorArray.SetBaseSensorRange(2 * 900.000000)
 SensorArray.SetMaxProbes(10)
 App.g_kModelPropertyManager.RegisterLocalTemplate(SensorArray)
 #################################################
@@ -421,9 +421,11 @@ Torpedoes.SetAimedWeapon(1)
 kFiringChainString = App.TGString()
 kFiringChainString.SetString("0;Single;1;Dual")
 Torpedoes.SetFiringChainString(kFiringChainString)
-Torpedoes.SetMaxTorpedoes(0, 30)
-Torpedoes.SetTorpedoScript(0, "Tactical.Projectiles.PolaronTorpedo")
-Torpedoes.SetNumAmmoTypes(1)
+Torpedoes.SetMaxTorpedoes(0, 15)
+Torpedoes.SetTorpedoScript(0, "Tactical.Projectiles.Photon 6")
+Torpedoes.SetMaxTorpedoes(1, 1000)
+Torpedoes.SetTorpedoScript(1, "Tactical.Projectiles.PolaronTorpedo")
+Torpedoes.SetNumAmmoTypes(2)
 App.g_kModelPropertyManager.RegisterLocalTemplate(Torpedoes)
 #################################################
 ForwardTube = App.TorpedoTubeProperty_Create("Forward Tube")
@@ -447,7 +449,7 @@ ForwardTube.SetIconPositionY(54.000000)
 ForwardTube.SetIconAboveShip(1)
 ForwardTube.SetImmediateDelay(0.250000)
 ForwardTube.SetReloadDelay(40.000000)
-ForwardTube.SetMaxReady(2)
+ForwardTube.SetMaxReady(2 * 2)
 ForwardTubeDirection = App.TGPoint3()
 ForwardTubeDirection.SetXYZ(0.000000, 1.000000, 0.000000)
 ForwardTube.SetDirection(ForwardTubeDirection)
@@ -455,6 +457,7 @@ ForwardTubeRight = App.TGPoint3()
 ForwardTubeRight.SetXYZ(1.000000, 0.000000, 0.000000)
 ForwardTube.SetRight(ForwardTubeRight)
 App.g_kModelPropertyManager.RegisterLocalTemplate(ForwardTube)
+
 #################################################
 AftTube = App.TorpedoTubeProperty_Create("Aft Tube")
 
@@ -497,7 +500,7 @@ Tractors.SetPosition2D(39.000000, 72.000000)
 Tractors.SetRepairComplexity(1.000000)
 Tractors.SetDisabledPercentage(AAAAAADisabledFactor * 0.500000)
 Tractors.SetRadius(0.080000)
-Tractors.SetNormalPowerPerSecond(1 * 700.000000)
+Tractors.SetNormalPowerPerSecond(0.5 * 700.000000)
 Tractors.SetWeaponSystemType(Tractors.WST_TRACTOR)
 Tractors.SetSingleFire(1)
 Tractors.SetAimedWeapon(0)
@@ -688,7 +691,7 @@ Repair.SetDisabledPercentage(AAAAAADisabledFactor * 0.100000)
 Repair.SetRadius(0.010000)
 Repair.SetNormalPowerPerSecond(1.000000)
 Repair.SetMaxRepairPoints(10 * AAAAAAHullHealthFactor * 6.000000)
-Repair.SetNumRepairTeams(8 * 2)
+Repair.SetNumRepairTeams(40 * 2)
 App.g_kModelPropertyManager.RegisterLocalTemplate(Repair)
 #################################################
 ViewscreenForward = App.PositionOrientationProperty_Create("ViewscreenForward")

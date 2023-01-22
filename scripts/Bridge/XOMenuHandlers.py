@@ -72,8 +72,8 @@ DEFIANT_BOOST_COOLDOWN_S = 10
 AKIRA_BOOST_COOLDOWN_S = 10
 LastBoostTime = 0
 
-BUG_BOOST_COOLDOWN_S = 0
-BUG_DRONE_HP = 20000 #2000
+BUG_BOOST_COOLDOWN_S = 5
+BUG_DRONE_HP = 1000 #2000
 N_BUG_DRONES_TO_SPAWN = 1
 
 def SetAlertLevel(pObject, pEvent):
@@ -109,17 +109,26 @@ def SetAlertLevel(pObject, pEvent):
 				pPlayer.SetVelocity(velocity)
 				LastBoostTime = App.g_kUtopiaModule.GetGameTime()
 
+		if pPlayer.GetShipProperty().GetName().GetCString() == 'KrenimTimeship':
+			global LastBoostTime
+			if LastBoostTime + KRENIM_TIMESHIP_FIRE_COOLDOWN_S < App.g_kUtopiaModule.GetGameTime():
+				# velocity = pPlayer.GetVelocityTG()
+				velocity.Scale(2)
+				pPlayer.SetVelocity(velocity)
+				LastBoostTime = App.g_kUtopiaModule.GetGameTime()
+
 		if pPlayer.GetShipProperty().GetName().GetCString() == 'Bug':
 			global LastBoostTime
+			targetName = GetCurrentTargetName(pPlayer)
+
 			if LastBoostTime + BUG_BOOST_COOLDOWN_S < App.g_kUtopiaModule.GetGameTime():
 				velocity = pPlayer.GetVelocityTG()
 				velocity.Scale(1.6)
 				pPlayer.SetVelocity(velocity)
-				LastBoostTime = App.g_kUtopiaModule.GetGameTime()
-
-				targetName = GetCurrentTargetName(pPlayer)
-
+			
 				for i in range(0, N_BUG_DRONES_TO_SPAWN):
+					LastBoostTime = App.g_kUtopiaModule.GetGameTime()
+					
 					if not targetName:
 						continue
 
@@ -128,7 +137,7 @@ def SetAlertLevel(pObject, pEvent):
 					if pTorpSys.GetNumAvailableTorpsToType(torpType) == 0:
 						continue
 
-					if pTorpSys.GetNumAvailableTorpsToType(torpType) == 1:
+					if pTorpSys.GetNumAvailableTorpsToType(torpType) <= 1:
 						isBeefyDrone = 1
 					else:
 						isBeefyDrone = 0
@@ -148,28 +157,21 @@ def SetAlertLevel(pObject, pEvent):
 						pShip.DamageSystem(pShip.GetHull(), pShip.GetHull().GetMaxCondition() - BUG_DRONE_HP)
 						pShip.GetHull().GetProperty().SetMaxCondition(BUG_DRONE_HP)
 
-				for i in range(0, NDrones):
-					import MissionLib
-					pDrone = MissionLib.GetShip("Drone " + str(i))
-					if pDrone and targetName:
-						pKamakaze = App.PlainAI_Create(pDrone, 'MoveIn')
-						pKamakaze.SetScriptModule('FollowObject')
-						pKamakaze.SetInterruptable(1)
-						pScript = pKamakaze.GetScriptInstance()
-						pScript.SetFollowObjectName(targetName)
-						pScript.SetRoughDistances(0.0, 0.0, 0.0)
-
-						# pKamakaze = App.PlainAI_Create(pShip, 'Intercept')
-						# pKamakaze.SetScriptModule('Intercept')
-						# pKamakaze.SetInterruptable(1)
-						# pScript = pKamakaze.GetScriptInstance()
-						# pScript.SetTargetObjectName(targetName)
-						# pScript.SetInterceptDistance(0)
-						# pScript.SetMoveInFront(1)
-
-						pDrone.SetAI(pKamakaze)
-					elif pDrone:
-						pDrone.SetAI(None)
+			for i in range(0, NDrones):
+				import MissionLib
+				pDrone = MissionLib.GetShip("Drone " + str(i))
+				if pDrone and targetName:
+					pKamakaze = App.PlainAI_Create(pDrone, 'MoveIn')
+					pKamakaze.SetScriptModule('FollowObject')
+					pKamakaze.SetInterruptable(1)
+					pScript = pKamakaze.GetScriptInstance()
+					pScript.SetFollowObjectName(targetName)
+					pScript.SetRoughDistances(0.0, 2.0, 4.0)
+					pScript.fGoMedSpeed = 0.0
+					
+					pDrone.SetAI(pKamakaze)
+				elif pDrone:
+					pDrone.SetAI(None)
 
 		if pPlayer.GetShipProperty().GetName().GetCString() == 'Nova':
 			global LastSpawnDroneTime
