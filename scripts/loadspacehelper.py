@@ -7,7 +7,6 @@ import Actions.EffectScriptActions
 import Foundation
 import StaticDefs
 import math
-import Bridge.XOMenuHandlers
 
 if App.g_kUtopiaModule.GetTestMenuState() != 0:
 	Foundation.bTesting = 1
@@ -42,6 +41,7 @@ def PreloadShip(sModelName, iNumToLoad = 0):
 
 	if not HasPreloadedExtraShips:  # LOOOOOOOOL Dylan AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 		HasPreloadedExtraShips = 1  # LOOOOOOOOL Dylan AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+		import Bridge.XOMenuHandlers
 		for ship in Bridge.XOMenuHandlers.POSSIBLE_SHIPS:
 			PreloadShip(ship, 0)  # LOOOOOOOOL Dylan AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 
