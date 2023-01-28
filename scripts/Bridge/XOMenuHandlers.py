@@ -52,9 +52,7 @@ def CreateMenus():
 	return pXOMenu
 
 
-NDrones = 0
-LastSpawnDroneTime = 0
-DroneSpawnTimes = []
+
 MAX_DRONES_IN_PERIOD = 2
 PERIOD_S = 6
 SPAWN_DISTANCE = 50
@@ -66,15 +64,27 @@ POSSIBLE_SHIPS = [
 	"Fighter",
 	"Transport"
 ]
-enemyGroup = None
 
 DEFIANT_BOOST_COOLDOWN_S = 10
 AKIRA_BOOST_COOLDOWN_S = 10
-LastBoostTime = 0
+VALDORE_WALL_COOLDOWN_S = 0#15
 
 BUG_BOOST_COOLDOWN_S = 5
 BUG_DRONE_HP = 1000 #2000
 N_BUG_DRONES_TO_SPAWN = 1
+
+WALL_LIFETIME_S = 60
+
+def Reset():
+	global NDrones, LastSpawnDroneTime, DroneSpawnTimes, enemyGroup, LastBoostTime, WallSpawnTimes
+	NDrones = 0
+	LastSpawnDroneTime = 0
+	DroneSpawnTimes = []
+	enemyGroup = None
+	LastBoostTime = 0
+	WallSpawnTimes = []
+
+Reset()
 
 def SetAlertLevel(pObject, pEvent):
 	iType = pEvent.GetInt()
@@ -93,8 +103,11 @@ def SetAlertLevel(pObject, pEvent):
 	
 	if iType == App.CharacterClass.EST_ALERT_RED:
 		# AAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+		import MissionLib
+		global LastBoostTime
+		global NDrones
+		
 		if pPlayer.GetShipProperty().GetName().GetCString() == 'Defiant':
-			global LastBoostTime
 			if LastBoostTime + DEFIANT_BOOST_COOLDOWN_S < App.g_kUtopiaModule.GetGameTime():
 				velocity = pPlayer.GetVelocityTG()
 				velocity.Scale(10) 
@@ -102,23 +115,66 @@ def SetAlertLevel(pObject, pEvent):
 				LastBoostTime = App.g_kUtopiaModule.GetGameTime()
 
 		if pPlayer.GetShipProperty().GetName().GetCString() == 'Akira':
-			global LastBoostTime
 			if LastBoostTime + AKIRA_BOOST_COOLDOWN_S < App.g_kUtopiaModule.GetGameTime():
 				velocity = pPlayer.GetVelocityTG()
 				velocity.Scale(40)
 				pPlayer.SetVelocity(velocity)
 				LastBoostTime = App.g_kUtopiaModule.GetGameTime()
 
-		if pPlayer.GetShipProperty().GetName().GetCString() == 'KrenimTimeship':
-			global LastBoostTime
-			if LastBoostTime + KRENIM_TIMESHIP_FIRE_COOLDOWN_S < App.g_kUtopiaModule.GetGameTime():
-				# velocity = pPlayer.GetVelocityTG()
-				velocity.Scale(2)
-				pPlayer.SetVelocity(velocity)
+		if pPlayer.GetShipProperty().GetName().GetCString() == 'Valdore':
+			if LastBoostTime + VALDORE_WALL_COOLDOWN_S < App.g_kUtopiaModule.GetGameTime():
 				LastBoostTime = App.g_kUtopiaModule.GetGameTime()
+				# Not actually boost
+				
+				target = pPlayer.GetTarget()
+				if target:
+					shipName = 'Wall ' + str(NDrones)
+					NDrones = NDrones + 1
+					
+					pShip = SpawnDroneShip('Wall', shipName, distance=0.0, pPlayer=pPlayer, group = MissionLib.GetMission().GetNeutralGroup())
+					pShip.SetScale(30)
+
+					direction = target.GetWorldLocation()
+					direction.Subtract(pPlayer.GetWorldLocation())
+					direction.Scale(0.8)
+					
+					kPoint = App.TGPoint3()
+					kPoint.Set(pPlayer.GetWorldLocation())
+					kPoint.Add(direction)
+
+					pShip.SetTranslate(kPoint)
+		
+					directionUnit = App.TGPoint3()
+					directionUnit.Set(direction)
+					directionUnit.Unitize()
+
+					perpendicular = GetAnyPerpendicularVector(directionUnit, pPlayer)
+					pShip.AlignToVectors(directionUnit, perpendicular)
+
+					# pShip.EnableCollisionsWith(pPlayer, 0)
+
+					global WallSpawnTimes, WALL_LIFETIME_S
+					for (wallName, spawnTime) in WallSpawnTimes:
+						if spawnTime + WALL_LIFETIME_S > App.g_kUtopiaModule.GetGameTime():
+							continue
+						wall = MissionLib.GetShip(wallName)
+						wall.SetScale(0)
+
+						translate = App.TGPoint3()
+						translate.SetXYZ(99999999999, 0, 0)
+						pos = wall.GetWorldLocation()
+						pos.Add(translate)
+						wall.SetTranslate(pos)
+
+
+					WallSpawnTimes.append((shipName, App.g_kUtopiaModule.GetGameTime()))
+
+					# TODO commit originla valdore
+					# TODO distance check (dont spawn wall if too close)
+
+
 
 		if pPlayer.GetShipProperty().GetName().GetCString() == 'Bug':
-			global LastBoostTime
 			targetName = GetCurrentTargetName(pPlayer)
 
 			if LastBoostTime + BUG_BOOST_COOLDOWN_S < App.g_kUtopiaModule.GetGameTime():
@@ -149,7 +205,6 @@ def SetAlertLevel(pObject, pEvent):
 					NDrones = NDrones + 1
 
 					SetEnemyGroup(pPlayer)
-					import MissionLib
 					pShip = SpawnDroneShip('Bug', shipName, 30, pPlayer, group = MissionLib.GetMission().GetNeutralGroup())
 					
 					if not isBeefyDrone:
@@ -158,7 +213,6 @@ def SetAlertLevel(pObject, pEvent):
 						pShip.GetHull().GetProperty().SetMaxCondition(BUG_DRONE_HP)
 
 			for i in range(0, NDrones):
-				import MissionLib
 				pDrone = MissionLib.GetShip("Drone " + str(i))
 				if pDrone and targetName:
 					pKamakaze = App.PlainAI_Create(pDrone, 'MoveIn')
@@ -204,7 +258,6 @@ def SetAlertLevel(pObject, pEvent):
 				else:
 					shipType = "Transport"
 
-				global NDrones
 				shipName = "Drone " + str(NDrones) + " (" + shipType + ")" 
 				NDrones = NDrones + 1
 
@@ -214,7 +267,6 @@ def SetAlertLevel(pObject, pEvent):
 					distance = SPAWN_DISTANCE * 2
 
 				SetEnemyGroup(pPlayer)
-				import MissionLib
 				pShip = SpawnDroneShip(shipType, shipName, distance, pPlayer, group = MissionLib.GetMission().GetFriendlyGroup())
 
 				dynamicGroup = App.ObjectGroup_FromModule("Bridge.XOMenuHandlers", "enemyGroup")
@@ -325,3 +377,12 @@ def GetCurrentTargetName(pPlayer): # AAAAAAAAAAAA
 		castedTarget = App.ShipClass_Cast(target)
 		if castedTarget:
 			return castedTarget.GetName()
+
+def GetAnyPerpendicularVector(direction, pPlayer):
+	perp = direction.UnitCross(pPlayer.GetWorldUpTG())
+
+	if perp.Length() > 0.5: 
+		return perp
+
+	# direction must be [near] equal to up
+	return direction.UnitCross(pPlayer.GetWorldForwardTG())

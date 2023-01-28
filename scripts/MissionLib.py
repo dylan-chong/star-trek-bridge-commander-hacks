@@ -536,10 +536,14 @@ def RemoveAllCommandableShips():
 #	Return:	none
 ###############################################################################
 def CreatePlayerShip(sShipClass, pSet, pcName, sWaypoint, bUnloadShip = 0):
-	import time
-	ships = ['Bug', 'Defiant', 'Akira', 'Prometheus', 'Scimitar', 'Shuttle', 'Nova']
-	sShipClass = ships[int(time.clock()) % len(ships)]
-	sShipClass = 'Bug' # LOOOOOOOOL Dylan AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+	import Bridge.XOMenuHandlers
+	Bridge.XOMenuHandlers.Reset()
+	if sShipClass == 'Galaxy' or sShipClass == 'Sovereign':
+		import time
+		ships = ['Bug', 'Defiant', 'Akira', 'Prometheus', 'Scimitar', 'Shuttle', 'Nova', 'Valdore']
+		sShipClass = ships[int(time.clock()) % len(ships)]
+		sShipClass = 'Valdore'
+	
 	pGame = App.Game_GetCurrentGame()
 
 	#
@@ -561,7 +565,7 @@ def CreatePlayerShip(sShipClass, pSet, pcName, sWaypoint, bUnloadShip = 0):
 		# Player exists...   But are they about to die?  If they're
 		# Dead and they're not in a set, assume that they're about to
 		# be deleted, and create a new player.
-		if 1: #(not pPlayer.IsDead()): AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA Dylan
+		if (not pPlayer.IsDead()):
 			# Player isn't dead.  Check the player's ship to see if
 			# a new one should be created.
 			kSpecies = pPlayer.GetShipProperty().GetSpecies()
