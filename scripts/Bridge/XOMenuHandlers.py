@@ -144,12 +144,6 @@ def SetAlertLevel(pObject, pEvent):
 						pSystem = wall.GetHull()
 						pSystem.SetConditionPercentage(0)
 
-						# translate = App.TGPoint3()
-						# translate.SetXYZ(999999999, 0, 0)
-						# pos = wall.GetWorldLocation()
-						# pos.Add(translate)
-						# wall.SetTranslate(pos)
-
 					shipName = 'Wall ' + str(NDrones)
 					NDrones = NDrones + 1
 					
@@ -245,7 +239,6 @@ def SetAlertLevel(pObject, pEvent):
 			# if time.clock() - LastSpawnDroneTime > 2:
 			NDronesSpawned = 0
 			while len(DroneSpawnTimes) < MAX_DRONES_IN_PERIOD :
-				# LastSpawnDroneTime = time.clock()
 				DroneSpawnTimes.append(App.g_kUtopiaModule.GetGameTime())
 				NDronesSpawned = NDronesSpawned + 1
 
@@ -359,6 +352,12 @@ def SpawnDroneShip(shipType, shipName, distance, pPlayer, group): # AAAAAAAAAAAA
 	kPoint.SetY( kPoint.GetY() + YOff )
 	kPoint.SetZ( kPoint.GetZ() + (App.g_kSystemWrapper.GetRandomNumber(201) - 100) / 100.0 * distance)
 	pShip.SetTranslate(kPoint)
+
+	up = pPlayer.GetWorldUpTG()
+	forward = pPlayer.GetWorldForwardTG()
+	pShip.AlignToVectors(forward, up)
+
+	pShip.SetVelocity(pPlayer.GetVelocityTG())
 	
 	group.AddName(shipName)
 	

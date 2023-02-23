@@ -11,7 +11,7 @@ iconName = "Bug"
 longName = "BugRammer"
 shipFile = "BugRammer"
 species = App.SPECIES_GALAXY
-menuGroup = "Dominion Ships"
+menuGroup = ""
 playerMenuGroup = "Dominion Ships"
 Foundation.ShipDef.BugRammer = Foundation.DominionShipDef(abbrev, species, { 'name': longName, 'iconName': iconName, 'shipFile': shipFile })
 
@@ -19,8 +19,8 @@ Foundation.ShipDef.BugRammer = Foundation.DominionShipDef(abbrev, species, { 'na
 Foundation.ShipDef.BugRammer.desc = "No information available."
 
 
-# if menuGroup:           Foundation.ShipDef.BugRammer.RegisterQBShipMenu(menuGroup)
-# if playerMenuGroup:     Foundation.ShipDef.BugRammer.RegisterQBPlayerShipMenu(playerMenuGroup)
+if menuGroup:           Foundation.ShipDef.BugRammer.RegisterQBShipMenu(menuGroup)
+if playerMenuGroup:     Foundation.ShipDef.BugRammer.RegisterQBPlayerShipMenu(playerMenuGroup)
 
 
 if Foundation.shipList._keyList.has_key(longName):
