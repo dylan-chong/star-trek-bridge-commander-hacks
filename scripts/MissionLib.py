@@ -540,9 +540,9 @@ def CreatePlayerShip(sShipClass, pSet, pcName, sWaypoint, bUnloadShip = 0):
 	Bridge.XOMenuHandlers.Reset()
 	if sShipClass == 'Galaxy' or sShipClass == 'Sovereign':
 		import time
-		ships = ['Bug', 'Defiant', 'Akira', 'Prometheus', 'Scimitar', 'Shuttle', 'Nova', 'Valdore']
+		ships = ['BugRammer', 'Defiant', 'Akira', 'Prometheus', 'Scimitar', 'Shuttle', 'Nova', 'Valdore']
 		sShipClass = ships[int(time.clock()) % len(ships)]
-		sShipClass = 'Valdore'
+		sShipClass = 'BugRammer'
 	
 	pGame = App.Game_GetCurrentGame()
 

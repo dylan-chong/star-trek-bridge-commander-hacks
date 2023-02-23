@@ -62,7 +62,8 @@ POSSIBLE_SHIPS = [
 	"Nova",
 	"Sabre",
 	"Fighter",
-	"Transport"
+	"Transport",
+	"BugRammer"
 ]
 
 DEFIANT_BOOST_COOLDOWN_S = 10
@@ -172,9 +173,7 @@ def SetAlertLevel(pObject, pEvent):
 					# TODO commit originla valdore
 					# TODO distance check (dont spawn wall if too close)
 
-
-
-		if pPlayer.GetShipProperty().GetName().GetCString() == 'Bug':
+		if pPlayer.GetShipProperty().GetName().GetCString() == 'BugRammer':
 			targetName = GetCurrentTargetName(pPlayer)
 
 			if LastBoostTime + BUG_BOOST_COOLDOWN_S < App.g_kUtopiaModule.GetGameTime():
@@ -205,7 +204,7 @@ def SetAlertLevel(pObject, pEvent):
 					NDrones = NDrones + 1
 
 					SetEnemyGroup(pPlayer)
-					pShip = SpawnDroneShip('Bug', shipName, 30, pPlayer, group = MissionLib.GetMission().GetNeutralGroup())
+					pShip = SpawnDroneShip('BugRammer', shipName, 30, pPlayer, group = MissionLib.GetMission().GetNeutralGroup())
 					
 					if not isBeefyDrone:
 						pShip.SetMass(100)
