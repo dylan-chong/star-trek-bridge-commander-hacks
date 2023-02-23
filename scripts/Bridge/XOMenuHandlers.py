@@ -74,7 +74,7 @@ BUG_BOOST_COOLDOWN_S = 5
 BUG_DRONE_HP = 1000 #2000
 N_BUG_DRONES_TO_SPAWN = 1
 
-WALL_LIFETIME_S = 60
+WALL_LIFETIME_S = 4 # TODO this only applies when spawning a new wall
 
 def Reset():
 	global NDrones, LastSpawnDroneTime, DroneSpawnTimes, enemyGroup, LastBoostTime, WallSpawnTimes
@@ -129,6 +129,27 @@ def SetAlertLevel(pObject, pEvent):
 				
 				target = pPlayer.GetTarget()
 				if target:
+					global WallSpawnTimes, WALL_LIFETIME_S
+
+					for (wallName, spawnTime) in WallSpawnTimes:
+						if spawnTime + WALL_LIFETIME_S > App.g_kUtopiaModule.GetGameTime():
+							continue
+					
+						wall = MissionLib.GetShip(wallName)
+						if not wall:
+							continue
+
+						wall.SetScale(0.001)
+						
+						pSystem = wall.GetHull()
+						pSystem.SetConditionPercentage(0)
+
+						# translate = App.TGPoint3()
+						# translate.SetXYZ(999999999, 0, 0)
+						# pos = wall.GetWorldLocation()
+						# pos.Add(translate)
+						# wall.SetTranslate(pos)
+
 					shipName = 'Wall ' + str(NDrones)
 					NDrones = NDrones + 1
 					
@@ -154,23 +175,8 @@ def SetAlertLevel(pObject, pEvent):
 
 					# pShip.EnableCollisionsWith(pPlayer, 0)
 
-					global WallSpawnTimes, WALL_LIFETIME_S
-					for (wallName, spawnTime) in WallSpawnTimes:
-						if spawnTime + WALL_LIFETIME_S > App.g_kUtopiaModule.GetGameTime():
-							continue
-						wall = MissionLib.GetShip(wallName)
-						wall.SetScale(0)
-
-						translate = App.TGPoint3()
-						translate.SetXYZ(99999999999, 0, 0)
-						pos = wall.GetWorldLocation()
-						pos.Add(translate)
-						wall.SetTranslate(pos)
-
-
 					WallSpawnTimes.append((shipName, App.g_kUtopiaModule.GetGameTime()))
 
-					# TODO commit originla valdore
 					# TODO distance check (dont spawn wall if too close)
 
 		if pPlayer.GetShipProperty().GetName().GetCString() == 'BugRammer':

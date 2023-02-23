@@ -23,7 +23,7 @@ AsteroidMass = App.ShipProperty_Create("Asteroid Mass")
 
 AsteroidMass.SetGenus(3)
 AsteroidMass.SetSpecies(712)
-AsteroidMass.SetMass(1400.000000)
+AsteroidMass.SetMass(100.000000)
 AsteroidMass.SetRotationalInertia(100000 * 190000.000000)
 AsteroidMass.SetShipName("Wall")
 AsteroidMass.SetModelFilename("data/Models/Ships/Wall/Wall.NIF")
