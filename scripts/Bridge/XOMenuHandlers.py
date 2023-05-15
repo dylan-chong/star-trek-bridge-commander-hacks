@@ -67,6 +67,7 @@ POSSIBLE_SHIPS = [
 ]
 
 DEFIANT_BOOST_COOLDOWN_S = 10
+SCIMITAR_BOOST_COOLDOWN_S = 15
 AKIRA_BOOST_COOLDOWN_S = 10
 
 BUG_BOOST_COOLDOWN_S = 5
@@ -113,6 +114,13 @@ def SetAlertLevel(pObject, pEvent):
 			if LastBoostTime + DEFIANT_BOOST_COOLDOWN_S < App.g_kUtopiaModule.GetGameTime():
 				velocity = pPlayer.GetVelocityTG()
 				velocity.Scale(10) 
+				pPlayer.SetVelocity(velocity)
+				LastBoostTime = App.g_kUtopiaModule.GetGameTime()
+
+		if pPlayer.GetShipProperty().GetName().GetCString() == 'Scimitar':
+			if LastBoostTime + SCIMITAR_BOOST_COOLDOWN_S < App.g_kUtopiaModule.GetGameTime():
+				velocity = pPlayer.GetVelocityTG()
+				velocity.Scale(20) 
 				pPlayer.SetVelocity(velocity)
 				LastBoostTime = App.g_kUtopiaModule.GetGameTime()
 
