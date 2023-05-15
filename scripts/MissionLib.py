@@ -586,7 +586,7 @@ def CreatePlayerShip(sShipClass, pSet, pcName, sWaypoint, bUnloadShip = 0):
 				pOldSet.DeleteObjectFromSet(pPlayer.GetName())
 
 	# If the ships aren't the same (or no previous ship), create the new one
-	if 1: # (bCreateNewShip == 1):  AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA Dylan
+	if (bCreateNewShip == 1):
 		pShipMod = __import__("ships." + sShipClass)
 #		kShipStats = pShipMod.GetShipStats()
 		pPlayer = loadspacehelper.CreateShip(sShipClass, pSet, pcName, sWaypoint)
