@@ -44,7 +44,7 @@ def Create(pTorp):
 					5 * 0.12)
 
 	pTorp.SetDamage( GetDamage() )
-	pTorp.SetDamageRadiusFactor(10 * 0.1)
+	pTorp.SetDamageRadiusFactor(16 * 0.1)
 	pTorp.SetGuidanceLifetime( GetGuidanceLifetime() )
 	pTorp.SetMaxAngularAccel( GetMaxAngularAccel() )
 
@@ -68,7 +68,7 @@ def GetName():
 	return("9001 PHOTONIC")
 
 def GetDamage():
-	return 0.5 * 20 * 250.0
+	return 14 * 250.0
 
 def GetGuidanceLifetime():
 	return 0.1
