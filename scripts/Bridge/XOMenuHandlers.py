@@ -68,13 +68,14 @@ POSSIBLE_SHIPS = [
 
 DEFIANT_BOOST_COOLDOWN_S = 10
 AKIRA_BOOST_COOLDOWN_S = 10
-VALDORE_WALL_COOLDOWN_S = 0#15
 
 BUG_BOOST_COOLDOWN_S = 5
 BUG_DRONE_HP = 1000 #2000
 N_BUG_DRONES_TO_SPAWN = 1
 
-WALL_LIFETIME_S = 4 # TODO this only applies when spawning a new wall
+VALDORE_WALL_COOLDOWN_S = 8
+VALDORE_MAX_SIMULTANEOUS_WALLS = 1
+WALL_LIFETIME_S = VALDORE_WALL_COOLDOWN_S * VALDORE_MAX_SIMULTANEOUS_WALLS - 1 # TODO this only applies when spawning a new wall
 
 def Reset():
 	global NDrones, LastSpawnDroneTime, DroneSpawnTimes, enemyGroup, LastBoostTime, WallSpawnTimes
@@ -140,6 +141,7 @@ def SetAlertLevel(pObject, pEvent):
 							continue
 
 						wall.SetScale(0.001)
+						wall.SetInvincible(0)
 						
 						pSystem = wall.GetHull()
 						pSystem.SetConditionPercentage(0)
@@ -148,11 +150,13 @@ def SetAlertLevel(pObject, pEvent):
 					NDrones = NDrones + 1
 					
 					pShip = SpawnDroneShip('Wall', shipName, distance=0.0, pPlayer=pPlayer, group = MissionLib.GetMission().GetNeutralGroup())
-					pShip.SetScale(30)
+					pShip.SetScale(25)
+					pShip.SetInvincible(1)
+					pShip.SetCollisionsOn(0)
 
 					direction = target.GetWorldLocation()
 					direction.Subtract(pPlayer.GetWorldLocation())
-					direction.Scale(0.8)
+					direction.Scale(0.75)
 					
 					kPoint = App.TGPoint3()
 					kPoint.Set(pPlayer.GetWorldLocation())
