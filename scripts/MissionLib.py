@@ -538,7 +538,7 @@ def RemoveAllCommandableShips():
 def CreatePlayerShip(sShipClass, pSet, pcName, sWaypoint, bUnloadShip = 0):
 	import Bridge.XOMenuHandlers
 	Bridge.XOMenuHandlers.Reset()
-	if sShipClass == 'Galaxy' or sShipClass == 'Sovereign':
+	if sShipClass == 'Galaxy' or sShipClass == 'SovereignR' or sShipClass == 'Sovereign':
 		import time
 		ships = ['BugRammer', 'Defiant', 'Akira', 'Prometheus', 'Scimitar', 'Shuttle', 'Nova', 'Valdore']
 		sShipClass = ships[int(time.clock()) % len(ships)]

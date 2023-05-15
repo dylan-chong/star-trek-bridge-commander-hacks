@@ -1,5 +1,6 @@
 *.pyc_dis
 *.pyc
+desktop.ini
 
 /BCRemastered Features & Installation.txt
 /binkw32.dll*
