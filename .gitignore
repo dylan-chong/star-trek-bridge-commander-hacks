@@ -414,6 +414,7 @@ scripts/Custom/Ships/Intrepid.py
 scripts/Custom/Ships/KazonPredator.py
 scripts/Custom/Ships/KazonRaider.py
 scripts/Custom/Ships/KrenimPatrol.py
+scripts/Custom/Ships/KrenimTimeship.py
 scripts/Custom/Ships/KrenimWarship.py
 scripts/Custom/Ships/KTinga.py
 scripts/Custom/Ships/Kvort.py
@@ -675,6 +676,7 @@ scripts/ships/Hardpoints/KessokHeavy.py
 scripts/ships/Hardpoints/KessokLight.py
 scripts/ships/Hardpoints/KessokMine.py
 scripts/ships/Hardpoints/KrenimPatrol.py
+scripts/ships/Hardpoints/KrenimTimeship.py
 scripts/ships/Hardpoints/KrenimWarship.py
 scripts/ships/Hardpoints/Ktinga.py
 scripts/ships/Hardpoints/Kvort.py
@@ -725,6 +727,7 @@ scripts/ships/KessokHeavy.py
 scripts/ships/KessokLight.py
 scripts/ships/KessokMine.py
 scripts/ships/KrenimPatrol.py
+scripts/ships/KrenimTimeship.py
 scripts/ships/KrenimWarship.py
 scripts/ships/KTinga.py
 scripts/ships/Kvort.py
