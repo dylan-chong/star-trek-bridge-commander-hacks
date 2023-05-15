@@ -11,7 +11,7 @@ iconName = "Bug"
 longName = "BugRammer"
 shipFile = "BugRammer"
 species = App.SPECIES_GALAXY
-menuGroup = ""
+menuGroup = "Dominion Ships"
 playerMenuGroup = "Dominion Ships"
 Foundation.ShipDef.BugRammer = Foundation.DominionShipDef(abbrev, species, { 'name': longName, 'iconName': iconName, 'shipFile': shipFile })
 
