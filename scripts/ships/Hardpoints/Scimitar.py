@@ -56,12 +56,12 @@ ShieldGenerator.SetMaxShields(ShieldGenerator.TOP_SHIELDS, 0.5 * 43200.000000)
 ShieldGenerator.SetMaxShields(ShieldGenerator.BOTTOM_SHIELDS, 0.5 * 43200.000000)
 ShieldGenerator.SetMaxShields(ShieldGenerator.LEFT_SHIELDS, 0.5 * 28800.000000)
 ShieldGenerator.SetMaxShields(ShieldGenerator.RIGHT_SHIELDS, 0.5 * 28800.000000)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.FRONT_SHIELDS, 0.5 * 86.400000)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.REAR_SHIELDS, 0.5 * 57.600000)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.TOP_SHIELDS, 0.5 * 86.400000)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.BOTTOM_SHIELDS, 0.5 * 86.400000)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.LEFT_SHIELDS, 0.5 * 57.600000)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.RIGHT_SHIELDS, 0.5 * 57.600000)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.FRONT_SHIELDS, 0.6 * 86.400000)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.REAR_SHIELDS, 0.6 * 57.600000)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.TOP_SHIELDS, 0.6 * 86.400000)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.BOTTOM_SHIELDS, 0.6 * 86.400000)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.LEFT_SHIELDS, 0.6 * 57.600000)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.RIGHT_SHIELDS, 0.6 * 57.600000)
 App.g_kModelPropertyManager.RegisterLocalTemplate(ShieldGenerator)
 #################################################
 SensorArray = App.SensorProperty_Create("Sensor Array")
@@ -250,7 +250,7 @@ DisruptorCannons.SetFiringChainString(kFiringChainString)
 App.g_kModelPropertyManager.RegisterLocalTemplate(DisruptorCannons)
 #################################################
 AAAAAAAMaxCannonChargeFactor = 1.5
-AAAAAAARechargeFactor = 0.1 # 0.75 for no single fire
+AAAAAAARechargeFactor = 0.15 # 0.75 for no single fire
 AAAAAAADamageFactor = 0.2 # 0.005 for no single fire (still powerful?)
 AAAAAAAAAACannonCooldownFactor = 20.0
 AAAAAAAAAAAACannonArc = 1.4 * 0.9
