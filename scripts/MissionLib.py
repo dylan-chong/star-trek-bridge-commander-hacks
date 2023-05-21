@@ -542,7 +542,7 @@ def CreatePlayerShip(sShipClass, pSet, pcName, sWaypoint, bUnloadShip = 0):
 		import time
 		ships = ['BugRammer', 'Defiant', 'Akira', 'Prometheus', 'Scimitar', 'Shuttle', 'Nova', 'Valdore']
 		sShipClass = ships[int(time.clock()) % len(ships)]
-		sShipClass = 'BugRammer'
+		sShipClass = 'Scimitar'
 	
 	pGame = App.Game_GetCurrentGame()
 
