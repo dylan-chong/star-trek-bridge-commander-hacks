@@ -607,7 +607,6 @@ scripts/ships/Founder.py
 scripts/ships/Freighter.py
 scripts/ships/Galaxy.py
 scripts/ships/Galor.py
-scripts/ships/GenericTemplate.py
 scripts/ships/Geronimo.py
 scripts/ships/Hardpoints/Akira.py
 scripts/ships/Hardpoints/amagon.py
@@ -662,7 +661,6 @@ scripts/ships/Hardpoints/Founder.py
 scripts/ships/Hardpoints/freighter.py
 scripts/ships/Hardpoints/Galaxy.py
 scripts/ships/Hardpoints/Galor.py
-scripts/ships/Hardpoints/GenericTemplate.py
 scripts/ships/Hardpoints/geronimo.py
 scripts/ships/Hardpoints/Hideki.py
 scripts/ships/Hardpoints/HirogenHoloship.py
