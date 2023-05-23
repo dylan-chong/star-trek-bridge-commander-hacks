@@ -2,6 +2,8 @@
 *.pyc
 desktop.ini
 
+.tmp.driveupload/
+
 /BCRemastered Features & Installation.txt
 /binkw32.dll*
 /EULA.txt
@@ -570,7 +572,6 @@ scripts/ships/BirdOfPrey.py
 scripts/ships/BombFreighter.py
 scripts/ships/Breen.py
 scripts/ships/Bug.py
-scripts/ships/CardFacility.py
 scripts/ships/CardFreighter.py
 scripts/ships/CardHybrid.py
 scripts/ships/CardOutpost.py
@@ -625,7 +626,6 @@ scripts/ships/Hardpoints/Birdofprey.py
 scripts/ships/Hardpoints/bombfreighter.py
 scripts/ships/Hardpoints/Breen.py
 scripts/ships/Hardpoints/Bug.py
-scripts/ships/Hardpoints/cardfacility.py
 scripts/ships/Hardpoints/cardfreighter.py
 scripts/ships/Hardpoints/CardHybrid.py
 scripts/ships/Hardpoints/cardoutpost.py
@@ -1014,7 +1014,6 @@ scripts/Tactical/Projectiles/Photon 5.py
 scripts/Tactical/Projectiles/Photon 6.py
 scripts/Tactical/Projectiles/Photon 6a.py
 scripts/Tactical/Projectiles/Photon 7.py
-scripts/Tactical/Projectiles/Plasma 2.py
 scripts/Tactical/Projectiles/Plasma 3.py
 scripts/Tactical/Projectiles/Plasma 4.py
 scripts/Tactical/Projectiles/Plasma 5.py
