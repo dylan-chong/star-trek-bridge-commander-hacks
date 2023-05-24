@@ -451,7 +451,6 @@ scripts/FoundationMenu.py
 scripts/FoundationTriggers.py
 scripts/Icons/LCARS_1920.py
 scripts/Icons/LCARS_640.py
-scripts/Icons/ShipIcons.py
 scripts/Icons/SystemIcons.py
 scripts/KeyboardBinding.py
 scripts/LibConfig.py
@@ -543,7 +542,6 @@ scripts/Multiplayer/Episode/Mission6/Spawn_Points.py
 scripts/Multiplayer/Episode/Mission6/StarbaseAI.py
 scripts/Multiplayer/MissionMenusShared.py
 scripts/Multiplayer/MultiplayerMenus.py
-scripts/Multiplayer/SpeciesToShip.py
 scripts/Multiplayer/SpeciesToSystem.py
 scripts/Multiplayer/SpeciesToTorp.py
 scripts/MultiplayerInterfaceHandlers.py
