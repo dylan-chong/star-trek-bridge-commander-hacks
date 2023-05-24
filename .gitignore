@@ -538,8 +538,6 @@ scripts/Multiplayer/Episode/Mission4/Mission4Menus.py
 scripts/Multiplayer/Episode/Mission4/Mission4Name.py
 scripts/Multiplayer/Episode/Mission5/Mission5.py
 scripts/Multiplayer/Episode/Mission6/BasicAI.py
-scripts/Multiplayer/Episode/Mission6/Mission6.py
-scripts/Multiplayer/Episode/Mission6/Mission6Menus.py
 scripts/Multiplayer/Episode/Mission6/Mission6Name.py
 scripts/Multiplayer/Episode/Mission6/Spawn_Points.py
 scripts/Multiplayer/Episode/Mission6/StarbaseAI.py
