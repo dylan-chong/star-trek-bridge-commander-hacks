@@ -185,7 +185,7 @@ def RebuildShipSelectWindow():
 
 	#########################################
 	# Create the buttons
-	for iIndex in range(1, Multiplayer.SpeciesToShip.MAX_FLYABLE_SHIPS):
+	for iIndex in range(1, Multiplayer.SpeciesToShip.MAX_SHIPS):
 		# Setup the event for when this button is clicked
 		pEvent = App.TGIntEvent_Create ()
 		pEvent.SetEventType(Multiplayer.MissionMenusShared.ET_SELECT_SHIP_SPECIES)
@@ -194,7 +194,15 @@ def RebuildShipSelectWindow():
 	
 		# Create the button.	
 		pcName = Multiplayer.SpeciesToShip.GetNameFromSpecies (iIndex)
-		pButton = App.STButton_CreateW (Multiplayer.MissionShared.g_pShipDatabase.GetString (pcName), pEvent)
+		dbShipName = Multiplayer.MissionShared.g_pShipDatabase.GetString (pcName)
+
+		# `or pcName` just in case the ship doesn't exist in the database, like user-created custom ships
+		if dbShipName.Compare(App.TGString("???")) != 0:
+			shipName = dbShipName
+		else:
+			shipName = App.TGString(pcName)
+
+		pButton = App.STButton_CreateW (shipName or pcName, pEvent)
 		pEvent.SetSource (pButton)
 		if (pcName in kFrigateList):
 			pTier1Ships.AddChild(pButton, 0, 0, 0)		
