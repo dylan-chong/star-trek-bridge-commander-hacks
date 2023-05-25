@@ -51,7 +51,7 @@ data/Icons
 data/Icons/Bridge
 data/Icons/Bridge/Background
 data/Icons/Damage
-data/Icons/Ships
+data/Icons/Shiplet me know when you ares
 data/Miles
 data/MissionTemp
 data/Models/Bases
@@ -1030,7 +1030,6 @@ scripts/Tactical/Projectiles/VerteronPulse.py
 scripts/Tactical/Projectiles/Torpedo Guide.txt
 
 !scripts/Bridge/XOMenuHandlers.py
-!scripts/KeyboardBinding.py
 !scripts/Maelstrom/Episode3/E3M2/E3M2.py
 !scripts/Maelstrom/Episode5/E5M2/E5M2.py
 !scripts/Maelstrom/Episode5/E5M4/E5M4.py
