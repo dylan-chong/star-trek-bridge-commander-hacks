@@ -70,8 +70,10 @@ DEFIANT_BOOST_COOLDOWN_S = 10
 SCIMITAR_BOOST_COOLDOWN_S = 15
 AKIRA_BOOST_COOLDOWN_S = 10
 
-BUG_DRONE_COOLDOWN_S = 5
-BUG_DRONE_HP = 1000 #2000
+BUG_DRONE_COOLDOWN_S = 8
+BUG_DRONE_HP = 1000
+BUG_DRONE_NAME_PREFIX = 'Rammer '
+EACH_N_DRONE_IS_BEEFY = 5
 N_BUG_DRONES_TO_SPAWN = 1
 
 VALDORE_WALL_COOLDOWN_S = 8
@@ -199,35 +201,26 @@ def SetAlertLevel(pObject, pEvent):
 					if not targetName:
 						continue
 
-					pTorpSys = pPlayer.GetTorpedoSystem()
-					torpType = 0
-					if pTorpSys.GetNumAvailableTorpsToType(torpType) == 0:
-						continue
-
-					if pTorpSys.GetNumAvailableTorpsToType(torpType) <= 1:
-						isBeefyDrone = 1
-					else:
-						isBeefyDrone = 0
-
-					pTorpSys.LoadAmmoType(torpType, -1)
+					isBeefyDrone = NDrones % EACH_N_DRONE_IS_BEEFY == EACH_N_DRONE_IS_BEEFY - 1
 
 					global NDrones
-					shipName = "Drone " + str(NDrones)
+					shipName = BUG_DRONE_NAME_PREFIX + str(NDrones)
 					NDrones = NDrones + 1
 
 					SetEnemyGroup(pPlayer)
 					pShip = SpawnDroneShip('BugRammer', shipName, 30, pPlayer, group = MissionLib.GetMission().GetNeutralGroup())
 					
 					if isBeefyDrone:
-						pShip.SetMass(1000)
-						pShip.SetScale(4)
+						pShip.SetMass(150)
+						pShip.SetInvincible(1)
+						pShip.SetScale(3)
 					else:
 						pShip.SetMass(100)
 						pShip.DamageSystem(pShip.GetHull(), pShip.GetHull().GetMaxCondition() - BUG_DRONE_HP)
 						pShip.GetHull().GetProperty().SetMaxCondition(BUG_DRONE_HP)
 
 			for i in range(0, NDrones):
-				pDrone = MissionLib.GetShip("Drone " + str(i))
+				pDrone = MissionLib.GetShip(BUG_DRONE_NAME_PREFIX + str(i))
 				if pDrone and targetName:
 					SetShipKamazakeAI(pDrone, targetName)
 				elif pDrone:
