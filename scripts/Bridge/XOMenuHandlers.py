@@ -70,7 +70,7 @@ DEFIANT_BOOST_COOLDOWN_S = 10
 SCIMITAR_BOOST_COOLDOWN_S = 15
 AKIRA_BOOST_COOLDOWN_S = 10
 
-BUG_BOOST_COOLDOWN_S = 5
+BUG_DRONE_COOLDOWN_S = 5
 BUG_DRONE_HP = 1000 #2000
 N_BUG_DRONES_TO_SPAWN = 1
 
@@ -188,7 +188,7 @@ def SetAlertLevel(pObject, pEvent):
 		if pPlayer.GetShipProperty().GetName().GetCString() == 'BugRammer':
 			targetName = GetCurrentTargetName(pPlayer)
 
-			if LastBoostTime + BUG_BOOST_COOLDOWN_S < App.g_kUtopiaModule.GetGameTime():
+			if LastBoostTime + BUG_DRONE_COOLDOWN_S < App.g_kUtopiaModule.GetGameTime():
 				velocity = pPlayer.GetVelocityTG()
 				velocity.Scale(1.6)
 				pPlayer.SetVelocity(velocity)
@@ -218,7 +218,10 @@ def SetAlertLevel(pObject, pEvent):
 					SetEnemyGroup(pPlayer)
 					pShip = SpawnDroneShip('BugRammer', shipName, 30, pPlayer, group = MissionLib.GetMission().GetNeutralGroup())
 					
-					if not isBeefyDrone:
+					if isBeefyDrone:
+						pShip.SetMass(1000)
+						pShip.SetScale(4)
+					else:
 						pShip.SetMass(100)
 						pShip.DamageSystem(pShip.GetHull(), pShip.GetHull().GetMaxCondition() - BUG_DRONE_HP)
 						pShip.GetHull().GetProperty().SetMaxCondition(BUG_DRONE_HP)
@@ -226,15 +229,7 @@ def SetAlertLevel(pObject, pEvent):
 			for i in range(0, NDrones):
 				pDrone = MissionLib.GetShip("Drone " + str(i))
 				if pDrone and targetName:
-					pKamakaze = App.PlainAI_Create(pDrone, 'MoveIn')
-					pKamakaze.SetScriptModule('FollowObject')
-					pKamakaze.SetInterruptable(1)
-					pScript = pKamakaze.GetScriptInstance()
-					pScript.SetFollowObjectName(targetName)
-					pScript.SetRoughDistances(0.0, 2.0, 4.0)
-					pScript.fGoMedSpeed = 0.0
-					
-					pDrone.SetAI(pKamakaze)
+					SetShipKamazakeAI(pDrone, targetName)
 				elif pDrone:
 					pDrone.SetAI(None)
 
@@ -402,3 +397,14 @@ def GetAnyPerpendicularVector(direction, pPlayer):
 
 	# direction must be [near] equal to up
 	return direction.UnitCross(pPlayer.GetWorldForwardTG())
+
+def SetShipKamazakeAI(pShip, targetName):
+	pKamakaze = App.PlainAI_Create(pShip, 'MoveIn')
+	pKamakaze.SetScriptModule('FollowObject')
+	pKamakaze.SetInterruptable(1)
+	pScript = pKamakaze.GetScriptInstance()
+	pScript.SetFollowObjectName(targetName)
+	pScript.SetRoughDistances(0.0, 2.0, 4.0)
+	pScript.fGoMedSpeed = 0.0
+	
+	pShip.SetAI(pKamakaze)
