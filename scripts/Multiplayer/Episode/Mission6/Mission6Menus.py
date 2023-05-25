@@ -94,7 +94,9 @@ kLightCruiserList = [
 	"SonaCruiser",
 	"HirogenHoloship",
 	"KazonPredator",
-	"KrenimWarship"]
+	"KrenimWarship",
+	"BugRammer",
+	"Shuttle"]
 
 kHeavyCruiserList = [
 	"Excelsior",
@@ -130,7 +132,8 @@ kBattleshipList = [
 	"Neghvar",
 	"Warbird",
 	"CardHybrid",
-	"Vorta"]
+	"Vorta",
+	"Scimitar"]
 
 ###############################################################################
 #	BuildShipSelectWindow()	

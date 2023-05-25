@@ -123,7 +123,10 @@ kLightCruiserList = [
 	"SonaCruiser",
 	"HirogenHoloship",
 	"KazonPredator",
-	"KrenimWarship"]
+	"KrenimWarship",
+	"Shuttle"]
+# Note that we don't have BugRammer here because we don't want the almost invincible BugRammer to spawn as an enemy
+# And yes, that means you can have an unlimited amount of BugRammers
 
 kHeavyCruiserList = [
 	"Excelsior",
@@ -159,7 +162,8 @@ kBattleshipList = [
 	"Neghvar",
 	"Warbird",
 	"CardHybrid",
-	"Vorta"]
+	"Vorta",
+	"Scimitar"]
 
 kPredatorList = [
 	"Scimitar",
