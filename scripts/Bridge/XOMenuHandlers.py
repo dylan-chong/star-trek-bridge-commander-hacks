@@ -393,11 +393,8 @@ def GetAnyPerpendicularVector(direction, pPlayer):
 
 def SetShipKamazakeAI(pShip, targetName):
 	pKamakaze = App.PlainAI_Create(pShip, 'MoveIn')
-	pKamakaze.SetScriptModule('FollowObject')
+	pKamakaze.SetScriptModule('Ram')
 	pKamakaze.SetInterruptable(1)
 	pScript = pKamakaze.GetScriptInstance()
-	pScript.SetFollowObjectName(targetName)
-	pScript.SetRoughDistances(0.0, 2.0, 4.0)
-	pScript.fGoMedSpeed = 0.0
-	
+	pScript.SetTargetObjectName(targetName)
 	pShip.SetAI(pKamakaze)
