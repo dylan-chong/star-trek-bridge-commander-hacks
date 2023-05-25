@@ -1,13 +1,9 @@
-#####  Created by:
-#####  Bridge Commander Universal Tool
-
-
 import App
 import Foundation
 
 
 abbrev = "BugRammer"
-iconName = "Bug"
+iconName = "BugRammer"
 longName = "BugRammer"
 shipFile = "BugRammer"
 species = App.SPECIES_GALAXY

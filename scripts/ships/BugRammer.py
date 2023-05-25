@@ -10,7 +10,7 @@ def GetShipStats():
 		#"FilenameLow": "data/Models/Ships/Bug/Bug.nif",
 		"Name": "BugRammer",
 		"HardpointFile": "BugRammer",
-		"Species": Multiplayer.SpeciesToShip.BUG
+		"Species": Multiplayer.SpeciesToShip.BUGRAMMER
 	}
 	return kShipStats
 

@@ -103,7 +103,8 @@ PEREGRINE = 98
 ASTEROIDH1 = 99
 ASTEROIDH2 = 100
 ASTEROIDH3 = 101
-MAX_SHIPS = 102
+BUGRAMMER = 102
+MAX_SHIPS = 103
 MAX_FLYABLE_SHIPS = 85
 
 # Setup tuples
@@ -210,6 +211,7 @@ kSpeciesTuple = (
 	("Asteroidh1" , App.SPECIES_ASTEROID, "Neutral", 1),
 	("Asteroidh2" , App.SPECIES_ASTEROID, "Neutral", 1),
 	("Asteroidh3" , App.SPECIES_ASTEROID, "Neutral", 1),
+	("BugRammer" , 1001, "Dominion", 1),
 	(None, 0, "Neutral", 1))
 
 def GetShipFromSpecies (iSpecies):

@@ -77,6 +77,7 @@ def LoadShipIcons(ShipIcons = None):
 	ShipIconDef('ObsidianKeldon', { 'species': 206 } )
 	ShipIconDef('Hybrid', { 'species': App.SPECIES_CARDHYBRID } )
 	ShipIconDef('Bug', { 'species': 801 } )
+	ShipIconDef('BugRammer', { 'species': 1001, 'file': 'Data/Icons/Ships/Bug.tga' } )
 	ShipIconDef('Breen', { 'species': 802 } )
 	ShipIconDef('Vorta', { 'species': 803 } )
 	ShipIconDef('Founder', { 'species': 804 } )

@@ -666,7 +666,7 @@ App.g_kModelPropertyManager.RegisterLocalTemplate(ProbeLauncher)
 BugRammer = App.ShipProperty_Create("BugRammer")
 
 BugRammer.SetGenus(1)
-BugRammer.SetSpecies(801)
+BugRammer.SetSpecies(1001)
 BugRammer.SetMass(0.1 * 1061) # galor mass #(35.000000)
 BugRammer.SetRotationalInertia(10000000 * 3500.000000)
 BugRammer.SetShipName("BugRammer")
