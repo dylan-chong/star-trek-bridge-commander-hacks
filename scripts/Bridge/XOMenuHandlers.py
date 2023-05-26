@@ -51,7 +51,7 @@ def CreateMenus():
 	pXOMenu.AddPythonFuncHandlerForInstance(App.ET_SHOW_MISSION_LOG, __name__ + '.ShowLog')
 	return pXOMenu
 
-def GenShipName(prefix, i, pPlayer):
+def GenChildShipName(prefix, i, pPlayer):
 	return prefix + ' ' + str(i + 1) + ' (' + pPlayer.GetName() + ')'
 
 MAX_DRONES_IN_PERIOD = 2
@@ -83,13 +83,13 @@ VALDORE_MAX_SIMULTANEOUS_WALLS = 1
 WALL_LIFETIME_S = VALDORE_WALL_COOLDOWN_S * VALDORE_MAX_SIMULTANEOUS_WALLS - 1 # TODO this only applies when spawning a new wall
 
 def Reset():
-	global NDrones, LastSpawnDroneTime, DroneSpawnTimes, enemyGroup, LastBoostTime, WallSpawnTimes, RammerShipNames
+	global NDrones, LastSpawnDroneTime, DroneSpawnTimes, enemyGroup, LastBoostTime, WallNamesAndSpawnTimes, RammerShipNames
 	NDrones = 0
 	LastSpawnDroneTime = 0
 	DroneSpawnTimes = []
 	enemyGroup = None
 	LastBoostTime = 0
-	WallSpawnTimes = []
+	WallNamesAndSpawnTimes = []
 	RammerShipNames = []
 
 Reset()
@@ -137,15 +137,16 @@ def SetAlertLevel(pObject, pEvent):
 				LastBoostTime = App.g_kUtopiaModule.GetGameTime()
 
 		if pPlayer.GetShipProperty().GetName().GetCString() == 'Valdore':
+			global WallNamesAndSpawnTimes
 			if LastBoostTime + VALDORE_WALL_COOLDOWN_S < App.g_kUtopiaModule.GetGameTime():
 				LastBoostTime = App.g_kUtopiaModule.GetGameTime()
 				# Not actually boost
 				
 				target = pPlayer.GetTarget()
 				if target:
-					global WallSpawnTimes, WALL_LIFETIME_S
+					global WallNamesAndSpawnTimes, WALL_LIFETIME_S
 
-					for (wallName, spawnTime) in WallSpawnTimes:
+					for (wallName, spawnTime) in WallNamesAndSpawnTimes:
 						if spawnTime + WALL_LIFETIME_S > App.g_kUtopiaModule.GetGameTime():
 							continue
 					
@@ -159,8 +160,7 @@ def SetAlertLevel(pObject, pEvent):
 						pSystem = wall.GetHull()
 						pSystem.SetConditionPercentage(0)
 
-					shipName = GenShipName('Wall', NDrones, pPlayer)
-					NDrones = NDrones + 1
+					shipName = GenChildShipName('Wall', len(WallNamesAndSpawnTimes), pPlayer)
 					
 					pShip = SpawnDroneShip('Wall', shipName, distance=0.0, pPlayer=pPlayer, group = MissionLib.GetMission().GetNeutralGroup())
 					pShip.SetScale(25)
@@ -184,7 +184,7 @@ def SetAlertLevel(pObject, pEvent):
 					perpendicular = GetAnyPerpendicularVector(directionUnit, pPlayer)
 					pShip.AlignToVectors(directionUnit, perpendicular)
 
-					WallSpawnTimes.append((shipName, App.g_kUtopiaModule.GetGameTime()))
+					WallNamesAndSpawnTimes.append((shipName, App.g_kUtopiaModule.GetGameTime()))
 
 		if pPlayer.GetShipProperty().GetName().GetCString() == 'BugRammer':
 			global RammerShipNames
@@ -204,7 +204,7 @@ def SetAlertLevel(pObject, pEvent):
 					isBeefyDrone = len(RammerShipNames) % EACH_N_DRONE_IS_BEEFY == EACH_N_DRONE_IS_BEEFY - 1
 					shipNamePrefix = isBeefyDrone and BUG_BEEFY_DRONE_NAME_PREFIX or BUG_DRONE_NAME_PREFIX
 
-					shipName = GenShipName(shipNamePrefix, len(RammerShipNames), pPlayer)
+					shipName = GenChildShipName(shipNamePrefix, len(RammerShipNames), pPlayer)
 					RammerShipNames.append(shipName)
 
 					SetEnemyGroup(pPlayer)
