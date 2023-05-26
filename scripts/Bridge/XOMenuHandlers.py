@@ -74,12 +74,11 @@ DEFIANT_BOOST_COOLDOWN_S = 10
 SCIMITAR_BOOST_COOLDOWN_S = 15
 AKIRA_BOOST_COOLDOWN_S = 10
 
-BUG_DRONE_COOLDOWN_S = 8
+BUG_DRONE_COOLDOWN_S = 12
 BUG_DRONE_HP = 1000
 BUG_DRONE_NAME_PREFIX = 'Ram'
 BUG_BEEFY_DRONE_NAME_PREFIX = 'BeefyRam'
 EACH_N_DRONE_IS_BEEFY = 5
-N_BUG_DRONES_TO_SPAWN = 1
 
 VALDORE_WALL_COOLDOWN_S = 8
 VALDORE_MAX_SIMULTANEOUS_WALLS = 1
@@ -187,19 +186,17 @@ def SetAlertLevel(pObject, pEvent):
 
 		if pPlayer.GetShipProperty().GetName().GetCString() == 'BugRammer':
 			global RammerNames
-			targetName = GetCurrentTargetName(pPlayer)
+			target = GetCurrentTarget(pPlayer)
+			targetName = target and target.GetName() or None
 
 			if LastBoostTime + BUG_DRONE_COOLDOWN_S < App.g_kUtopiaModule.GetGameTime():
 				velocity = pPlayer.GetVelocityTG()
 				velocity.Scale(1.6)
 				pPlayer.SetVelocity(velocity)
 			
-				for i in range(0, N_BUG_DRONES_TO_SPAWN):
-					LastBoostTime = App.g_kUtopiaModule.GetGameTime()
-					
-					if not targetName:
-						continue
-
+				LastBoostTime = App.g_kUtopiaModule.GetGameTime()
+				
+				if targetName:
 					isBeefyDrone = len(RammerNames) % EACH_N_DRONE_IS_BEEFY == EACH_N_DRONE_IS_BEEFY - 1
 					shipNamePrefix = isBeefyDrone and BUG_BEEFY_DRONE_NAME_PREFIX or BUG_DRONE_NAME_PREFIX
 
@@ -208,8 +205,6 @@ def SetAlertLevel(pObject, pEvent):
 
 					SetEnemyGroup(pPlayer)
 					pShip = SpawnDroneShip('BugRammer', shipName, 30, pPlayer, group = MissionLib.GetMission().GetNeutralGroup())
-					SetVelocityAndDirectionAsPlayer(pShip, pPlayer)
-					
 					if isBeefyDrone:
 						pShip.SetMass(150)
 						pShip.SetInvincible(1)
@@ -223,11 +218,11 @@ def SetAlertLevel(pObject, pEvent):
 				pShip = MissionLib.GetShip(shipName)
 				if not pShip:
 					continue
-
-				if targetName:
-					SetShipKamazakeAI(pShip, targetName)
-				else:
+				if not target:
 					pShip.SetAI(None)
+
+				AlignShipToFaceTarget(pShip, target)
+				SetShipKamazakeAI(pShip, targetName)
 
 		if pPlayer.GetShipProperty().GetName().GetCString() == 'Nova':
 			global LastSpawnDroneTime, DroneSpawnTimes, MAX_DRONES_IN_PERIOD, PERIOD_S, DroneNames
@@ -375,28 +370,40 @@ def SetEnemyGroup(pPlayer): # AAAAAAAAAAAAAA
 	if not enemyGroup:
 		enemyGroup = App.ObjectGroup()
 	enemyGroup.RemoveAllNames()
-	name = GetCurrentTargetName(pPlayer)
-	if name:
-		enemyGroup.AddName(name)
+	target = GetCurrentTarget(pPlayer)
+	if target:
+		enemyGroup.AddName(target.GetName())
 
-
-def GetCurrentTargetName(pPlayer): # AAAAAAAAAAAA
+def GetCurrentTarget(pPlayer): # AAAAAAAAAAAA
 	target = pPlayer.GetTarget()
 	if target:
 		castedTarget = App.ShipClass_Cast(target)
 		if castedTarget:
-			return castedTarget.GetName()
+			return castedTarget
 
-def GetAnyPerpendicularVector(direction, pPlayer):
-	up = Unitized(pPlayer.GetWorldUpTG())
+	return None
+
+def GetAnyPerpendicularVector(direction, anyShip):
+	up = Unitized(anyShip.GetWorldUpTG())
 	perp = Unitized(direction).UnitCross(up)
 
 	if perp.Length() > 0.5: 
 		return perp
 
 	# direction must be equal to up, as cross product will return invalid result (0,0,0)
-	forward = Unitized(pPlayer.GetWorldForwardTG())
+	forward = Unitized(anyShip.GetWorldForwardTG())
 	return Unitized(direction).UnitCross(forward)
+
+def AlignShipToFaceTarget(pShip, target):
+	direction = target.GetWorldLocation()
+	direction.Subtract(pShip.GetWorldLocation())
+	perpendicular = GetAnyPerpendicularVector(direction, target)
+	pShip.AlignToVectors(direction, perpendicular)
+
+	vZero = App.TGPoint3()
+	vZero.SetXYZ(0, 0, 0)
+	pShip.SetVelocity(vZero)
+	pShip.SetAngularVelocity(vZero, App.PhysicsObjectClass.DIRECTION_WORLD_SPACE)
 
 def Unitized(vector):
 	unitVector = App.TGPoint3()
