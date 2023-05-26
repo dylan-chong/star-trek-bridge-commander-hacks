@@ -198,17 +198,17 @@ def SetAlertLevel(pObject, pEvent):
 				
 				if targetName:
 					isBeefyDrone = len(RammerNames) % EACH_N_DRONE_IS_BEEFY == EACH_N_DRONE_IS_BEEFY - 1
-					shipNamePrefix = isBeefyDrone and BUG_BEEFY_DRONE_NAME_PREFIX or BUG_DRONE_NAME_PREFIX
 
+					shipNamePrefix = isBeefyDrone and BUG_BEEFY_DRONE_NAME_PREFIX or BUG_DRONE_NAME_PREFIX
 					shipName = GenChildShipName(shipNamePrefix, len(RammerNames), pPlayer)
 					RammerNames.append(shipName)
 
 					SetEnemyGroup(pPlayer)
 					pShip = SpawnDroneShip('BugRammer', shipName, 30, pPlayer, group = MissionLib.GetMission().GetNeutralGroup())
 					if isBeefyDrone:
-						pShip.SetMass(150)
+						pShip.SetMass(300)
+						pShip.SetScale(2)
 						pShip.SetInvincible(1)
-						pShip.SetScale(3)
 					else:
 						pShip.SetMass(100)
 						pShip.DamageSystem(pShip.GetHull(), pShip.GetHull().GetMaxCondition() - BUG_DRONE_HP)
@@ -221,8 +221,14 @@ def SetAlertLevel(pObject, pEvent):
 				if not target:
 					pShip.SetAI(None)
 
-				AlignShipToFaceTarget(pShip, target)
 				SetShipKamazakeAI(pShip, targetName)
+
+				AlignShipToFaceTarget(pShip, target)
+
+				vZero = App.TGPoint3()
+				vZero.SetXYZ(0.0, 0.0, 0.0)
+				pShip.SetVelocity(target.GetVelocityTG())
+				pShip.SetAngularVelocity(vZero, App.PhysicsObjectClass.DIRECTION_WORLD_SPACE)
 
 		if pPlayer.GetShipProperty().GetName().GetCString() == 'Nova':
 			global LastSpawnDroneTime, DroneSpawnTimes, MAX_DRONES_IN_PERIOD, PERIOD_S, DroneNames
@@ -399,11 +405,6 @@ def AlignShipToFaceTarget(pShip, target):
 	direction.Subtract(pShip.GetWorldLocation())
 	perpendicular = GetAnyPerpendicularVector(direction, target)
 	pShip.AlignToVectors(direction, perpendicular)
-
-	vZero = App.TGPoint3()
-	vZero.SetXYZ(0, 0, 0)
-	pShip.SetVelocity(vZero)
-	pShip.SetAngularVelocity(vZero, App.PhysicsObjectClass.DIRECTION_WORLD_SPACE)
 
 def Unitized(vector):
 	unitVector = App.TGPoint3()

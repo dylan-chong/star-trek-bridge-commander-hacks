@@ -423,7 +423,7 @@ kFiringChainString.SetString("0;Single;1;Dual")
 Torpedoes.SetFiringChainString(kFiringChainString)
 Torpedoes.SetMaxTorpedoes(0, 50)
 Torpedoes.SetTorpedoScript(0, "Tactical.Projectiles.PolaronTorpedo")
-Torpedoes.SetNumAmmoTypes(2)
+Torpedoes.SetNumAmmoTypes(1)
 App.g_kModelPropertyManager.RegisterLocalTemplate(Torpedoes)
 #################################################
 ForwardTube = App.TorpedoTubeProperty_Create("Forward Tube")
