@@ -51,7 +51,9 @@ def CreateMenus():
 	pXOMenu.AddPythonFuncHandlerForInstance(App.ET_SHOW_MISSION_LOG, __name__ + '.ShowLog')
 	return pXOMenu
 
-
+def GenQuasiUniqueShipName(prefix):
+	id = App.g_kSystemWrapper.GetRandomNumber(100000)
+	return prefix + ' ' + str(id)
 
 MAX_DRONES_IN_PERIOD = 2
 PERIOD_S = 6
@@ -156,7 +158,7 @@ def SetAlertLevel(pObject, pEvent):
 						pSystem = wall.GetHull()
 						pSystem.SetConditionPercentage(0)
 
-					shipName = 'Wall ' + str(NDrones)
+					shipName = GenQuasiUniqueShipName('Wall')
 					NDrones = NDrones + 1
 					
 					pShip = SpawnDroneShip('Wall', shipName, distance=0.0, pPlayer=pPlayer, group = MissionLib.GetMission().GetNeutralGroup())
@@ -181,11 +183,7 @@ def SetAlertLevel(pObject, pEvent):
 					perpendicular = GetAnyPerpendicularVector(directionUnit, pPlayer)
 					pShip.AlignToVectors(directionUnit, perpendicular)
 
-					# pShip.EnableCollisionsWith(pPlayer, 0)
-
 					WallSpawnTimes.append((shipName, App.g_kUtopiaModule.GetGameTime()))
-
-					# TODO distance check (dont spawn wall if too close)
 
 		if pPlayer.GetShipProperty().GetName().GetCString() == 'BugRammer':
 			targetName = GetCurrentTargetName(pPlayer)
