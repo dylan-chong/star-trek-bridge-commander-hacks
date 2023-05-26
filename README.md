@@ -21,7 +21,18 @@ From before I make them into actual mods
 
 ----
 
-# Random other things
+# Random other notes
+
+## TODO
+
+- Test: Can you have player name collisions in multiplayer
+- Test: Fix wall ship is not set up properly
+- Test: Fix wall ship name collisions
+- Investigate: When a client uses Nova, drones to not target anything
+- Investigate: BugRammer freezes client when someone joins as it, but not for server
+    - Try: Client should create a BugRammer as player ship in quick play to see if that works
+- Maybe unfixable: Multiplayer crashes a lot when theres not that many ships, but still quite a few
+- Maybe unfixable: Akira in multiplayer sending torpedoes at high speed doesn't work for clients, but does for the master
 
 ## Compile all modules helper
 
