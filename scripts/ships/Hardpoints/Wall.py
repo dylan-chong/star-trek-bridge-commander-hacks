@@ -22,7 +22,7 @@ App.g_kModelPropertyManager.RegisterLocalTemplate(Asteroid)
 AsteroidMass = App.ShipProperty_Create("Asteroid Mass")
 
 AsteroidMass.SetGenus(3)
-AsteroidMass.SetSpecies(712)
+AsteroidMass.SetSpecies(1002)
 AsteroidMass.SetMass(30.000000)
 AsteroidMass.SetRotationalInertia(100000 * 190000.000000)
 AsteroidMass.SetShipName("Wall")

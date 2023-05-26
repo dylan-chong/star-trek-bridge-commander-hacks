@@ -6,7 +6,7 @@ def GetShipStats():
 		"FilenameHigh": "data/Models/Ships/Wall/Wall.NIF",
 		"Name": "Wall",
 		"HardpointFile": "Wall",
-		"Species": Multiplayer.SpeciesToShip.ASTEROID3
+		"Species": Multiplayer.SpeciesToShip.WALL
 	}
 	return kShipStats
 
