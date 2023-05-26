@@ -26,11 +26,18 @@ From before I make them into actual mods
 ## TODO
 
 - Test: Can you have player name collisions in multiplayer
-- Test: Fix wall ship is not set up properly
-- Test: Fix wall ship name collisions
-- Investigate: When a client uses Nova, drones to not target anything
+- Test: Fix wall ship is not set up properly in multiplayer
+- Test: Fix wall ship name collisions in multiplayer
+- Test: Shuttle nuke launching in multiplayer
 - Investigate: BugRammer freezes client when someone joins as it, but not for server
     - Try: Client should create a BugRammer as player ship in quick play to see if that works
+- Feature:
+    - Existing rammer ships have their velocity/direction reset when spawning a new target, to increase chance of ram
+        - Easiest way is to the align rammer ship to the forward/up vectors of the target ship
+        - Another possible way is to reuse the wall generation code to make the rammer face the target ship
+        - Another possible way is to enable the tractor beams on the rammer ships so they have an increased chance of ram
+- Investigate: When a client uses Nova, drones to not target anything
+- Possible Feature: Speed boost is not based on current velocity, by unitizing the velocity, so you don't need the current speed
 - Maybe unfixable: Multiplayer crashes a lot when theres not that many ships, but still quite a few
 - Maybe unfixable: Akira in multiplayer sending torpedoes at high speed doesn't work for clients, but does for the master
 

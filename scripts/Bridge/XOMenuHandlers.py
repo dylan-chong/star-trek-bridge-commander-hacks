@@ -174,18 +174,14 @@ def SetAlertLevel(pObject, pEvent):
 					direction.Subtract(pPlayer.GetWorldLocation())
 					direction.Scale(0.75)
 					
-					kPoint = App.TGPoint3()
-					kPoint.Set(pPlayer.GetWorldLocation())
-					kPoint.Add(direction)
+					betweenPoint = App.TGPoint3()
+					betweenPoint.Set(pPlayer.GetWorldLocation())
+					betweenPoint.Add(direction)
 
-					pShip.SetTranslate(kPoint)
-		
-					directionUnit = App.TGPoint3()
-					directionUnit.Set(direction)
-					directionUnit.Unitize()
+					pShip.SetTranslate(betweenPoint)
 
-					perpendicular = GetAnyPerpendicularVector(directionUnit, pPlayer)
-					pShip.AlignToVectors(directionUnit, perpendicular)
+					perpendicular = GetAnyPerpendicularVector(direction, pPlayer)
+					pShip.AlignToVectors(Unitized(direction), Unitized(perpendicular))
 
 					WallNamesAndSpawnTimes.append((shipName, App.g_kUtopiaModule.GetGameTime()))
 
@@ -212,6 +208,7 @@ def SetAlertLevel(pObject, pEvent):
 
 					SetEnemyGroup(pPlayer)
 					pShip = SpawnDroneShip('BugRammer', shipName, 30, pPlayer, group = MissionLib.GetMission().GetNeutralGroup())
+					SetVelocityAndDirectionAsPlayer(pShip, pPlayer)
 					
 					if isBeefyDrone:
 						pShip.SetMass(150)
@@ -273,6 +270,7 @@ def SetAlertLevel(pObject, pEvent):
 
 				SetEnemyGroup(pPlayer)
 				pShip = SpawnDroneShip(shipType, shipName, distance, pPlayer, group = MissionLib.GetMission().GetFriendlyGroup())
+				SetVelocityAndDirectionAsPlayer(pShip, pPlayer)
 
 				dynamicGroup = App.ObjectGroup_FromModule("Bridge.XOMenuHandlers", "enemyGroup")
 				import QuickBattle.QuickBattleFriendlyAI
@@ -355,24 +353,24 @@ def SpawnDroneShip(shipType, shipName, distance, pPlayer, group): # AAAAAAAAAAAA
 	
 	XOff = distance * math.sin(rads)
 	YOff = distance * math.cos(rads)
-	kPoint.SetX( kPoint.GetX() + XOff )
-	kPoint.SetY( kPoint.GetY() + YOff )
-	kPoint.SetZ( kPoint.GetZ() + (App.g_kSystemWrapper.GetRandomNumber(201) - 100) / 100.0 * distance)
+	kPoint.SetX(kPoint.GetX() + XOff)
+	kPoint.SetY(kPoint.GetY() + YOff)
+	kPoint.SetZ(kPoint.GetZ() + (App.g_kSystemWrapper.GetRandomNumber(201) - 100) / 100.0 * distance)
 	pShip.SetTranslate(kPoint)
 
+	group.AddName(shipName)
+	
+	return pShip
+
+def SetVelocityAndDirectionAsPlayer(pShip, pPlayer):
 	up = pPlayer.GetWorldUpTG()
 	forward = pPlayer.GetWorldForwardTG()
 	pShip.AlignToVectors(forward, up)
 
 	pShip.SetVelocity(pPlayer.GetVelocityTG())
-	
-	group.AddName(shipName)
-	
-	return pShip
 
 def SetEnemyGroup(pPlayer): # AAAAAAAAAAAAAA
 	global enemyGroup
-	# enemyGroup = MissionLib.GetMission().GetEnemyGroup()
 	
 	if not enemyGroup:
 		enemyGroup = App.ObjectGroup()
@@ -390,13 +388,21 @@ def GetCurrentTargetName(pPlayer): # AAAAAAAAAAAA
 			return castedTarget.GetName()
 
 def GetAnyPerpendicularVector(direction, pPlayer):
-	perp = direction.UnitCross(pPlayer.GetWorldUpTG())
+	up = Unitized(pPlayer.GetWorldUpTG())
+	perp = Unitized(direction).UnitCross(up)
 
 	if perp.Length() > 0.5: 
 		return perp
 
-	# direction must be [near] equal to up
-	return direction.UnitCross(pPlayer.GetWorldForwardTG())
+	# direction must be equal to up, as cross product will return invalid result (0,0,0)
+	forward = Unitized(pPlayer.GetWorldForwardTG())
+	return Unitized(direction).UnitCross(forward)
+
+def Unitized(vector):
+	unitVector = App.TGPoint3()
+	unitVector.Set(vector)
+	unitVector.Unitize()
+	return unitVector
 
 def SetShipKamazakeAI(pShip, targetName):
 	pKamakaze = App.PlainAI_Create(pShip, 'MoveIn')
