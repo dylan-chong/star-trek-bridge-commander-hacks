@@ -51,9 +51,8 @@ def CreateMenus():
 	pXOMenu.AddPythonFuncHandlerForInstance(App.ET_SHOW_MISSION_LOG, __name__ + '.ShowLog')
 	return pXOMenu
 
-def GenQuasiUniqueShipName(prefix):
-	id = App.g_kSystemWrapper.GetRandomNumber(100000)
-	return prefix + ' ' + str(id)
+def GenShipName(prefix, i, pPlayer):
+	return prefix + ' ' + str(i + 1) + ' (' + pPlayer.GetName() + ')'
 
 MAX_DRONES_IN_PERIOD = 2
 PERIOD_S = 6
@@ -74,7 +73,8 @@ AKIRA_BOOST_COOLDOWN_S = 10
 
 BUG_DRONE_COOLDOWN_S = 8
 BUG_DRONE_HP = 1000
-BUG_DRONE_NAME_PREFIX = 'Rammer '
+BUG_DRONE_NAME_PREFIX = 'Ram'
+BUG_BEEFY_DRONE_NAME_PREFIX = 'BeefyRam'
 EACH_N_DRONE_IS_BEEFY = 5
 N_BUG_DRONES_TO_SPAWN = 1
 
@@ -83,13 +83,14 @@ VALDORE_MAX_SIMULTANEOUS_WALLS = 1
 WALL_LIFETIME_S = VALDORE_WALL_COOLDOWN_S * VALDORE_MAX_SIMULTANEOUS_WALLS - 1 # TODO this only applies when spawning a new wall
 
 def Reset():
-	global NDrones, LastSpawnDroneTime, DroneSpawnTimes, enemyGroup, LastBoostTime, WallSpawnTimes
+	global NDrones, LastSpawnDroneTime, DroneSpawnTimes, enemyGroup, LastBoostTime, WallSpawnTimes, RammerShipNames
 	NDrones = 0
 	LastSpawnDroneTime = 0
 	DroneSpawnTimes = []
 	enemyGroup = None
 	LastBoostTime = 0
 	WallSpawnTimes = []
+	RammerShipNames = []
 
 Reset()
 
@@ -158,7 +159,7 @@ def SetAlertLevel(pObject, pEvent):
 						pSystem = wall.GetHull()
 						pSystem.SetConditionPercentage(0)
 
-					shipName = GenQuasiUniqueShipName('Wall')
+					shipName = GenShipName('Wall', NDrones, pPlayer)
 					NDrones = NDrones + 1
 					
 					pShip = SpawnDroneShip('Wall', shipName, distance=0.0, pPlayer=pPlayer, group = MissionLib.GetMission().GetNeutralGroup())
@@ -186,6 +187,7 @@ def SetAlertLevel(pObject, pEvent):
 					WallSpawnTimes.append((shipName, App.g_kUtopiaModule.GetGameTime()))
 
 		if pPlayer.GetShipProperty().GetName().GetCString() == 'BugRammer':
+			global RammerShipNames
 			targetName = GetCurrentTargetName(pPlayer)
 
 			if LastBoostTime + BUG_DRONE_COOLDOWN_S < App.g_kUtopiaModule.GetGameTime():
@@ -199,11 +201,11 @@ def SetAlertLevel(pObject, pEvent):
 					if not targetName:
 						continue
 
-					isBeefyDrone = NDrones % EACH_N_DRONE_IS_BEEFY == EACH_N_DRONE_IS_BEEFY - 1
+					isBeefyDrone = len(RammerShipNames) % EACH_N_DRONE_IS_BEEFY == EACH_N_DRONE_IS_BEEFY - 1
+					shipNamePrefix = isBeefyDrone and BUG_BEEFY_DRONE_NAME_PREFIX or BUG_DRONE_NAME_PREFIX
 
-					global NDrones
-					shipName = BUG_DRONE_NAME_PREFIX + str(NDrones)
-					NDrones = NDrones + 1
+					shipName = GenShipName(shipNamePrefix, len(RammerShipNames), pPlayer)
+					RammerShipNames.append(shipName)
 
 					SetEnemyGroup(pPlayer)
 					pShip = SpawnDroneShip('BugRammer', shipName, 30, pPlayer, group = MissionLib.GetMission().GetNeutralGroup())
@@ -217,12 +219,15 @@ def SetAlertLevel(pObject, pEvent):
 						pShip.DamageSystem(pShip.GetHull(), pShip.GetHull().GetMaxCondition() - BUG_DRONE_HP)
 						pShip.GetHull().GetProperty().SetMaxCondition(BUG_DRONE_HP)
 
-			for i in range(0, NDrones):
-				pDrone = MissionLib.GetShip(BUG_DRONE_NAME_PREFIX + str(i))
-				if pDrone and targetName:
-					SetShipKamazakeAI(pDrone, targetName)
-				elif pDrone:
-					pDrone.SetAI(None)
+			for shipName in RammerShipNames:
+				pShip = MissionLib.GetShip(shipName)
+				if not pShip:
+					continue
+
+				if targetName:
+					SetShipKamazakeAI(pShip, targetName)
+				else:
+					pShip.SetAI(None)
 
 		if pPlayer.GetShipProperty().GetName().GetCString() == 'Nova':
 			global LastSpawnDroneTime
