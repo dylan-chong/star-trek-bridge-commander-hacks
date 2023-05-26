@@ -54,6 +54,9 @@ def CreateMenus():
 def GenChildShipName(prefix, i, pPlayer):
 	return prefix + ' ' + str(i + 1) + ' (' + pPlayer.GetName() + ')'
 
+DRONE_PREFIX = "Drone"
+BEEFY_DRONE_PREFIX = "BeefyDrone"
+DUD_DRONE_PREFIX = "DudDrone"
 MAX_DRONES_IN_PERIOD = 2
 PERIOD_S = 6
 SPAWN_DISTANCE = 50
@@ -83,14 +86,14 @@ VALDORE_MAX_SIMULTANEOUS_WALLS = 1
 WALL_LIFETIME_S = VALDORE_WALL_COOLDOWN_S * VALDORE_MAX_SIMULTANEOUS_WALLS - 1 # TODO this only applies when spawning a new wall
 
 def Reset():
-	global NDrones, LastSpawnDroneTime, DroneSpawnTimes, enemyGroup, LastBoostTime, WallNamesAndSpawnTimes, RammerShipNames
-	NDrones = 0
+	global DroneNames, LastSpawnDroneTime, DroneSpawnTimes, enemyGroup, LastBoostTime, WallNamesAndSpawnTimes, RammerNames
+	DroneNames = []
 	LastSpawnDroneTime = 0
 	DroneSpawnTimes = []
 	enemyGroup = None
 	LastBoostTime = 0
 	WallNamesAndSpawnTimes = []
-	RammerShipNames = []
+	RammerNames = []
 
 Reset()
 
@@ -187,7 +190,7 @@ def SetAlertLevel(pObject, pEvent):
 					WallNamesAndSpawnTimes.append((shipName, App.g_kUtopiaModule.GetGameTime()))
 
 		if pPlayer.GetShipProperty().GetName().GetCString() == 'BugRammer':
-			global RammerShipNames
+			global RammerNames
 			targetName = GetCurrentTargetName(pPlayer)
 
 			if LastBoostTime + BUG_DRONE_COOLDOWN_S < App.g_kUtopiaModule.GetGameTime():
@@ -201,11 +204,11 @@ def SetAlertLevel(pObject, pEvent):
 					if not targetName:
 						continue
 
-					isBeefyDrone = len(RammerShipNames) % EACH_N_DRONE_IS_BEEFY == EACH_N_DRONE_IS_BEEFY - 1
+					isBeefyDrone = len(RammerNames) % EACH_N_DRONE_IS_BEEFY == EACH_N_DRONE_IS_BEEFY - 1
 					shipNamePrefix = isBeefyDrone and BUG_BEEFY_DRONE_NAME_PREFIX or BUG_DRONE_NAME_PREFIX
 
-					shipName = GenChildShipName(shipNamePrefix, len(RammerShipNames), pPlayer)
-					RammerShipNames.append(shipName)
+					shipName = GenChildShipName(shipNamePrefix, len(RammerNames), pPlayer)
+					RammerNames.append(shipName)
 
 					SetEnemyGroup(pPlayer)
 					pShip = SpawnDroneShip('BugRammer', shipName, 30, pPlayer, group = MissionLib.GetMission().GetNeutralGroup())
@@ -219,7 +222,7 @@ def SetAlertLevel(pObject, pEvent):
 						pShip.DamageSystem(pShip.GetHull(), pShip.GetHull().GetMaxCondition() - BUG_DRONE_HP)
 						pShip.GetHull().GetProperty().SetMaxCondition(BUG_DRONE_HP)
 
-			for shipName in RammerShipNames:
+			for shipName in RammerNames:
 				pShip = MissionLib.GetShip(shipName)
 				if not pShip:
 					continue
@@ -230,10 +233,7 @@ def SetAlertLevel(pObject, pEvent):
 					pShip.SetAI(None)
 
 		if pPlayer.GetShipProperty().GetName().GetCString() == 'Nova':
-			global LastSpawnDroneTime
-			global DroneSpawnTimes
-			global MAX_DRONES_IN_PERIOD
-			global PERIOD_S
+			global LastSpawnDroneTime, DroneSpawnTimes, MAX_DRONES_IN_PERIOD, PERIOD_S, DroneNames
 
 			for i in range(0, len(DroneSpawnTimes)):
 				if DroneSpawnTimes[0] + PERIOD_S < App.g_kUtopiaModule.GetGameTime():
@@ -246,21 +246,25 @@ def SetAlertLevel(pObject, pEvent):
 				NDronesSpawned = NDronesSpawned + 1
 
 				randomShipNum = App.g_kSystemWrapper.GetRandomNumber(100)
+				shipNamePrefix = DRONE_PREFIX
 				if randomShipNum < 2:
 					shipType = "Rectangle"
+					shipNamePrefix = BEEFY_DRONE_PREFIX
 				elif randomShipNum < 9:
 					shipType = "Asteroid"
+					shipNamePrefix = DUD_DRONE_PREFIX
 				elif randomShipNum < 15:
 					shipType = "Nova"
 				elif randomShipNum < 18:
 					shipType = "Sabre"
+					shipNamePrefix = BEEFY_DRONE_PREFIX
 				elif randomShipNum < 47:
 					shipType = "Fighter"
 				else:
 					shipType = "Transport"
 
-				shipName = "Drone " + str(NDrones) + " (" + shipType + ")" 
-				NDrones = NDrones + 1
+				shipName = GenChildShipName(shipNamePrefix, len(DroneNames), pPlayer)
+				DroneNames.append(shipName)
 
 				if shipType == 'Transport':
 					distance = SPAWN_DISTANCE
