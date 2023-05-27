@@ -78,7 +78,7 @@ BUG_DRONE_COOLDOWN_S = 12
 BUG_DRONE_HP = 1000
 BUG_DRONE_NAME_PREFIX = 'Ram'
 BUG_BEEFY_DRONE_NAME_PREFIX = 'BeefyRam'
-EACH_N_DRONE_IS_BEEFY = 5
+EACH_N_DRONE_IS_BEEFY = 8
 
 VALDORE_WALL_COOLDOWN_S = 8
 VALDORE_MAX_SIMULTANEOUS_WALLS = 1
@@ -197,22 +197,29 @@ def SetAlertLevel(pObject, pEvent):
 				LastBoostTime = App.g_kUtopiaModule.GetGameTime()
 				
 				if targetName:
-					isBeefyDrone = len(RammerNames) % EACH_N_DRONE_IS_BEEFY == EACH_N_DRONE_IS_BEEFY - 1
+					isBeefyDrone = len(RammerNames) % EACH_N_DRONE_IS_BEEFY == 0
 
-					shipNamePrefix = isBeefyDrone and BUG_BEEFY_DRONE_NAME_PREFIX or BUG_DRONE_NAME_PREFIX
-					shipName = GenChildShipName(shipNamePrefix, len(RammerNames), pPlayer)
-					RammerNames.append(shipName)
+					newShipNamePrefix = isBeefyDrone and BUG_BEEFY_DRONE_NAME_PREFIX or BUG_DRONE_NAME_PREFIX
+					newShipName = GenChildShipName(newShipNamePrefix, len(RammerNames), pPlayer)
 
 					SetEnemyGroup(pPlayer)
-					pShip = SpawnDroneShip('BugRammer', shipName, 30, pPlayer, group = MissionLib.GetMission().GetNeutralGroup())
+					pNewShip = SpawnDroneShip('BugRammer', newShipName, 30, pPlayer, group = MissionLib.GetMission().GetNeutralGroup())
 					if isBeefyDrone:
-						pShip.SetMass(300)
-						pShip.SetScale(2)
-						pShip.SetInvincible(1)
+						pNewShip.SetMass(200)
+						pNewShip.SetScale(2)
+						pNewShip.SetInvincible(1)
 					else:
-						pShip.SetMass(100)
-						pShip.DamageSystem(pShip.GetHull(), pShip.GetHull().GetMaxCondition() - BUG_DRONE_HP)
-						pShip.GetHull().GetProperty().SetMaxCondition(BUG_DRONE_HP)
+						pNewShip.SetMass(100)
+						pNewShip.DamageSystem(pNewShip.GetHull(), pNewShip.GetHull().GetMaxCondition() - BUG_DRONE_HP)
+						pNewShip.GetHull().GetProperty().SetMaxCondition(BUG_DRONE_HP)
+					
+					for shipName in RammerNames:
+						pExistingShip = MissionLib.GetShip(shipName)
+						if not pExistingShip:
+							continue
+						pNewShip.EnableCollisionsWith(pExistingShip, 0)
+
+					RammerNames.append(newShipName)
 
 			for shipName in RammerNames:
 				pShip = MissionLib.GetShip(shipName)
