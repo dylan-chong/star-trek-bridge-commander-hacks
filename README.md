@@ -25,14 +25,14 @@ From before I make them into actual mods
 
 ## TODO
 
+- Fix: Rebalance shuttle for campaign
+- Test: Can you get someone else to host the game so i can test stuff
 - Test: Can you have player name collisions in multiplayer
 - Test: Fix wall ship is not set up properly in multiplayer
 - Test: Fix wall ship name collisions in multiplayer
 - Test: Shuttle nuke launching in multiplayer
 - Investigate: BugRammer freezes client when someone joins as it, but not for server
     - Test: Client should create a BugRammer as player ship in quick play to see if that works
-- Fix: Rebalance bug ship for campaign
-- Fix: Rebalance shuttle for campaign
 - Investigate: When a client uses Nova, drones to not target anything
 - Possible Feature: Speed boost is not based on current velocity, by unitizing the velocity, so you don't need the current speed
 - Maybe unfixable: Multiplayer crashes a lot when theres not that many ships, but still quite a few

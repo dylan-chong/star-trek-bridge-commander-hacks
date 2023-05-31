@@ -86,8 +86,12 @@ VALDORE_WALL_COOLDOWN_S = 8
 VALDORE_MAX_SIMULTANEOUS_WALLS = 1
 WALL_LIFETIME_S = VALDORE_WALL_COOLDOWN_S * VALDORE_MAX_SIMULTANEOUS_WALLS - 1 # TODO this only applies when spawning a new wall
 
+SHUTTLE_NUKE_COOLDOWN_S = 10
+N_NUKES = 0
+NUKE_PREFIX = '70km Nuke'
+
 def Reset():
-	global DroneNames, LastSpawnDroneTime, DroneSpawnTimes, enemyGroup, LastBoostTime, WallNamesAndSpawnTimes, RammerNames
+	global DroneNames, LastSpawnDroneTime, DroneSpawnTimes, enemyGroup, LastBoostTime, WallNamesAndSpawnTimes, RammerNames, NukeNames
 	DroneNames = []
 	LastSpawnDroneTime = 0
 	DroneSpawnTimes = []
@@ -95,6 +99,7 @@ def Reset():
 	LastBoostTime = 0
 	WallNamesAndSpawnTimes = []
 	RammerNames = []
+	NukeNames = []
 
 Reset()
 
@@ -243,6 +248,31 @@ def SetAlertLevel(pObject, pEvent):
 				vZero.SetXYZ(0.0, 0.0, 0.0)
 				pShip.SetVelocity(target.GetVelocityTG())
 				pShip.SetAngularVelocity(vZero, App.PhysicsObjectClass.DIRECTION_WORLD_SPACE)
+
+		if pPlayer.GetShipProperty().GetName().GetCString() == 'Shuttle':
+			if LastBoostTime + SHUTTLE_NUKE_COOLDOWN_S < App.g_kUtopiaModule.GetGameTime():
+				LastBoostTime = App.g_kUtopiaModule.GetGameTime()
+				
+				global NNukes
+				shipName = GenChildShipName(NUKE_PREFIX, len(NukeNames), pPlayer)
+				NukeNames.append(shipName)
+
+				pShip = SpawnDroneShip('Probe', shipName, 0, pPlayer, group = MissionLib.GetMission().GetNeutralGroup())
+				pShip.EnableCollisionsWith(pPlayer, 0)
+				pShip.SetScale(200)
+
+				# Allow the ship to drift
+				pShip.GetImpulseEngineSubsystem().SetPowerPercentageWanted(0)
+				pShip.GetShields().SetPowerPercentageWanted(0)
+
+				# velocity = Unitized(pPlayer.GetWorldForwardTG())
+				# velocity.Scale(20) # scale 1 == 600kph
+				# pShip.SetVelocity(velocity)
+				velocity = pPlayer.GetVelocity()
+				velocity.Scale()
+				pShip.SetVelocity(velocity)
+
+				pShip.AlignToVectors(pPlayer.GetWorldForwardTG(), pPlayer.GetWorldUpTG())
 
 		if pPlayer.GetShipProperty().GetName().GetCString() == 'Nova':
 			global LastSpawnDroneTime, DroneSpawnTimes, MAX_DRONES_IN_PERIOD, PERIOD_S, DroneNames
