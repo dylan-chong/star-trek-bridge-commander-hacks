@@ -10,7 +10,7 @@ import GlobalPropertyTemplates
 #################################################
 
 AAAAAAHealthFactor = 100000
-AAAAAAHullHealthFactor = 60
+AAAAAAHullHealthFactor = 50
 AAAAAACriticalHealthFactor = AAAAAAHealthFactor
 AAAAAAEngineHealthFactor = AAAAAAHealthFactor
 AAAAAADisabledFactor = 0
@@ -83,7 +83,7 @@ SensorArray.SetRepairComplexity(1.000000)
 SensorArray.SetDisabledPercentage(AAAAAADisabledFactor * 0.500000)
 SensorArray.SetRadius(0.015000)
 SensorArray.SetNormalPowerPerSecond(0.01 * 90.000000)
-SensorArray.SetBaseSensorRange(2 * 900.000000)
+SensorArray.SetBaseSensorRange(2.5 * 900.000000)
 SensorArray.SetMaxProbes(10)
 App.g_kModelPropertyManager.RegisterLocalTemplate(SensorArray)
 #################################################
@@ -421,7 +421,7 @@ Torpedoes.SetAimedWeapon(1)
 kFiringChainString = App.TGString()
 kFiringChainString.SetString("0;Single;1;Dual")
 Torpedoes.SetFiringChainString(kFiringChainString)
-Torpedoes.SetMaxTorpedoes(0, 50)
+Torpedoes.SetMaxTorpedoes(0, 10)
 Torpedoes.SetTorpedoScript(0, "Tactical.Projectiles.PolaronTorpedo")
 Torpedoes.SetNumAmmoTypes(1)
 App.g_kModelPropertyManager.RegisterLocalTemplate(Torpedoes)
@@ -688,7 +688,7 @@ Repair.SetRepairComplexity(10.000000)
 Repair.SetDisabledPercentage(AAAAAADisabledFactor * 0.100000)
 Repair.SetRadius(0.010000)
 Repair.SetNormalPowerPerSecond(1.000000)
-Repair.SetMaxRepairPoints(10 * AAAAAAHullHealthFactor * 6.000000)
+Repair.SetMaxRepairPoints(5 * AAAAAAHullHealthFactor * 6.000000)
 Repair.SetNumRepairTeams(40 * 2)
 App.g_kModelPropertyManager.RegisterLocalTemplate(Repair)
 #################################################

@@ -75,10 +75,12 @@ SCIMITAR_BOOST_COOLDOWN_S = 15
 AKIRA_BOOST_COOLDOWN_S = 10
 
 BUG_DRONE_COOLDOWN_S = 12
-BUG_DRONE_HP = 1000
+BUG_DRONE_HP = 50
 BUG_DRONE_NAME_PREFIX = 'Ram'
-BUG_BEEFY_DRONE_NAME_PREFIX = 'BeefyRam'
 EACH_N_DRONE_IS_BEEFY = 8
+BUG_BEEFY_DRONE_NAME_PREFIX = 'BeefyRam'
+BUG_BEEFY_DRONE_SCALE = 1.5
+BUG_BEEFY_DRONE_SPEED_MULT = 0.5
 
 VALDORE_WALL_COOLDOWN_S = 8
 VALDORE_MAX_SIMULTANEOUS_WALLS = 1
@@ -197,22 +199,27 @@ def SetAlertLevel(pObject, pEvent):
 				LastBoostTime = App.g_kUtopiaModule.GetGameTime()
 				
 				if targetName:
-					isBeefyDrone = len(RammerNames) % EACH_N_DRONE_IS_BEEFY == 0
+					isBeefyDrone = len(RammerNames) % EACH_N_DRONE_IS_BEEFY == EACH_N_DRONE_IS_BEEFY - 1
 
 					newShipNamePrefix = isBeefyDrone and BUG_BEEFY_DRONE_NAME_PREFIX or BUG_DRONE_NAME_PREFIX
 					newShipName = GenChildShipName(newShipNamePrefix, len(RammerNames), pPlayer)
 
 					SetEnemyGroup(pPlayer)
 					pNewShip = SpawnDroneShip('BugRammer', newShipName, 30, pPlayer, group = MissionLib.GetMission().GetNeutralGroup())
+
 					if isBeefyDrone:
-						pNewShip.SetMass(200)
-						pNewShip.SetScale(2)
-						pNewShip.SetInvincible(1)
+						pNewShip.SetScale(BUG_BEEFY_DRONE_SCALE)
+						pNewShip.SetMass(2000)
+						# Scaling the ship also scales up the speed for some reason
+						pNewShip.GetImpulseEngineSubsystem().SetPowerPercentageWanted(1.0 / BUG_BEEFY_DRONE_SCALE * BUG_BEEFY_DRONE_SPEED_MULT)
 					else:
 						pNewShip.SetMass(100)
+						pNewShip.SetScale(0.8)
 						pNewShip.DamageSystem(pNewShip.GetHull(), pNewShip.GetHull().GetMaxCondition() - BUG_DRONE_HP)
 						pNewShip.GetHull().GetProperty().SetMaxCondition(BUG_DRONE_HP)
 					
+					pNewShip.EnableCollisionsWith(pPlayer, 0)
+
 					for shipName in RammerNames:
 						pExistingShip = MissionLib.GetShip(shipName)
 						if not pExistingShip:
