@@ -2357,7 +2357,7 @@ Torpedoes.SetTorpedoScript(0, "Tactical.Projectiles.Photon 7")
 Torpedoes.SetNumAmmoTypes(1)
 App.g_kModelPropertyManager.RegisterLocalTemplate(Torpedoes)
 #################################################
-AAAAAAAAAAAAAAATorpedoReloadDelayFactor = 1.8
+AAAAAAAAAAAAAAATorpedoReloadDelayFactor = 1.4
 ForwardTube1 = App.TorpedoTubeProperty_Create("Forward Tube 1")
 
 ForwardTube1.SetMaxCondition(9000.000000)
