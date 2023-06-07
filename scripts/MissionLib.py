@@ -537,10 +537,9 @@ def RemoveAllCommandableShips():
 ###############################################################################
 def CreatePlayerShip(sShipClass, pSet, pcName, sWaypoint, bUnloadShip = 0):
 	import Bridge.XOMenuHandlers
-	if sShipClass == 'Galaxy' or sShipClass == 'SovereignR' or sShipClass == 'Sovereign':
-		import time
-		ships = ['BugRammer', 'Defiant', 'Akira', 'Prometheus', 'Scimitar', 'Shuttle', 'Nova', 'Valdore']
-		sShipClass = ships[int(time.clock()) % len(ships)]
+	import string
+	if string.find(GetMission().GetScript() or '', 'Maelstrom.') == 0:
+		# Modded ships: BugRammer, Defiant, Akira, Prometheus, Scimitar, Shuttle, Nova, Valdore
 		sShipClass = 'Shuttle'
 	
 	pGame = App.Game_GetCurrentGame()
