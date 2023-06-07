@@ -265,12 +265,16 @@ def SetAlertLevel(pObject, pEvent):
 				pShip.GetImpulseEngineSubsystem().SetPowerPercentageWanted(0)
 				pShip.GetShields().SetPowerPercentageWanted(0)
 
-				# velocity = Unitized(pPlayer.GetWorldForwardTG())
-				# velocity.Scale(20) # scale 1 == 600kph
-				# pShip.SetVelocity(velocity)
-				velocity = pPlayer.GetVelocity()
-				velocity.Scale()
-				pShip.SetVelocity(velocity)
+				nukeVelocity = Unitized(pPlayer.GetWorldForwardTG())
+				nukeVelocity.Scale(20) # scale 1 == 600kph
+				pShip.SetVelocity(nukeVelocity)
+
+				playerVelocityKnockback = Unitized(nukeVelocity)
+				playerVelocityKnockback.Scale(-190)
+
+				newPlayerVelocity = CloneVector(playerVelocityKnockback)
+				newPlayerVelocity.Add(pPlayer.GetVelocityTG())
+				pPlayer.SetVelocity(newPlayerVelocity)
 
 				pShip.AlignToVectors(pPlayer.GetWorldForwardTG(), pPlayer.GetWorldUpTG())
 
@@ -451,10 +455,14 @@ def AlignShipToFaceTarget(pShip, target):
 	pShip.AlignToVectors(direction, perpendicular)
 
 def Unitized(vector):
-	unitVector = App.TGPoint3()
-	unitVector.Set(vector)
+	unitVector = CloneVector(vector)
 	unitVector.Unitize()
 	return unitVector
+
+def CloneVector(vector):
+	copy = App.TGPoint3()
+	copy.Set(vector)
+	return copy
 
 def SetShipKamazakeAI(pShip, targetName):
 	pKamakaze = App.PlainAI_Create(pShip, 'MoveIn')

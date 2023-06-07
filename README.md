@@ -35,6 +35,9 @@ From before I make them into actual mods
     - Test: Client should create a BugRammer as player ship in quick play to see if that works
 - Investigate: When a client uses Nova, drones to not target anything
 - Possible Feature: Speed boost is not based on current velocity, by unitizing the velocity, so you don't need the current speed
+- Possible Feature: New ship with a large cutting beam using a stream of non-tracking disruptors (krenim ship?)
+- Possible Feature: New mage ship with suck and power drain abilities (breen?)
+- Possible Feature: New ship that can launch large rocks
 - Maybe unfixable: Multiplayer crashes a lot when theres not that many ships, but still quite a few
 - Maybe unfixable: Akira in multiplayer sending torpedoes at high speed doesn't work for clients, but does for the master
 

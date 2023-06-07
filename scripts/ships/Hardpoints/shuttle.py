@@ -97,7 +97,7 @@ ImpulseEngines.SetNormalPowerPerSecond(20.000000)
 ImpulseEngines.SetMaxAccel(1000000000 * 6.000000)
 ImpulseEngines.SetMaxAngularAccel(5 * 0.790000)
 ImpulseEngines.SetMaxAngularVelocity(5 * 0.790000)
-ImpulseEngines.SetMaxSpeed(7 * 9.523810)
+ImpulseEngines.SetMaxSpeed(4 * 9.523810)
 ImpulseEngines.SetEngineSound("Federation Engines")
 App.g_kModelPropertyManager.RegisterLocalTemplate(ImpulseEngines)
 #################################################
