@@ -371,7 +371,6 @@ scripts/Bridge/GalaxyBridge.py
 scripts/Bridge/intrepidbridge.py
 scripts/Bridge/IntrepidBridgeProperties.py
 scripts/Bridge/SovereignBridge.py
-scripts/CameraModes.py
 scripts/CinematicInterfaceHandlers.py
 scripts/Custom/Autoload/000-Fixes20030221.py
 scripts/Custom/Autoload/000-Fixes20030305-FoundationTriggers.py
