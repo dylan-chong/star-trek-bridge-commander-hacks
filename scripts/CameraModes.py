@@ -9,6 +9,9 @@
 ###############################################################################
 import App
 
+# We need this for the very fast ships, so that the ship will not go off screen
+MaxLagDistanceFactor = 0.2
+
 def Chase(pCamera):
 	pMode = App.CameraMode_Create("Chase", pCamera)
 
@@ -25,7 +28,7 @@ def Chase(pCamera):
 		( pMode.SetAttrFloat,	"MaximumDistance",		40.0),
 		( pMode.SetAttrPoint,	"ViewTargetOffset",		vViewPos),
 		( pMode.SetAttrPoint,	"DefaultPosition",		vCameraPos),
-		( pMode.SetAttrFloat,	"MaxLagDist",			2.0)
+		( pMode.SetAttrFloat,	"MaxLagDist",			MaxLagDistanceFactor * 2.0)
 		):
 		pFunc(sAttr, kValue)
 
@@ -65,7 +68,7 @@ def Target(pCamera):
 		( pMode.SetAttrFloat,	"BackWatchPos",			7.95 ),
 		( pMode.SetAttrFloat,	"UpWatchPos",			0.95 ),
 		( pMode.SetAttrFloat,	"LookBetween",			0.05 ),
-		( pMode.SetAttrFloat,	"MaxLagDist",			0.3 * 1.0),
+		( pMode.SetAttrFloat,	"MaxLagDist",			MaxLagDistanceFactor * 1.0),
 		( pMode.SetAttrFloat,	"MaxUpAngleChange",		App.PI / 2.0)
 		):
 		pFunc(sAttr, kValue)
@@ -101,7 +104,7 @@ def ZoomTarget(pCamera):
 		( pMode.SetAttrFloat,	"MinimumDistance",		4.0 ),
 		( pMode.SetAttrFloat,	"Distance",				4.0 ),
 		( pMode.SetAttrFloat,	"MaximumDistance",		20.0 ),
-		( pMode.SetAttrFloat,	"MaxLagDist",			1.0)
+		( pMode.SetAttrFloat,	"MaxLagDist",			MaxLagDistanceFactor * 1.0)
 		):
 		pFunc(sAttr, kValue)
 
@@ -182,7 +185,7 @@ def ViewscreenZoomTarget(pCamera):
 		( pMode.SetAttrFloat,	"MinimumDistance",		2.0 ),
 		( pMode.SetAttrFloat,	"Distance",				8.0 ),
 		( pMode.SetAttrFloat,	"MaximumDistance",		32.0 ),
-		( pMode.SetAttrFloat,	"MaxLagDist",			1.0)
+		( pMode.SetAttrFloat,	"MaxLagDist",			MaxLagDistanceFactor * 1.0)
 		):
 		pFunc(sAttr, kValue)
 
