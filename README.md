@@ -2,6 +2,15 @@
 
 From before I make them into actual mods
 
+Hacks before they turn into actual mods. NOTE: These are *hacks* and definitely *not* beautiful, tidy code.
+One day, I'll tidy it up.
+
+## Git Structure
+
+Only files that have been modified from either the stock game or Bridge Commander Remastered (see installation) have been committed.
+The original versions of the files are committed in their own commits formatted as `[Original] Msg...`, throughout various points in time.
+The point of this is to allow you to diff the changes to the file that this mod has made.
+
 ## Installation
 
 1. Install fresh version of game from `Star.Trek.Bridge.Commander.v1.1.GOG`
