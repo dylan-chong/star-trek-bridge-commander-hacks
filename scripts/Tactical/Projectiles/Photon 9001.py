@@ -51,7 +51,7 @@ def Create(pTorp):
 	# Multiplayer specific stuff.  Please, if you create a new torp
 	# type. modify the SpeciesToTorp.py file to add the new type.
 	import Multiplayer.SpeciesToTorp
-	pTorp.SetNetType (Multiplayer.SpeciesToTorp.PHOTON1)
+	pTorp.SetNetType (Multiplayer.SpeciesToTorp.PHOTON9001)
 
 	return(0)
 
