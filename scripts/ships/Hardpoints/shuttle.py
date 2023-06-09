@@ -6,6 +6,8 @@
 import App
 import GlobalPropertyTemplates
 
+AAAAAAAAASubSystemHealthFactor = 3.0
+
 # Local Templates
 #################################################
 Hull = App.HullProperty_Create("Hull")
@@ -23,7 +25,7 @@ App.g_kModelPropertyManager.RegisterLocalTemplate(Hull)
 #################################################
 ShieldGenerator = App.ShieldProperty_Create("Shield Generator")
 
-ShieldGenerator.SetMaxCondition(1.0000 * 500.000000)
+ShieldGenerator.SetMaxCondition(AAAAAAAAASubSystemHealthFactor * 500.000000)
 ShieldGenerator.SetCritical(0)
 ShieldGenerator.SetTargetable(1)
 ShieldGenerator.SetPrimary(1)
@@ -53,7 +55,7 @@ App.g_kModelPropertyManager.RegisterLocalTemplate(ShieldGenerator)
 #################################################
 SensorArray = App.SensorProperty_Create("Sensor Array")
 
-SensorArray.SetMaxCondition(1.0000 * 500.000000)
+SensorArray.SetMaxCondition(AAAAAAAAASubSystemHealthFactor * 500.000000)
 SensorArray.SetCritical(0)
 SensorArray.SetTargetable(1)
 SensorArray.SetPrimary(1)
@@ -84,7 +86,7 @@ App.g_kModelPropertyManager.RegisterLocalTemplate(ProbeLauncher)
 #################################################
 ImpulseEngines = App.ImpulseEngineProperty_Create("Impulse Engines")
 
-ImpulseEngines.SetMaxCondition(1.0000 * 500.000000)
+ImpulseEngines.SetMaxCondition(AAAAAAAAASubSystemHealthFactor * 500.000000)
 ImpulseEngines.SetCritical(0)
 ImpulseEngines.SetTargetable(0)
 ImpulseEngines.SetPrimary(1)
@@ -95,7 +97,7 @@ ImpulseEngines.SetDisabledPercentage(0.500000)
 ImpulseEngines.SetRadius(0.003000)
 ImpulseEngines.SetNormalPowerPerSecond(20.000000)
 ImpulseEngines.SetMaxAccel(1000000000 * 6.000000)
-ImpulseEngines.SetMaxAngularAccel(5 * 0.790000)
+ImpulseEngines.SetMaxAngularAccel(3 * 0.790000)
 ImpulseEngines.SetMaxAngularVelocity(5 * 0.790000)
 ImpulseEngines.SetMaxSpeed(4 * 9.523810)
 ImpulseEngines.SetEngineSound("Federation Engines")
@@ -103,7 +105,7 @@ App.g_kModelPropertyManager.RegisterLocalTemplate(ImpulseEngines)
 #################################################
 PortImpulse = App.EngineProperty_Create("Port Impulse")
 
-PortImpulse.SetMaxCondition(1.0000 * 250.000000)
+PortImpulse.SetMaxCondition(AAAAAAAAASubSystemHealthFactor * 250.000000)
 PortImpulse.SetCritical(0)
 PortImpulse.SetTargetable(1)
 PortImpulse.SetPrimary(1)
@@ -117,7 +119,7 @@ App.g_kModelPropertyManager.RegisterLocalTemplate(PortImpulse)
 #################################################
 StarImpulse = App.EngineProperty_Create("Star Impulse")
 
-StarImpulse.SetMaxCondition(1.0000 * 250.000000)
+StarImpulse.SetMaxCondition(AAAAAAAAASubSystemHealthFactor * 250.000000)
 StarImpulse.SetCritical(0)
 StarImpulse.SetTargetable(1)
 StarImpulse.SetPrimary(1)
@@ -131,7 +133,7 @@ App.g_kModelPropertyManager.RegisterLocalTemplate(StarImpulse)
 #################################################
 WarpCore = App.PowerProperty_Create("Warp Core")
 
-WarpCore.SetMaxCondition(1.0000 * 500.000000)
+WarpCore.SetMaxCondition(AAAAAAAAASubSystemHealthFactor * 500.000000)
 WarpCore.SetCritical(1)
 WarpCore.SetTargetable(1)
 WarpCore.SetPrimary(1)
@@ -149,7 +151,7 @@ App.g_kModelPropertyManager.RegisterLocalTemplate(WarpCore)
 #################################################
 WarpEngines = App.WarpEngineProperty_Create("Warp Engines")
 
-WarpEngines.SetMaxCondition(1.0000 * 500.000000)
+WarpEngines.SetMaxCondition(AAAAAAAAASubSystemHealthFactor * 500.000000)
 WarpEngines.SetCritical(0)
 WarpEngines.SetTargetable(0)
 WarpEngines.SetPrimary(1)
@@ -163,7 +165,7 @@ App.g_kModelPropertyManager.RegisterLocalTemplate(WarpEngines)
 #################################################
 PortWarp = App.EngineProperty_Create("Port Warp")
 
-PortWarp.SetMaxCondition(1.0000 * 250.000000)
+PortWarp.SetMaxCondition(AAAAAAAAASubSystemHealthFactor * 250.000000)
 PortWarp.SetCritical(0)
 PortWarp.SetTargetable(1)
 PortWarp.SetPrimary(1)
@@ -177,7 +179,7 @@ App.g_kModelPropertyManager.RegisterLocalTemplate(PortWarp)
 #################################################
 StarWarp = App.EngineProperty_Create("Star Warp")
 
-StarWarp.SetMaxCondition(1.0000 * 250.000000)
+StarWarp.SetMaxCondition(AAAAAAAAASubSystemHealthFactor * 250.000000)
 StarWarp.SetCritical(0)
 StarWarp.SetTargetable(1)
 StarWarp.SetPrimary(1)
@@ -193,7 +195,7 @@ AAAAAAPhaserDamageFactor = 5
 
 Phasers = App.WeaponSystemProperty_Create("Phasers")
 
-Phasers.SetMaxCondition(1.0000 * 250.000000)
+Phasers.SetMaxCondition(AAAAAAAAASubSystemHealthFactor * 250.000000)
 Phasers.SetCritical(0)
 Phasers.SetTargetable(0)
 Phasers.SetPrimary(1)
@@ -213,7 +215,7 @@ App.g_kModelPropertyManager.RegisterLocalTemplate(Phasers)
 #################################################
 ForwardPhaser1 = App.PhaserProperty_Create("Forward Phaser 1")
 
-ForwardPhaser1.SetMaxCondition(1.0000 * 250.000000)
+ForwardPhaser1.SetMaxCondition(AAAAAAAAASubSystemHealthFactor * 250.000000)
 ForwardPhaser1.SetCritical(0)
 ForwardPhaser1.SetTargetable(1)
 ForwardPhaser1.SetPrimary(1)
@@ -276,7 +278,7 @@ App.g_kModelPropertyManager.RegisterLocalTemplate(ForwardPhaser1)
 #################################################
 ForwardPhaser2 = App.PhaserProperty_Create("Forward Phaser 2")
 
-ForwardPhaser2.SetMaxCondition(1.0000 * 250.000000)
+ForwardPhaser2.SetMaxCondition(AAAAAAAAASubSystemHealthFactor * 250.000000)
 ForwardPhaser2.SetCritical(0)
 ForwardPhaser2.SetTargetable(1)
 ForwardPhaser2.SetPrimary(1)
@@ -365,7 +367,7 @@ App.g_kModelPropertyManager.RegisterLocalTemplate(Torpedoes)
 ForwardTube1 = App.TorpedoTubeProperty_Create("Forward Tube 1")
 
 AAAAAAAAAAAATorpedoReloadDelay = 30#40.000000
-ForwardTube1.SetMaxCondition(1.0000 * 3000.000000)
+ForwardTube1.SetMaxCondition(AAAAAAAAASubSystemHealthFactor * 3000.000000)
 ForwardTube1.SetCritical(0)
 ForwardTube1.SetTargetable(1)
 ForwardTube1.SetPrimary(1)
@@ -412,7 +414,7 @@ App.g_kModelPropertyManager.RegisterLocalTemplate(Shuttle)
 #################################################
 Repair = App.RepairSubsystemProperty_Create("Repair")
 
-Repair.SetMaxCondition(1.0000 * 5000.000000)
+Repair.SetMaxCondition(AAAAAAAAASubSystemHealthFactor * 5000.000000)
 Repair.SetCritical(0)
 Repair.SetTargetable(1)
 Repair.SetPrimary(1)
@@ -422,8 +424,8 @@ Repair.SetRepairComplexity(1.000000)
 Repair.SetDisabledPercentage(0.500000)
 Repair.SetRadius(0.250000)
 Repair.SetNormalPowerPerSecond(1.000000)
-Repair.SetMaxRepairPoints(1000 * 1.000000)
-Repair.SetNumRepairTeams(1)
+Repair.SetMaxRepairPoints(100 * 1.000000)
+Repair.SetNumRepairTeams(5)
 App.g_kModelPropertyManager.RegisterLocalTemplate(Repair)
 #################################################
 ViewscreenForward = App.PositionOrientationProperty_Create("ViewscreenForward")

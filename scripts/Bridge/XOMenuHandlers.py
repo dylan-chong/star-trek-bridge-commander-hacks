@@ -86,12 +86,12 @@ VALDORE_WALL_COOLDOWN_S = 8
 VALDORE_MAX_SIMULTANEOUS_WALLS = 1
 WALL_LIFETIME_S = VALDORE_WALL_COOLDOWN_S * VALDORE_MAX_SIMULTANEOUS_WALLS - 1 # TODO this only applies when spawning a new wall
 
-SHUTTLE_NUKE_COOLDOWN_S = 10
-N_NUKES = 0
-NUKE_PREFIX = '70km Nuke'
+MAX_NUKES_PER_PERIOD = 3
+SHUTTLE_NUKE_COOLDOWN_PERIOD = 24
+NUKE_PREFIX = '55km Nuke'
 
 def Reset():
-	global DroneNames, LastSpawnDroneTime, DroneSpawnTimes, enemyGroup, LastBoostTime, WallNamesAndSpawnTimes, RammerNames, NukeNames
+	global DroneNames, LastSpawnDroneTime, DroneSpawnTimes, enemyGroup, LastBoostTime, WallNamesAndSpawnTimes, RammerNames, NukeNamesAndSpawnTimes
 	DroneNames = []
 	LastSpawnDroneTime = 0
 	DroneSpawnTimes = []
@@ -99,7 +99,7 @@ def Reset():
 	LastBoostTime = 0
 	WallNamesAndSpawnTimes = []
 	RammerNames = []
-	NukeNames = []
+	NukeNamesAndSpawnTimes = []
 
 Reset()
 
@@ -250,27 +250,25 @@ def SetAlertLevel(pObject, pEvent):
 				pShip.SetAngularVelocity(vZero, App.PhysicsObjectClass.DIRECTION_WORLD_SPACE)
 
 		if pPlayer.GetShipProperty().GetName().GetCString() == 'Shuttle':
-			if LastBoostTime + SHUTTLE_NUKE_COOLDOWN_S < App.g_kUtopiaModule.GetGameTime():
-				LastBoostTime = App.g_kUtopiaModule.GetGameTime()
-				
+			if CanLaunchNextNuke():
 				global NNukes
-				shipName = GenChildShipName(NUKE_PREFIX, len(NukeNames), pPlayer)
-				NukeNames.append(shipName)
+				shipName = GenChildShipName(NUKE_PREFIX, len(NukeNamesAndSpawnTimes), pPlayer)
+				NukeNamesAndSpawnTimes.append((shipName, App.g_kUtopiaModule.GetGameTime()))
 
 				pShip = SpawnDroneShip('Probe', shipName, 0, pPlayer, group = MissionLib.GetMission().GetNeutralGroup())
 				pShip.EnableCollisionsWith(pPlayer, 0)
-				pShip.SetScale(200)
+				pShip.SetScale(150)
 
 				# Allow the ship to drift
 				pShip.GetImpulseEngineSubsystem().SetPowerPercentageWanted(0)
 				pShip.GetShields().SetPowerPercentageWanted(0)
 
 				nukeVelocity = Unitized(pPlayer.GetWorldForwardTG())
-				nukeVelocity.Scale(20) # scale 1 == 600kph
+				nukeVelocity.Scale(10) # scale 1 == 600kph
 				pShip.SetVelocity(nukeVelocity)
 
 				playerVelocityKnockback = Unitized(nukeVelocity)
-				playerVelocityKnockback.Scale(-190)
+				playerVelocityKnockback.Scale(-150)
 
 				newPlayerVelocity = CloneVector(playerVelocityKnockback)
 				newPlayerVelocity.Add(pPlayer.GetVelocityTG())
@@ -471,3 +469,13 @@ def SetShipKamazakeAI(pShip, targetName):
 	pScript = pKamakaze.GetScriptInstance()
 	pScript.SetTargetObjectName(targetName)
 	pShip.SetAI(pKamakaze)
+
+def CanLaunchNextNuke():
+	now = App.g_kUtopiaModule.GetGameTime()
+	nNukesLaunchedInPeriod = 0
+
+	for (NukeName, NukeSpawnTime) in NukeNamesAndSpawnTimes:
+		if NukeSpawnTime + SHUTTLE_NUKE_COOLDOWN_PERIOD >= now:
+			nNukesLaunchedInPeriod = nNukesLaunchedInPeriod + 1
+
+	return nNukesLaunchedInPeriod < MAX_NUKES_PER_PERIOD

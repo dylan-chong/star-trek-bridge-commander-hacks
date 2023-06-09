@@ -93,7 +93,7 @@ ImpulseEngines.SetNormalPowerPerSecond(1.000000)
 ImpulseEngines.SetMaxAccel(2.750000)
 ImpulseEngines.SetMaxAngularAccel(0.560000)
 ImpulseEngines.SetMaxAngularVelocity(0.560000)
-ImpulseEngines.SetMaxSpeed(8.730160)
+ImpulseEngines.SetMaxSpeed(1.5 * 8.730160)
 ImpulseEngines.SetEngineSound("Federation Engines")
 App.g_kModelPropertyManager.RegisterLocalTemplate(ImpulseEngines)
 #################################################
@@ -162,7 +162,8 @@ Probe = App.ShipProperty_Create("Probe")
 Probe.SetGenus(1)
 Probe.SetSpecies(710)
 # 1000000000.0 == 70km explosion radius
-Probe.SetMass(1000000000.0)
+# 80000000.0 == 50km explosion radius
+Probe.SetMass(80000000.0)
 Probe.SetRotationalInertia(0.100000)
 Probe.SetShipName("Probe")
 Probe.SetModelFilename("data/Models/Misc/Probe/Probe.nif")
