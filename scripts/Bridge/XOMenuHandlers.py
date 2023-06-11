@@ -88,7 +88,7 @@ WALL_LIFETIME_S = VALDORE_WALL_COOLDOWN_S * VALDORE_MAX_SIMULTANEOUS_WALLS - 1 #
 
 MAX_NUKES_PER_PERIOD = 3
 SHUTTLE_NUKE_COOLDOWN_PERIOD = 24
-NUKE_PREFIX = '55km Nuke'
+NUKE_PREFIX = '42km Nuke'
 
 def Reset():
 	global DroneNames, LastSpawnDroneTime, DroneSpawnTimes, enemyGroup, LastBoostTime, WallNamesAndSpawnTimes, RammerNames, NukeNamesAndSpawnTimes
@@ -255,26 +255,28 @@ def SetAlertLevel(pObject, pEvent):
 				shipName = GenChildShipName(NUKE_PREFIX, len(NukeNamesAndSpawnTimes), pPlayer)
 				NukeNamesAndSpawnTimes.append((shipName, App.g_kUtopiaModule.GetGameTime()))
 
-				pShip = SpawnDroneShip('Probe', shipName, 0, pPlayer, group = MissionLib.GetMission().GetNeutralGroup())
-				pShip.EnableCollisionsWith(pPlayer, 0)
-				pShip.SetScale(150)
+				nuke = SpawnDroneShip('Probe', shipName, 0, pPlayer, group = MissionLib.GetMission().GetNeutralGroup())
+				nuke.EnableCollisionsWith(pPlayer, 0)
+				nuke.SetScale(160)
 
 				# Allow the ship to drift
-				pShip.GetImpulseEngineSubsystem().SetPowerPercentageWanted(0)
-				pShip.GetShields().SetPowerPercentageWanted(0)
+				nuke.GetImpulseEngineSubsystem().SetPowerPercentageWanted(0)
+				nuke.GetShields().SetPowerPercentageWanted(0)
+
+				originalPlayerVelocity = pPlayer.GetVelocityTG()
 
 				nukeVelocity = Unitized(pPlayer.GetWorldForwardTG())
-				nukeVelocity.Scale(10) # scale 1 == 600kph
-				pShip.SetVelocity(nukeVelocity)
+				nukeVelocity.Scale(8000.0 / 600) # scale 1 == 600kph
 
 				playerVelocityKnockback = Unitized(nukeVelocity)
 				playerVelocityKnockback.Scale(-150)
 
 				newPlayerVelocity = CloneVector(playerVelocityKnockback)
-				newPlayerVelocity.Add(pPlayer.GetVelocityTG())
+				newPlayerVelocity.Add(originalPlayerVelocity)
 				pPlayer.SetVelocity(newPlayerVelocity)
 
-				pShip.AlignToVectors(pPlayer.GetWorldForwardTG(), pPlayer.GetWorldUpTG())
+				nuke.SetVelocity(nukeVelocity)
+				nuke.AlignToVectors(pPlayer.GetWorldForwardTG(), pPlayer.GetWorldUpTG())
 
 		if pPlayer.GetShipProperty().GetName().GetCString() == 'Nova':
 			global LastSpawnDroneTime, DroneSpawnTimes, MAX_DRONES_IN_PERIOD, PERIOD_S, DroneNames

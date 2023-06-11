@@ -34,7 +34,6 @@ The point of this is to allow you to diff the changes to the file that this mod 
 
 ## TODO
 
-- Fix: Rebalance shuttle for campaign
 - Test: Can you get someone else to host the game so i can test stuff
 - Test: Can you have player name collisions in multiplayer
 - Test: Fix wall ship is not set up properly in multiplayer
