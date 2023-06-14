@@ -257,7 +257,7 @@ def SetAlertLevel(pObject, pEvent):
 
 				nuke = SpawnDroneShip('Probe', shipName, 0, pPlayer, group = MissionLib.GetMission().GetNeutralGroup())
 				nuke.EnableCollisionsWith(pPlayer, 0)
-				nuke.SetScale(160)
+				nuke.SetScale(200)
 
 				# Allow the ship to drift
 				nuke.GetImpulseEngineSubsystem().SetPowerPercentageWanted(0)
