@@ -34,14 +34,12 @@ The point of this is to allow you to diff the changes to the file that this mod 
 
 ## TODO
 
-- Test: Can you get someone else to host the game so i can test stuff
-- Test: Can you have player name collisions in multiplayer
 - Test: Fix wall ship is not set up properly in multiplayer
-- Test: Fix wall ship name collisions in multiplayer
+    - Investigate?: Client wall does not get scaled
 - Test: Shuttle nuke launching in multiplayer
-- Investigate: BugRammer freezes client when someone joins as it, but not for server
-    - Test: Client should create a BugRammer as player ship in quick play to see if that works
-- Investigate: When a client uses Nova, drones to not target anything
+    - Investigate?: Client can't see the explosion
+- Test: Can you get someone else to host the game so i can test stuff
+- Investigate?: When a client uses Nova, drones to not target anything
 - Possible Feature: Speed boost is not based on current velocity, by unitizing the velocity, so you don't need the current speed
 - Possible Feature: New ship with a large cutting beam using a stream of non-tracking disruptors (krenim ship?)
 - Possible Feature: New mage ship with suck and power drain abilities (breen?)
