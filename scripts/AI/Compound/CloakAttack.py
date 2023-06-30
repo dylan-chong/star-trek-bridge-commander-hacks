@@ -10,6 +10,10 @@ def CreateAI(pShip, *lpTargets, **dKeywords):
         pass
 
     pAllTargetsGroup = App.ObjectGroup_ForceToGroup(lpTargets)
+
+    if len(pAllTargetsGroup.GetNameTuple()) == 0:
+        return App.BuilderAI_Create(pShip, 'AlertLevel Builder', __name__)
+
     sInitialTarget = pAllTargetsGroup.GetNameTuple()[0]
     pBuilderAI = App.BuilderAI_Create(pShip, 'AlertLevel Builder', __name__)
     pBuilderAI.AddAIBlock('WarpBeforeDeath', 'BuilderCreate1')
