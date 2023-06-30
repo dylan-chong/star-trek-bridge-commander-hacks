@@ -4,6 +4,10 @@ import App
 
 def CreateAI(pShip, *lpTargets, **dKeywords):
     pAllTargetsGroup = App.ObjectGroup_ForceToGroup(lpTargets)
+
+    if len(pAllTargetsGroup.GetNameTuple()) == 0:
+        return App.BuilderAI_Create(pShip, 'AlertLevel Builder', __name__)
+
     sInitialTarget = pAllTargetsGroup.GetNameTuple()[0]
     
     Random = lambda fMin, fMax: App.g_kSystemWrapper.GetRandomNumber((fMax - fMin) * 1000.0) / 1000.0 - fMin
