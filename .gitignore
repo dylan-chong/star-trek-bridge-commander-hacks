@@ -298,7 +298,6 @@ data/tmpphaserB.tga
 data/Models/Ships/Wall/Wall_vox.NIF
 
 scripts/AI/Compound/BasicAttack.py
-scripts/AI/Compound/FedAttack.py
 scripts/AI/Compound/Parts/EvadeTorps.py
 scripts/AI/PlainAI/IntelligentCircleObject.py
 scripts/AI/Preprocessors.py
