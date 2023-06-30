@@ -34,16 +34,32 @@ The point of this is to allow you to diff the changes to the file that this mod 
 
 ## TODO
 
-- Test: Fix wall ship is not set up properly in multiplayer
-    - Investigate?: Client wall does not get scaled
+- Implement sending ship modifications across stream
+    - This will fix:
+        - Client wall does not get scaled
+        - When a client uses Nova, drones to not target anything
+    - Need to:
+        - Mission6.py
+            - Add a new custom message type belo `AI_LIST_MESSAGE =`
+            - Add a new elif case for the new message type at the end of `def ProcessMessageHandler`
+            - Add new MultiplayerLib function `MPUpdateShipPropsOnHost(shipName)` or something.
+                - Go with speed updating first
+            - In XOMenuHandlers, replace nuke speed then trigger MP update if MP
 - Test: Shuttle nuke launching in multiplayer
     - Investigate?: Client can't see the explosion
+        - Explosion mods may not have applied
 - Test: Can you get someone else to host the game so i can test stuff
-- Investigate?: When a client uses Nova, drones to not target anything
-- Possible Feature: Speed boost is not based on current velocity, by unitizing the velocity, so you don't need the current speed
-- Possible Feature: New ship with a large cutting beam using a stream of non-tracking disruptors (krenim ship?)
-- Possible Feature: New mage ship with suck and power drain abilities (breen?)
-- Possible Feature: New ship that can launch large rocks
+
+## Possible TODO
+
+- Feature: Nuke has a glow effect (may make it clearer in multiplayer)
+- Feature: Speed boost is not based on current velocity, by unitizing the velocity, so you don't need the current speed
+- Feature: New ship with a large cutting beam using a stream of non-tracking disruptors (krenim ship?)
+- Feature: New mage ship with suck and power drain abilities (breen?)
+- Feature: New ship that can launch large rocks
+
+## Not TODO
+
 - Maybe unfixable: Multiplayer crashes a lot when theres not that many ships, but still quite a few
 - Maybe unfixable: Akira in multiplayer sending torpedoes at high speed doesn't work for clients, but does for the master
 
