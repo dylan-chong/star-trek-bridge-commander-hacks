@@ -73,6 +73,7 @@ POSSIBLE_SHIPS = [
 DEFIANT_BOOST_COOLDOWN_S = 10
 SCIMITAR_BOOST_COOLDOWN_S = 15
 AKIRA_BOOST_COOLDOWN_S = 10
+PROMETHEUS_BOOST_COOLDOWN_S = 16
 
 BUG_DRONE_COOLDOWN_S = 12
 BUG_DRONE_HP = 50
@@ -143,6 +144,17 @@ def SetAlertLevel(pObject, pEvent):
 				velocity = pPlayer.GetVelocityTG()
 				velocity.Scale(40)
 				pPlayer.SetVelocity(velocity)
+				LastBoostTime = App.g_kUtopiaModule.GetGameTime()
+			
+		if pPlayer.GetShipProperty().GetName().GetCString() == 'Prometheus':
+			if LastBoostTime + PROMETHEUS_BOOST_COOLDOWN_S < App.g_kUtopiaModule.GetGameTime():
+				knockbackVelocity = Unitized(pPlayer.GetWorldForwardTG())
+				knockbackVelocity.Scale(kphToInternalGameSpeed(-200000))
+
+				newVelocity = pPlayer.GetVelocityTG()
+				newVelocity.Add(knockbackVelocity)
+				pPlayer.SetVelocity(newVelocity)
+
 				LastBoostTime = App.g_kUtopiaModule.GetGameTime()
 
 		if pPlayer.GetShipProperty().GetName().GetCString() == 'Valdore':
@@ -266,7 +278,7 @@ def SetAlertLevel(pObject, pEvent):
 				originalPlayerVelocity = pPlayer.GetVelocityTG()
 
 				nukeVelocity = Unitized(pPlayer.GetWorldForwardTG())
-				nukeVelocity.Scale(8000.0 / 600) # scale 1 == 600kph
+				nukeVelocity.Scale(kphToInternalGameSpeed(8000))
 
 				playerVelocityKnockback = Unitized(nukeVelocity)
 				playerVelocityKnockback.Scale(-150)
@@ -481,3 +493,6 @@ def CanLaunchNextNuke():
 			nNukesLaunchedInPeriod = nNukesLaunchedInPeriod + 1
 
 	return nNukesLaunchedInPeriod < MAX_NUKES_PER_PERIOD
+
+def kphToInternalGameSpeed(kph):
+	return kph / 600.0

@@ -2,13 +2,15 @@
 # This file was automatically generated - modify at your own risk.
 # 
 
+AAAAAAAAAMainPhaserRadiusWidthFactor = 0.5
+
 import App
 import GlobalPropertyTemplates
 # Setting up local templates.
 #################################################
 Hull = App.HullProperty_Create("Hull")
 
-Hull.SetMaxCondition(0.1 * 24000.000000)
+Hull.SetMaxCondition(0.15 * 24000.000000)
 Hull.SetCritical(1)
 Hull.SetTargetable(1)
 Hull.SetPrimary(1)
@@ -48,18 +50,18 @@ ShieldGeneratorShieldGlowColor = App.TGColorA()
 ShieldGeneratorShieldGlowColor.SetRGBA(0.250000, 0.500000, 1.000000, 1.000000)
 ShieldGenerator.SetShieldGlowColor(ShieldGeneratorShieldGlowColor)
 ShieldGenerator.SetShieldGlowDecay(1.000000)
-ShieldGenerator.SetMaxShields(ShieldGenerator.FRONT_SHIELDS, 0.03 * 14400.000000)
-ShieldGenerator.SetMaxShields(ShieldGenerator.REAR_SHIELDS, 0.03 * 9600.000000)
-ShieldGenerator.SetMaxShields(ShieldGenerator.TOP_SHIELDS, 0.03 * 14400.000000)
-ShieldGenerator.SetMaxShields(ShieldGenerator.BOTTOM_SHIELDS, 0.03 * 14400.000000)
-ShieldGenerator.SetMaxShields(ShieldGenerator.LEFT_SHIELDS, 0.03 * 9600.000000)
-ShieldGenerator.SetMaxShields(ShieldGenerator.RIGHT_SHIELDS, 0.03 * 9600.000000)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.FRONT_SHIELDS, 0.8 * 28.799999)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.REAR_SHIELDS, 0.8 * 19.200001)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.TOP_SHIELDS, 0.8 * 28.799999)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.BOTTOM_SHIELDS, 0.8 * 28.799999)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.LEFT_SHIELDS, 0.8 * 19.200001)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.RIGHT_SHIELDS, 0.8 * 19.200001)
+ShieldGenerator.SetMaxShields(ShieldGenerator.FRONT_SHIELDS, 0.18 * 14400.000000)
+ShieldGenerator.SetMaxShields(ShieldGenerator.REAR_SHIELDS, 0.18 * 9600.000000)
+ShieldGenerator.SetMaxShields(ShieldGenerator.TOP_SHIELDS, 0.18 * 14400.000000)
+ShieldGenerator.SetMaxShields(ShieldGenerator.BOTTOM_SHIELDS, 0.18 * 14400.000000)
+ShieldGenerator.SetMaxShields(ShieldGenerator.LEFT_SHIELDS, 0.18 * 9600.000000)
+ShieldGenerator.SetMaxShields(ShieldGenerator.RIGHT_SHIELDS, 0.18 * 9600.000000)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.FRONT_SHIELDS, 0.4 * 28.799999)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.REAR_SHIELDS, 0.4 * 19.200001)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.TOP_SHIELDS, 0.4 * 28.799999)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.BOTTOM_SHIELDS, 0.4 * 28.799999)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.LEFT_SHIELDS, 0.4 * 19.200001)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.RIGHT_SHIELDS, 0.4 * 19.200001)
 App.g_kModelPropertyManager.RegisterLocalTemplate(ShieldGenerator)
 #################################################
 SensorArray = App.SensorProperty_Create("Sensor Array")
@@ -91,9 +93,9 @@ ImpulseEngines.SetDisabledPercentage(0.500000)
 ImpulseEngines.SetRadius(0.100000)
 ImpulseEngines.SetNormalPowerPerSecond(480.000000)
 ImpulseEngines.SetMaxAccel(1000 * 2.500000)
-ImpulseEngines.SetMaxAngularAccel(2 * 0.450000)
-ImpulseEngines.SetMaxAngularVelocity(8 * 0.450000)
-ImpulseEngines.SetMaxSpeed(7 * 7.936510)
+ImpulseEngines.SetMaxAngularAccel(1.2 * 0.450000)
+ImpulseEngines.SetMaxAngularVelocity(2.5 * 0.450000)
+ImpulseEngines.SetMaxSpeed(1.8 * 7.936510)
 ImpulseEngines.SetEngineSound("Federation Engines")
 App.g_kModelPropertyManager.RegisterLocalTemplate(ImpulseEngines)
 #################################################
@@ -314,7 +316,7 @@ ForwardPhaser1.SetOuterCoreColor(kColor)
 kColor.SetRGBA(1.000000, 0.898039, 0.800000, 1.000000)
 ForwardPhaser1.SetInnerCoreColor(kColor)
 ForwardPhaser1.SetNumSides(6)
-ForwardPhaser1.SetMainRadius(0.090000)
+ForwardPhaser1.SetMainRadius(AAAAAAAAAMainPhaserRadiusWidthFactor * 0.090000)
 ForwardPhaser1.SetTaperRadius(0.010000)
 ForwardPhaser1.SetCoreScale(0.500000)
 ForwardPhaser1.SetTaperRatio(0.250000)
@@ -377,7 +379,7 @@ ForwardPhaser2.SetOuterCoreColor(kColor)
 kColor.SetRGBA(1.000000, 0.898039, 0.800000, 1.000000)
 ForwardPhaser2.SetInnerCoreColor(kColor)
 ForwardPhaser2.SetNumSides(6)
-ForwardPhaser2.SetMainRadius(0.090000)
+ForwardPhaser2.SetMainRadius(AAAAAAAAAMainPhaserRadiusWidthFactor * 0.090000)
 ForwardPhaser2.SetTaperRadius(0.010000)
 ForwardPhaser2.SetCoreScale(0.500000)
 ForwardPhaser2.SetTaperRatio(0.250000)
@@ -440,7 +442,7 @@ ForwardPhaser3.SetOuterCoreColor(kColor)
 kColor.SetRGBA(1.000000, 0.898039, 0.800000, 1.000000)
 ForwardPhaser3.SetInnerCoreColor(kColor)
 ForwardPhaser3.SetNumSides(6)
-ForwardPhaser3.SetMainRadius(0.090000)
+ForwardPhaser3.SetMainRadius(AAAAAAAAAMainPhaserRadiusWidthFactor * 0.090000)
 ForwardPhaser3.SetTaperRadius(0.010000)
 ForwardPhaser3.SetCoreScale(0.500000)
 ForwardPhaser3.SetTaperRatio(0.250000)
@@ -503,7 +505,7 @@ ForwardPhaser4.SetOuterCoreColor(kColor)
 kColor.SetRGBA(1.000000, 0.898039, 0.800000, 1.000000)
 ForwardPhaser4.SetInnerCoreColor(kColor)
 ForwardPhaser4.SetNumSides(6)
-ForwardPhaser4.SetMainRadius(0.090000)
+ForwardPhaser4.SetMainRadius(AAAAAAAAAMainPhaserRadiusWidthFactor * 0.090000)
 ForwardPhaser4.SetTaperRadius(0.010000)
 ForwardPhaser4.SetCoreScale(0.500000)
 ForwardPhaser4.SetTaperRatio(0.250000)
@@ -516,94 +518,101 @@ ForwardPhaser4.SetTextureName("data/Phaser.tga")
 App.g_kModelPropertyManager.RegisterLocalTemplate(ForwardPhaser4)
 
 
-
-NExtraPhasers = 27
-Radius = 12
+Z_OFF = 550 * 0.75 # 550 is about 100km
 ExtraPhasers = []
-# ExtraPhasersNRows = 3
-# ExtraPhasersNCols = 3
-# ExtraPhasersNDepths = 3
 
-# for row in range(0, ExtraPhasersNRows):
-# 	for col in range(0, ExtraPhasersNRows):
-# 		for depth in range(0, ExtraPhasersNDepths):
-			# ExtraPhaser = App.PhaserProperty_Create("Forward Phaser Extra " + str(row) + "," + str(col) + "," + str(depth))
+def CreateExtraPhaserCircle(IntoArray, Radius, NPhasers, DamageFactor, FiringArcRads, MainBeamRadius):
+	import math
 
-			# XOff = (row - int(ExtraPhasersNRows / 2)) * 0.2 * 100
-			# YOff = (col - int(ExtraPhasersNCols / 2)) * 0.2 * 100
-			# ZOff = (depth - int(ExtraPhasersNDepths / 2)) * 0.2 * 100 + 800
-import math
-for i in range(0, NExtraPhasers):
-	progressAroundCircle = 6.28 * i / NExtraPhasers
-	XOff = Radius * math.sin(progressAroundCircle)
-	YOff = Radius * math.cos(progressAroundCircle)
-	ZOff = 550 # 550 is about 100km
-	ExtraPhaser = App.PhaserProperty_Create("Forward Phaser Extra " + str(i))
-	if 1:
-		if 1:
-			ExtraPhaser.SetMaxCondition(3000.000000)
-			ExtraPhaser.SetCritical(0)
-			ExtraPhaser.SetTargetable(1)
-			ExtraPhaser.SetPrimary(1)
-			ExtraPhaser.SetPosition(XOff, ZOff, YOff)
-			ExtraPhaser.SetPosition2D(0.000000, 0.000000)
-			ExtraPhaser.SetRepairComplexity(1.000000)
-			ExtraPhaser.SetDisabledPercentage(0.500000)
-			ExtraPhaser.SetRadius(5 * 0.050000)
-			ExtraPhaser.SetDumbfire(0)
-			ExtraPhaser.SetWeaponID(4)
-			ExtraPhaser.SetGroups(0)
-			ExtraPhaser.SetDamageRadiusFactor(2 * 0.100000)
-			ExtraPhaser.SetIconNum(350)
-			ExtraPhaser.SetIconPositionX(0.000000)
-			ExtraPhaser.SetIconPositionY(0.000000)
-			ExtraPhaser.SetIconAboveShip(1)
-			ExtraPhaser.SetFireSound("8472 Phaser")
-			ExtraPhaser.SetMaxCharge(12 * 1.000000 + (1.0 * i / NExtraPhasers))
-			ExtraPhaser.SetMaxDamage(1.5 * 960.000000)
-			ExtraPhaser.SetMaxDamageDistance(1000000 * 60.000000)
-			ExtraPhaser.SetMinFiringCharge(1.000000)
-			ExtraPhaser.SetNormalDischargeRate(200.000000)
-			ExtraPhaser.SetRechargeRate(6 * 0.500000)
-			ExtraPhaser.SetIndicatorIconNum(506)
-			ExtraPhaser.SetIndicatorIconPositionX(96.000000)
-			ExtraPhaser.SetIndicatorIconPositionY(49.000000)
-			ExtraPhaserForward = App.TGPoint3()
-			ExtraPhaserForward.SetXYZ(0.000000, 1.000000, 0.000000)
-			ExtraPhaserUp = App.TGPoint3()
-			ExtraPhaserUp.SetXYZ(0.000000, 0.000000, 1.000000)
-			ExtraPhaser.SetOrientation(ExtraPhaserForward, ExtraPhaserUp)
-			ExtraPhaser.SetWidth(0.010000)
-			ExtraPhaser.SetLength(0.010000)
-			ExtraPhaser.SetArcWidthAngles(-0.12, 0.12)
-			ExtraPhaser.SetArcHeightAngles(-0.12, 0.12)
-			ExtraPhaser.SetPhaserTextureStart(0)
-			ExtraPhaser.SetPhaserTextureEnd(7)
-			ExtraPhaser.SetPhaserWidth(0.300000)
-			kColor = App.TGColorA()
-			kColor.SetRGBA(0.874510, 0.439216, 0.000000, 1.000000)
-			ExtraPhaser.SetOuterShellColor(kColor)
-			kColor.SetRGBA(1.000000, 0.647059, 0.286275, 1.000000)
-			ExtraPhaser.SetInnerShellColor(kColor)
-			kColor.SetRGBA(0.768628, 0.768628, 0.000000, 1.000000)
-			ExtraPhaser.SetOuterCoreColor(kColor)
-			kColor.SetRGBA(1.000000, 1.000000, 0.501961, 1.000000)
-			ExtraPhaser.SetInnerCoreColor(kColor)
-			ExtraPhaser.SetNumSides(6)
-			ExtraPhaser.SetMainRadius(0.6 * 0.170000)
-			ExtraPhaser.SetTaperRadius(2 * 0.020000)
-			ExtraPhaser.SetCoreScale(0.700000)
-			ExtraPhaser.SetTaperRatio(0.350000)
-			ExtraPhaser.SetTaperMinLength(5.000000)
-			ExtraPhaser.SetTaperMaxLength(30.000000)
-			ExtraPhaser.SetLengthTextureTilePerUnit(0.010000)
-			ExtraPhaser.SetPerimeterTile(1.000000)
-			ExtraPhaser.SetTextureSpeed(0.500000)
-			ExtraPhaser.SetTextureName("data/8472phaser.tga")
-			App.g_kModelPropertyManager.RegisterLocalTemplate(ExtraPhaser)
+	for i in range(0, NPhasers):
+		progressAroundCircle = 6.28 * i / NPhasers
+		XOff = Radius * math.sin(progressAroundCircle)
+		YOff = Radius * math.cos(progressAroundCircle)
+		ExtraPhaser = App.PhaserProperty_Create("Forward Phaser Extra " + str(len(IntoArray)))
+		ExtraPhaser.SetMaxCondition(3000.000000)
+		ExtraPhaser.SetCritical(0)
+		ExtraPhaser.SetTargetable(1)
+		ExtraPhaser.SetPrimary(1)
+		ExtraPhaser.SetPosition(XOff, Z_OFF, YOff)
+		ExtraPhaser.SetPosition2D(0.000000, 0.000000)
+		ExtraPhaser.SetRepairComplexity(1.000000)
+		ExtraPhaser.SetDisabledPercentage(0.500000)
+		ExtraPhaser.SetRadius(0.050000)
+		ExtraPhaser.SetDumbfire(0)
+		ExtraPhaser.SetWeaponID(4)
+		ExtraPhaser.SetGroups(0)
+		ExtraPhaser.SetDamageRadiusFactor(2 * 0.100000)
+		ExtraPhaser.SetIconNum(350)
+		ExtraPhaser.SetIconPositionX(0.000000)
+		ExtraPhaser.SetIconPositionY(0.000000)
+		ExtraPhaser.SetIconAboveShip(1)
+		ExtraPhaser.SetFireSound("8472 Phaser")
+		ExtraPhaser.SetMaxCharge(1000000 * 1.000000)
+		ExtraPhaser.SetMaxDamage(DamageFactor * 960.000000)
+		ExtraPhaser.SetMaxDamageDistance(1000000 * 60.000000)
+		ExtraPhaser.SetMinFiringCharge(1.000000)
+		ExtraPhaser.SetNormalDischargeRate(200.000000)
+		ExtraPhaser.SetRechargeRate(100000 * 0.500000)
+		ExtraPhaser.SetIndicatorIconNum(506)
+		ExtraPhaser.SetIndicatorIconPositionX(96.000000)
+		ExtraPhaser.SetIndicatorIconPositionY(49.000000)
+		ExtraPhaserForward = App.TGPoint3()
+		ExtraPhaserForward.SetXYZ(0.000000, 1.000000, 0.000000)
+		ExtraPhaserUp = App.TGPoint3()
+		ExtraPhaserUp.SetXYZ(0.000000, 0.000000, 1.000000)
+		ExtraPhaser.SetOrientation(ExtraPhaserForward, ExtraPhaserUp)
+		ExtraPhaser.SetWidth(0.010000)
+		ExtraPhaser.SetLength(0.010000)
+		ExtraPhaser.SetArcWidthAngles(-FiringArcRads, FiringArcRads)
+		ExtraPhaser.SetArcHeightAngles(-FiringArcRads, FiringArcRads)
+		ExtraPhaser.SetPhaserTextureStart(0)
+		ExtraPhaser.SetPhaserTextureEnd(7)
+		ExtraPhaser.SetPhaserWidth(0.300000)
+		kColor = App.TGColorA()
+		kColor.SetRGBA(0.874510, 0.439216, 0.000000, 1.000000)
+		ExtraPhaser.SetOuterShellColor(kColor)
+		kColor.SetRGBA(1.000000, 0.647059, 0.286275, 1.000000)
+		ExtraPhaser.SetInnerShellColor(kColor)
+		kColor.SetRGBA(0.768628, 0.768628, 0.000000, 1.000000)
+		ExtraPhaser.SetOuterCoreColor(kColor)
+		kColor.SetRGBA(1.000000, 1.000000, 0.501961, 1.000000)
+		ExtraPhaser.SetInnerCoreColor(kColor)
+		ExtraPhaser.SetNumSides(6)
+		ExtraPhaser.SetMainRadius(MainBeamRadius)
+		ExtraPhaser.SetTaperRadius(0.04)
+		ExtraPhaser.SetCoreScale(3 * 0.700000)
+		ExtraPhaser.SetTaperRatio(0)#0.350000)
+		ExtraPhaser.SetTaperMinLength(5.000000)
+		ExtraPhaser.SetTaperMaxLength(100 + 30.000000)
+		ExtraPhaser.SetLengthTextureTilePerUnit(0.010000)
+		ExtraPhaser.SetPerimeterTile(1.000000)
+		ExtraPhaser.SetTextureSpeed(0.500000)
+		ExtraPhaser.SetTextureName("data/8472phaser.tga")
+		App.g_kModelPropertyManager.RegisterLocalTemplate(ExtraPhaser)
 
-			ExtraPhasers.append(ExtraPhaser)
+		IntoArray.append(ExtraPhaser)
 
+INNER_CIRCLE_RADIUS = 6
+CROSSHAIR_CIRCLE_RADIUS_GAP = 6
+
+CreateExtraPhaserCircle(
+	IntoArray=ExtraPhasers,
+	Radius=INNER_CIRCLE_RADIUS,
+	NPhasers=8,
+	DamageFactor=1.2,
+	FiringArcRads=0.08,
+	MainBeamRadius=0.35,
+)
+
+for ringIndex in range(0, 6):
+	CreateExtraPhaserCircle(
+		IntoArray=ExtraPhasers,
+		Radius=INNER_CIRCLE_RADIUS + CROSSHAIR_CIRCLE_RADIUS_GAP * (ringIndex - 1),
+		NPhasers=4,
+		DamageFactor=0.06,
+		FiringArcRads=0.35,
+		MainBeamRadius=0.06,
+	)
 
 #################################################
 PortPhaser1 = App.PhaserProperty_Create("Port Phaser 1")
@@ -657,7 +666,7 @@ PortPhaser1.SetOuterCoreColor(kColor)
 kColor.SetRGBA(1.000000, 0.898039, 0.800000, 1.000000)
 PortPhaser1.SetInnerCoreColor(kColor)
 PortPhaser1.SetNumSides(6)
-PortPhaser1.SetMainRadius(0.090000)
+PortPhaser1.SetMainRadius(AAAAAAAAAMainPhaserRadiusWidthFactor * 0.090000)
 PortPhaser1.SetTaperRadius(0.010000)
 PortPhaser1.SetCoreScale(0.500000)
 PortPhaser1.SetTaperRatio(0.250000)
@@ -720,7 +729,7 @@ PortPhaser2.SetOuterCoreColor(kColor)
 kColor.SetRGBA(1.000000, 0.898039, 0.800000, 1.000000)
 PortPhaser2.SetInnerCoreColor(kColor)
 PortPhaser2.SetNumSides(6)
-PortPhaser2.SetMainRadius(0.090000)
+PortPhaser2.SetMainRadius(AAAAAAAAAMainPhaserRadiusWidthFactor * 0.090000)
 PortPhaser2.SetTaperRadius(0.010000)
 PortPhaser2.SetCoreScale(0.500000)
 PortPhaser2.SetTaperRatio(0.250000)
@@ -783,7 +792,7 @@ StarPhaser1.SetOuterCoreColor(kColor)
 kColor.SetRGBA(1.000000, 0.898039, 0.800000, 1.000000)
 StarPhaser1.SetInnerCoreColor(kColor)
 StarPhaser1.SetNumSides(6)
-StarPhaser1.SetMainRadius(0.090000)
+StarPhaser1.SetMainRadius(AAAAAAAAAMainPhaserRadiusWidthFactor * 0.090000)
 StarPhaser1.SetTaperRadius(0.010000)
 StarPhaser1.SetCoreScale(0.500000)
 StarPhaser1.SetTaperRatio(0.250000)
@@ -846,7 +855,7 @@ StarPhaser2.SetOuterCoreColor(kColor)
 kColor.SetRGBA(1.000000, 0.898039, 0.800000, 1.000000)
 StarPhaser2.SetInnerCoreColor(kColor)
 StarPhaser2.SetNumSides(6)
-StarPhaser2.SetMainRadius(0.090000)
+StarPhaser2.SetMainRadius(AAAAAAAAAMainPhaserRadiusWidthFactor * 0.090000)
 StarPhaser2.SetTaperRadius(0.010000)
 StarPhaser2.SetCoreScale(0.500000)
 StarPhaser2.SetTaperRatio(0.250000)
@@ -909,7 +918,7 @@ AftPhaser1.SetOuterCoreColor(kColor)
 kColor.SetRGBA(1.000000, 0.898039, 0.800000, 1.000000)
 AftPhaser1.SetInnerCoreColor(kColor)
 AftPhaser1.SetNumSides(6)
-AftPhaser1.SetMainRadius(0.090000)
+AftPhaser1.SetMainRadius(AAAAAAAAAMainPhaserRadiusWidthFactor * 0.090000)
 AftPhaser1.SetTaperRadius(0.010000)
 AftPhaser1.SetCoreScale(0.500000)
 AftPhaser1.SetTaperRatio(0.250000)
@@ -972,7 +981,7 @@ AftPhaser2.SetOuterCoreColor(kColor)
 kColor.SetRGBA(1.000000, 0.898039, 0.800000, 1.000000)
 AftPhaser2.SetInnerCoreColor(kColor)
 AftPhaser2.SetNumSides(6)
-AftPhaser2.SetMainRadius(0.090000)
+AftPhaser2.SetMainRadius(AAAAAAAAAMainPhaserRadiusWidthFactor * 0.090000)
 AftPhaser2.SetTaperRadius(0.010000)
 AftPhaser2.SetCoreScale(0.500000)
 AftPhaser2.SetTaperRatio(0.250000)
@@ -1035,7 +1044,7 @@ VentralPhaser1.SetOuterCoreColor(kColor)
 kColor.SetRGBA(1.000000, 0.898039, 0.800000, 1.000000)
 VentralPhaser1.SetInnerCoreColor(kColor)
 VentralPhaser1.SetNumSides(6)
-VentralPhaser1.SetMainRadius(0.090000)
+VentralPhaser1.SetMainRadius(AAAAAAAAAMainPhaserRadiusWidthFactor * 0.090000)
 VentralPhaser1.SetTaperRadius(0.010000)
 VentralPhaser1.SetCoreScale(0.500000)
 VentralPhaser1.SetTaperRatio(0.250000)
@@ -1098,7 +1107,7 @@ VentralPhaser2.SetOuterCoreColor(kColor)
 kColor.SetRGBA(1.000000, 0.898039, 0.800000, 1.000000)
 VentralPhaser2.SetInnerCoreColor(kColor)
 VentralPhaser2.SetNumSides(6)
-VentralPhaser2.SetMainRadius(0.090000)
+VentralPhaser2.SetMainRadius(AAAAAAAAAMainPhaserRadiusWidthFactor * 0.090000)
 VentralPhaser2.SetTaperRadius(0.010000)
 VentralPhaser2.SetCoreScale(0.500000)
 VentralPhaser2.SetTaperRatio(0.250000)
@@ -2012,17 +2021,12 @@ def LoadPropertySet(pObj):
 	prop = App.g_kModelPropertyManager.FindByName("FirstPersonCamera", App.TGModelPropertyManager.LOCAL_TEMPLATES)
 	if (prop != None):
 		pObj.AddToSet("Scene Root", prop)
-	# for row in range(0, ExtraPhasersNRows):
-	# 	for col in range(0, ExtraPhasersNRows):
-	# 		for depth in range(0, ExtraPhasersNDepths):
-	# 			prop = App.g_kModelPropertyManager.FindByName("Forward Phaser Extra " + str(row) + "," + str(col) + "," + str(depth), App.TGModelPropertyManager.LOCAL_TEMPLATES)
-	# 			if (prop != None):
-	# 				pObj.AddToSet("Scene Root", prop)
 
-	for i in range(0, NExtraPhasers):
+	for i in range(0, len(ExtraPhasers)):
 		prop = App.g_kModelPropertyManager.FindByName("Forward Phaser Extra " + str(i), App.TGModelPropertyManager.LOCAL_TEMPLATES)
 		if (prop != None):
 			pObj.AddToSet("Scene Root", prop)
+
 	prop = App.g_kModelPropertyManager.FindByName("Cloaking Device", App.TGModelPropertyManager.LOCAL_TEMPLATES)
 	if (prop != None):
 		pObj.AddToSet("Scene Root", prop)

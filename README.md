@@ -34,10 +34,12 @@ The point of this is to allow you to diff the changes to the file that this mod 
 
 ## TODO
 
-- Implement sending ship modifications across stream
+- Feature: Implement button for ability status
+- Feature: Implement sending ship modifications across stream
     - This will fix:
         - Client wall does not get scaled
         - When a client uses Nova, drones to not target anything
+        - When a client launches nuke, speed is not set on server
     - Need to:
         - Mission6.py
             - Add a new custom message type belo `AI_LIST_MESSAGE =`
@@ -45,6 +47,9 @@ The point of this is to allow you to diff the changes to the file that this mod 
             - Add new MultiplayerLib function `MPUpdateShipPropsOnHost(shipName)` or something.
                 - Go with speed updating first
             - In XOMenuHandlers, replace nuke speed then trigger MP update if MP
+- Feature: Defiant speed boost is not based on current velocity, by unitizing the velocity, so you don't need the current speed
+- Feature: Scimitar Speed boost is not based on current velocity, by unitizing the velocity, so you don't need the current speed
+- Feature: Nova Speed boost is not based on current velocity, by unitizing the velocity, so you don't need the current speed
 - Test: Shuttle nuke launching in multiplayer
     - Investigate?: Client can't see the explosion
         - Explosion mods may not have applied
@@ -53,7 +58,6 @@ The point of this is to allow you to diff the changes to the file that this mod 
 ## Possible TODO
 
 - Feature: Nuke has a glow effect (may make it clearer in multiplayer)
-- Feature: Speed boost is not based on current velocity, by unitizing the velocity, so you don't need the current speed
 - Feature: New ship with a large cutting beam using a stream of non-tracking disruptors (krenim ship?)
 - Feature: New mage ship with suck and power drain abilities (breen?)
 - Feature: New ship that can launch large rocks
