@@ -536,11 +536,12 @@ def RemoveAllCommandableShips():
 #	Return:	none
 ###############################################################################
 def CreatePlayerShip(sShipClass, pSet, pcName, sWaypoint, bUnloadShip = 0):
-	import Bridge.XOMenuHandlers
 	import string
 	if string.find(GetMission().GetScript() or '', 'Maelstrom.') == 0:
 		# Modded ships: BugRammer, Defiant, Akira, Prometheus, Scimitar, Shuttle, Nova, Valdore
-		sShipClass = 'Shuttle'
+		sShipClass = 'Prometheus'
+		import Custom.CrazyShipAbilities.Abilities
+		Custom.CrazyShipAbilities.Abilities.Reset()
 	
 	pGame = App.Game_GetCurrentGame()
 

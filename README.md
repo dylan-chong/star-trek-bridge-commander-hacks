@@ -34,7 +34,9 @@ The point of this is to allow you to diff the changes to the file that this mod 
 
 ## TODO
 
-- Feature: Implement button for ability status
+- Test: Make it easier to aim the Prometheus sniper beam
+- Fix: Rebalance Prometheus for campaign
+- Feature: Implement button for ability status / activation
 - Feature: Implement sending ship modifications across stream
     - This will fix:
         - Client wall does not get scaled
@@ -42,7 +44,7 @@ The point of this is to allow you to diff the changes to the file that this mod 
         - When a client launches nuke, speed is not set on server
     - Need to:
         - Mission6.py
-            - Add a new custom message type belo `AI_LIST_MESSAGE =`
+            - Add a new custom message type below `AI_LIST_MESSAGE =`
             - Add a new elif case for the new message type at the end of `def ProcessMessageHandler`
             - Add new MultiplayerLib function `MPUpdateShipPropsOnHost(shipName)` or something.
                 - Go with speed updating first
@@ -57,6 +59,9 @@ The point of this is to allow you to diff the changes to the file that this mod 
 
 ## Possible TODO
 
+- Feature: Proper configurable keyboard shortcut for ability(ies)
+    - Investigate: Can you add a new keyboard shortcut to here scripts\MainMenu\KeyboardConfig.py:1250
+    - Investigate: Can replace the self destruct functionality
 - Feature: Nuke has a glow effect (may make it clearer in multiplayer)
 - Feature: New ship with a large cutting beam using a stream of non-tracking disruptors (krenim ship?)
 - Feature: New mage ship with suck and power drain abilities (breen?)
@@ -66,10 +71,13 @@ The point of this is to allow you to diff the changes to the file that this mod 
 
 - Maybe unfixable: Multiplayer crashes a lot when theres not that many ships, but still quite a few
 - Maybe unfixable: Akira in multiplayer sending torpedoes at high speed doesn't work for clients, but does for the master
+- Feature: Prometheus sniper beam just drains shields and does little to hull
+    - See scripts\Effects.py `PhaserHullHit`
+    - Full impulse makes it hard to do knock back. Event handler does not allow cancelling propagation of event to prevent damage
 
 ## Compile all modules helper
 
-If you get errors in multiplayer about a version mismatch, you'll have to force all python files to be recompiled.
+If you get errors in multiplayer about a version mismatch, you'll have to force all python files to be recompiled on the server.
 You can do this by simply importing all of the modules.
 
 ```bash
