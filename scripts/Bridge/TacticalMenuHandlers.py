@@ -28,6 +28,7 @@ EST_MANEUVER_CLOSE = 21
 EST_MANEUVER_MAINTAIN = 22
 EST_MANEUVER_SEPARATE = 23
 EST_LAST_MANEUVER = 29
+EST_USE_ABILITY = 31
 g_bIgnoreNextAIDone = 0
 g_fLastWarnTime = 0
 g_lPlayerFireAIs = []
@@ -223,6 +224,8 @@ def CreateTacticalMenu():
     import BridgeMenus
     pCommunicate = BridgeMenus.CreateCommunicateButton('Tactical', pTacticalMenu)
     pTacticalMenu.AddChild(pCommunicate)
+    pAbilityButton = BridgeUtils.CreateBridgeMenuButton(App.TGString('Use Ability'), EST_USE_ABILITY, 0, pTacticalMenu)
+    pTacticalMenu.AddChild(pAbilityButton)
     pFireButton = BridgeUtils.CreateBridgeMenuButton(pDatabase.GetString('Manual Aim'), App.ET_FIRE, 0, pTacticalMenu)
     pFireButton.SetAutoChoose(1)
     pFireButton.SetChosen(0)
@@ -248,6 +251,7 @@ def CreateTacticalMenu():
     pTacticalMenu.ForceUpdate()
     pTacticalMenu.AddPythonFuncHandlerForInstance(App.ET_MANEUVER, __name__ + '.Maneuver')
     pTacticalMenu.AddPythonFuncHandlerForInstance(App.ET_FIRE, __name__ + '.Fire')
+    pTacticalMenu.AddPythonFuncHandlerForInstance(EST_USE_ABILITY, __name__ + '.UseAbility')
     pTacticalMenu.AddPythonFuncHandlerForInstance(ET_PHASERS_ONLY, __name__ + '.PhasersOnlyToggled')
     pTacticalMenu.AddPythonFuncHandlerForInstance(ET_TARGETING_TOGGLED, __name__ + '.TargetingModeToggled')
     pTacticalMenu.AddPythonFuncHandlerForInstance(App.ET_COMMUNICATE, 'Bridge.Characters.CommonAnimations.NothingToAdd')
@@ -615,6 +619,11 @@ def UpdateManualAim():
         pTacWindow.SetMousePickFire(1)
     else:
         pTacWindow.SetMousePickFire(0)
+
+
+def UseAbility(_pObject, _pEvent):
+    import Custom.CrazyShipAbilities.Abilities
+    Custom.CrazyShipAbilities.Abilities.UseAbility()
 
 
 def PhasersOnlyToggled(pObject, pEvent):
