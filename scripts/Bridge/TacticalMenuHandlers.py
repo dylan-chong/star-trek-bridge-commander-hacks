@@ -29,6 +29,9 @@ EST_MANEUVER_MAINTAIN = 22
 EST_MANEUVER_SEPARATE = 23
 EST_LAST_MANEUVER = 29
 EST_USE_ABILITY = 31
+
+ET_REFRESH_USE_ABILITY = App.Game_GetNextEventType()
+
 g_bIgnoreNextAIDone = 0
 g_fLastWarnTime = 0
 g_lPlayerFireAIs = []
@@ -62,6 +65,8 @@ g_lManeuvers = [
     ('ManeuverClose', EST_MANEUVER_CLOSE),
     ('ManeuverMaintain', EST_MANEUVER_MAINTAIN),
     ('ManeuverSeparate', EST_MANEUVER_SEPARATE)]
+g_bHasSetUpRefreshAbilityTimer = 0
+g_pAbilityButton = None
 
 def Mix(vMain, vSecondary):
     vMain.Scale(2.0)
@@ -209,7 +214,7 @@ def CreateMenus():
 
 
 def CreateTacticalMenu():
-    global g_idTacticalMenu
+    global g_idTacticalMenu, g_pAbilityButton
     LCARS = __import__(App.GraphicsModeInfo_GetCurrentMode().GetLcarsModule())
     pDatabase = App.g_kLocalizationManager.Load('data/TGL/Bridge Menus.tgl')
     pTacticalMenu = App.STTopLevelMenu_CreateW(pDatabase.GetString('Tactical'))
@@ -224,8 +229,8 @@ def CreateTacticalMenu():
     import BridgeMenus
     pCommunicate = BridgeMenus.CreateCommunicateButton('Tactical', pTacticalMenu)
     pTacticalMenu.AddChild(pCommunicate)
-    pAbilityButton = BridgeUtils.CreateBridgeMenuButton(App.TGString('Use Ability'), EST_USE_ABILITY, 0, pTacticalMenu)
-    pTacticalMenu.AddChild(pAbilityButton)
+    g_pAbilityButton = BridgeUtils.CreateBridgeMenuButton(App.TGString('...'), EST_USE_ABILITY, 0, pTacticalMenu)
+    pTacticalMenu.AddChild(g_pAbilityButton)
     pFireButton = BridgeUtils.CreateBridgeMenuButton(pDatabase.GetString('Manual Aim'), App.ET_FIRE, 0, pTacticalMenu)
     pFireButton.SetAutoChoose(1)
     pFireButton.SetChosen(0)
@@ -255,6 +260,7 @@ def CreateTacticalMenu():
     pTacticalMenu.AddPythonFuncHandlerForInstance(ET_PHASERS_ONLY, __name__ + '.PhasersOnlyToggled')
     pTacticalMenu.AddPythonFuncHandlerForInstance(ET_TARGETING_TOGGLED, __name__ + '.TargetingModeToggled')
     pTacticalMenu.AddPythonFuncHandlerForInstance(App.ET_COMMUNICATE, 'Bridge.Characters.CommonAnimations.NothingToAdd')
+    SetupUseAbilityRefreshTimer(pTacticalMenu)
     App.g_kEventManager.AddBroadcastPythonFuncHandler(App.ET_TARGET_WAS_CHANGED, pTacticalMenu, __name__ + '.TargetChanged')
     App.g_kEventManager.AddBroadcastPythonFuncHandler(App.ET_RESTORE_PERSISTENT_TARGET, pTacticalMenu, __name__ + '.PersistentTargetRestored')
     App.g_kEventManager.AddBroadcastPythonFuncHandler(App.ET_SET_PLAYER, pTacticalMenu, __name__ + '.SetPlayer')
@@ -620,11 +626,46 @@ def UpdateManualAim():
     else:
         pTacWindow.SetMousePickFire(0)
 
+def SetupUseAbilityRefreshTimer(pTacticalMenu):
+    global g_bHasSetUpRefreshAbilityTimer
+    if g_bHasSetUpRefreshAbilityTimer:
+        return
+    g_bHasSetUpRefreshAbilityTimer = 1
+
+    pTacticalMenu.AddPythonFuncHandlerForInstance(ET_REFRESH_USE_ABILITY, __name__ + '.RefreshUseAbilityButton')
+
+    pEvent = App.TGEvent_Create()
+    pEvent.SetEventType(ET_REFRESH_USE_ABILITY)
+    pEvent.SetDestination(pTacticalMenu)
+
+    pTimer = App.TGTimer_Create()
+    pTimer.SetTimerStart(App.g_kUtopiaModule.GetGameTime() + 0.125)
+    pTimer.SetDelay(0.125)
+    pTimer.SetDuration(-1)
+    pTimer.SetEvent(pEvent)
+    App.g_kTimerManager.AddTimer(pTimer)
+
+def RefreshUseAbilityButton(_pObject, _pEvent):
+    g_pAbilityButton.SetName(GetNewAbilityButtonTitle())
+
+def GetNewAbilityButtonTitle():
+    import Custom.CrazyShipAbilities.Abilities
+    import Custom.CrazyShipAbilities.PerShip.NoAbilities
+
+    remainingCooldown = Custom.CrazyShipAbilities.Abilities.GetRemainingCooldown()
+
+    if (remainingCooldown == Custom.CrazyShipAbilities.PerShip.NoAbilities.NO_ABILITIES_COOLDOWN):
+        return App.TGString('No ability available')
+    elif (remainingCooldown == 0):
+        return App.TGString('Use Ability (Ready)')
+    else:
+        import math
+        cooldownString = str(int(math.ceil(remainingCooldown)))
+        return App.TGString('Use Ability (' + cooldownString + ')')
 
 def UseAbility(_pObject, _pEvent):
     import Custom.CrazyShipAbilities.Abilities
     Custom.CrazyShipAbilities.Abilities.UseAbility()
-
 
 def PhasersOnlyToggled(pObject, pEvent):
     pPlayer = MissionLib.GetPlayer()

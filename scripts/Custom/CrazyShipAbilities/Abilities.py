@@ -1,6 +1,13 @@
 import App
 import loadspacehelper
 
+import Custom.CrazyShipAbilities.PerShip.NoAbilities
+import Custom.CrazyShipAbilities.PerShip.Prometheus
+
+SHIP_TO_ABILITY_MODULES = {
+	'Prometheus': Custom.CrazyShipAbilities.PerShip.Prometheus
+}
+
 DRONE_PREFIX = "Drone"
 BEEFY_DRONE_PREFIX = "BeefyDrone"
 DUD_DRONE_PREFIX = "DudDrone"
@@ -49,15 +56,27 @@ def Reset():
 	RammerNames = []
 	NukeNamesAndSpawnTimes = []
 
+	for mod in SHIP_TO_ABILITY_MODULES.values():
+		mod.Reset()
+
 Reset()
 
+def GetRemainingCooldown(): 
+	return GetAbilityModule().GetRemainingCooldown()
+
+def GetTitle(): 
+	# TODO NEXT implement title
+	# TODO AFTER fix the defiant next
+	return GetAbilityModule().GetTitle()
+
 def UseAbility():
+	pGame = App.Game_GetCurrentGame()
+	pPlayer = pGame.GetPlayer()
+	return GetAbilityModule().UseAbility(pPlayer)
+
 	import MissionLib
 	global LastBoostTime
 	global NDrones
-
-	pGame = App.Game_GetCurrentGame()
-	pPlayer = App.ShipClass_Cast(pGame.GetPlayer())
 	
 	if pPlayer.GetShipProperty().GetName().GetCString() == 'Defiant':
 		if LastBoostTime + DEFIANT_BOOST_COOLDOWN_S < App.g_kUtopiaModule.GetGameTime():
@@ -280,6 +299,17 @@ def UseAbility():
 			velocity.Scale(18)
 			pPlayer.SetVelocity(velocity)
 
+def GetAbilityModule():
+	pGame = App.Game_GetCurrentGame()
+	pPlayer = App.ShipClass_Cast(pGame.GetPlayer())
+	playerShipName = pPlayer.GetShipProperty().GetName().GetCString()
+
+	mod = SHIP_TO_ABILITY_MODULES[playerShipName]
+	if not mod:
+		return Custom.CrazyShipAbilities.NoAbilities
+	
+	return mod
+
 def GenChildShipName(prefix, i, pPlayer):
 	return prefix + ' ' + str(i + 1) + ' (' + pPlayer.GetName() + ')'
 
@@ -349,16 +379,6 @@ def AlignShipToFaceTarget(pShip, target):
 	perpendicular = GetAnyPerpendicularVector(direction, target)
 	pShip.AlignToVectors(direction, perpendicular)
 
-def Unitized(vector):
-	unitVector = CloneVector(vector)
-	unitVector.Unitize()
-	return unitVector
-
-def CloneVector(vector):
-	copy = App.TGPoint3()
-	copy.Set(vector)
-	return copy
-
 def SetShipKamazakeAI(pShip, targetName):
 	pKamakaze = App.PlainAI_Create(pShip, 'MoveIn')
 	pKamakaze.SetScriptModule('Ram')
@@ -376,6 +396,3 @@ def CanLaunchNextNuke():
 			nNukesLaunchedInPeriod = nNukesLaunchedInPeriod + 1
 
 	return nNukesLaunchedInPeriod < MAX_NUKES_PER_PERIOD
-
-def kphToInternalGameSpeed(kph):
-	return kph / 600.0
