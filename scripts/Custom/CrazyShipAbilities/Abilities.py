@@ -25,17 +25,17 @@ def Reset():
 Reset()
 
 def GetRemainingCooldown():
-	return GetAbilityModule().GetRemainingCooldown()
+	return GetShipAbilityModule().GetRemainingCooldown()
 
 def GetTitle():
-	return GetAbilityModule().GetTitle()
+	return GetShipAbilityModule().GetTitle()
 
 def UseAbility():
 	pGame = App.Game_GetCurrentGame()
 	pPlayer = pGame.GetPlayer()
-	return GetAbilityModule().UseAbility(pPlayer)
+	return GetShipAbilityModule().UseAbility(pPlayer)
 
-def GetAbilityModule():
+def GetShipAbilityModule():
 	pGame = App.Game_GetCurrentGame()
 	pPlayer = App.ShipClass_Cast(pGame.GetPlayer())
 	playerShipName = pPlayer.GetShipProperty().GetName().GetCString()
