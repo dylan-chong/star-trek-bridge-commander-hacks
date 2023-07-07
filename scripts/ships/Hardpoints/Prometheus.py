@@ -2,7 +2,8 @@
 # This file was automatically generated - modify at your own risk.
 # 
 
-AAAAAAAAAMainPhaserRadiusWidthFactor = 0.5
+AAAAAAAAAAMainPhaserMaxChargeFactor = 4.0
+AAAAAAAAAMainPhaserRadiusWidthFactor = 0.2
 
 import App
 import GlobalPropertyTemplates
@@ -10,7 +11,7 @@ import GlobalPropertyTemplates
 #################################################
 Hull = App.HullProperty_Create("Hull")
 
-Hull.SetMaxCondition(0.15 * 24000.000000)
+Hull.SetMaxCondition(0.16 * 24000.000000)
 Hull.SetCritical(1)
 Hull.SetTargetable(1)
 Hull.SetPrimary(1)
@@ -50,18 +51,18 @@ ShieldGeneratorShieldGlowColor = App.TGColorA()
 ShieldGeneratorShieldGlowColor.SetRGBA(0.250000, 0.500000, 1.000000, 1.000000)
 ShieldGenerator.SetShieldGlowColor(ShieldGeneratorShieldGlowColor)
 ShieldGenerator.SetShieldGlowDecay(1.000000)
-ShieldGenerator.SetMaxShields(ShieldGenerator.FRONT_SHIELDS, 0.18 * 14400.000000)
-ShieldGenerator.SetMaxShields(ShieldGenerator.REAR_SHIELDS, 0.18 * 9600.000000)
-ShieldGenerator.SetMaxShields(ShieldGenerator.TOP_SHIELDS, 0.18 * 14400.000000)
-ShieldGenerator.SetMaxShields(ShieldGenerator.BOTTOM_SHIELDS, 0.18 * 14400.000000)
-ShieldGenerator.SetMaxShields(ShieldGenerator.LEFT_SHIELDS, 0.18 * 9600.000000)
-ShieldGenerator.SetMaxShields(ShieldGenerator.RIGHT_SHIELDS, 0.18 * 9600.000000)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.FRONT_SHIELDS, 0.4 * 28.799999)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.REAR_SHIELDS, 0.4 * 19.200001)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.TOP_SHIELDS, 0.4 * 28.799999)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.BOTTOM_SHIELDS, 0.4 * 28.799999)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.LEFT_SHIELDS, 0.4 * 19.200001)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.RIGHT_SHIELDS, 0.4 * 19.200001)
+ShieldGenerator.SetMaxShields(ShieldGenerator.FRONT_SHIELDS, 0.1 * 14400.000000)
+ShieldGenerator.SetMaxShields(ShieldGenerator.REAR_SHIELDS, 0.1 * 9600.000000)
+ShieldGenerator.SetMaxShields(ShieldGenerator.TOP_SHIELDS, 0.1 * 14400.000000)
+ShieldGenerator.SetMaxShields(ShieldGenerator.BOTTOM_SHIELDS, 0.1 * 14400.000000)
+ShieldGenerator.SetMaxShields(ShieldGenerator.LEFT_SHIELDS, 0.1 * 9600.000000)
+ShieldGenerator.SetMaxShields(ShieldGenerator.RIGHT_SHIELDS, 0.1 * 9600.000000)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.FRONT_SHIELDS, 1.2 * 28.799999)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.REAR_SHIELDS, 1.2 * 19.200001)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.TOP_SHIELDS, 1.2 * 28.799999)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.BOTTOM_SHIELDS, 1.2 * 28.799999)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.LEFT_SHIELDS, 1.2 * 19.200001)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.RIGHT_SHIELDS, 1.2 * 19.200001)
 App.g_kModelPropertyManager.RegisterLocalTemplate(ShieldGenerator)
 #################################################
 SensorArray = App.SensorProperty_Create("Sensor Array")
@@ -93,8 +94,8 @@ ImpulseEngines.SetDisabledPercentage(0.500000)
 ImpulseEngines.SetRadius(0.100000)
 ImpulseEngines.SetNormalPowerPerSecond(480.000000)
 ImpulseEngines.SetMaxAccel(1000 * 2.500000)
-ImpulseEngines.SetMaxAngularAccel(1.2 * 0.450000)
-ImpulseEngines.SetMaxAngularVelocity(2.5 * 0.450000)
+ImpulseEngines.SetMaxAngularAccel(1 * 0.450000)
+ImpulseEngines.SetMaxAngularVelocity(1.5 * 0.450000)
 ImpulseEngines.SetMaxSpeed(1.8 * 7.936510)
 ImpulseEngines.SetEngineSound("Federation Engines")
 App.g_kModelPropertyManager.RegisterLocalTemplate(ImpulseEngines)
@@ -285,7 +286,7 @@ ForwardPhaser1.SetIconPositionX(15.000000)
 ForwardPhaser1.SetIconPositionY(37.000000)
 ForwardPhaser1.SetIconAboveShip(1)
 ForwardPhaser1.SetFireSound("Galaxy Phaser")
-ForwardPhaser1.SetMaxCharge(10 * 1.000000)
+ForwardPhaser1.SetMaxCharge(AAAAAAAAAAMainPhaserMaxChargeFactor * 1.000000)
 ForwardPhaser1.SetMaxDamage(AAAAAAAAAAAAANormalPhaserDamageFactor * 960.000000)
 ForwardPhaser1.SetMaxDamageDistance(200.000000)
 ForwardPhaser1.SetMinFiringCharge(1.000000)
@@ -348,7 +349,7 @@ ForwardPhaser2.SetIconPositionX(90.000000)
 ForwardPhaser2.SetIconPositionY(37.000000)
 ForwardPhaser2.SetIconAboveShip(1)
 ForwardPhaser2.SetFireSound("Galaxy Phaser")
-ForwardPhaser2.SetMaxCharge(10 * 10 *1.000000)
+ForwardPhaser2.SetMaxCharge(AAAAAAAAAAMainPhaserMaxChargeFactor * 10 *1.000000)
 ForwardPhaser2.SetMaxDamage(AAAAAAAAAAAAANormalPhaserDamageFactor * 960.000000)
 ForwardPhaser2.SetMaxDamageDistance(200.000000)
 ForwardPhaser2.SetMinFiringCharge(1.000000)
@@ -411,7 +412,7 @@ ForwardPhaser3.SetIconPositionX(15.000000)
 ForwardPhaser3.SetIconPositionY(51.000000)
 ForwardPhaser3.SetIconAboveShip(1)
 ForwardPhaser3.SetFireSound("Galaxy Phaser")
-ForwardPhaser3.SetMaxCharge(10 * 1.000000)
+ForwardPhaser3.SetMaxCharge(AAAAAAAAAAMainPhaserMaxChargeFactor * 1.000000)
 ForwardPhaser3.SetMaxDamage(AAAAAAAAAAAAANormalPhaserDamageFactor * 960.000000)
 ForwardPhaser3.SetMaxDamageDistance(200.000000)
 ForwardPhaser3.SetMinFiringCharge(1.000000)
@@ -474,7 +475,7 @@ ForwardPhaser4.SetIconPositionX(90.000000)
 ForwardPhaser4.SetIconPositionY(51.000000)
 ForwardPhaser4.SetIconAboveShip(1)
 ForwardPhaser4.SetFireSound("Galaxy Phaser")
-ForwardPhaser4.SetMaxCharge(10 * 1.000000)
+ForwardPhaser4.SetMaxCharge(AAAAAAAAAAMainPhaserMaxChargeFactor * 1.000000)
 ForwardPhaser4.SetMaxDamage(AAAAAAAAAAAAANormalPhaserDamageFactor * 960.000000)
 ForwardPhaser4.SetMaxDamageDistance(200.000000)
 ForwardPhaser4.SetMinFiringCharge(1.000000)
@@ -521,7 +522,7 @@ App.g_kModelPropertyManager.RegisterLocalTemplate(ForwardPhaser4)
 Z_OFF = 550 * 0.75 # 550 is about 100km
 ExtraPhasers = []
 
-def CreateExtraPhaserCircle(IntoArray, Radius, NPhasers, DamageFactor, FiringArcRads, MainBeamRadius):
+def CreateExtraPhaserCircle(IntoArray, Radius, NPhasers, DamageFactor, DamageRadius, FiringArcRads, MainBeamRadius):
 	import math
 
 	for i in range(0, NPhasers):
@@ -541,7 +542,7 @@ def CreateExtraPhaserCircle(IntoArray, Radius, NPhasers, DamageFactor, FiringArc
 		ExtraPhaser.SetDumbfire(0)
 		ExtraPhaser.SetWeaponID(4)
 		ExtraPhaser.SetGroups(0)
-		ExtraPhaser.SetDamageRadiusFactor(2 * 0.100000)
+		ExtraPhaser.SetDamageRadiusFactor(DamageRadius)
 		ExtraPhaser.SetIconNum(350)
 		ExtraPhaser.SetIconPositionX(0.000000)
 		ExtraPhaser.SetIconPositionY(0.000000)
@@ -592,24 +593,26 @@ def CreateExtraPhaserCircle(IntoArray, Radius, NPhasers, DamageFactor, FiringArc
 
 		IntoArray.append(ExtraPhaser)
 
-INNER_CIRCLE_RADIUS = 6
-CROSSHAIR_CIRCLE_RADIUS_GAP = 6
+MAIN_CIRCLE_RADIUS = 6
+CROSSHAIR_CIRCLE_RADIUS_GAP = 7
 
 CreateExtraPhaserCircle(
 	IntoArray=ExtraPhasers,
-	Radius=INNER_CIRCLE_RADIUS,
+	Radius=MAIN_CIRCLE_RADIUS,
 	NPhasers=8,
-	DamageFactor=1.2,
-	FiringArcRads=0.08,
-	MainBeamRadius=0.35,
+	DamageFactor=0.8,
+	DamageRadius=0,
+	FiringArcRads=0.06,
+	MainBeamRadius=0.23,
 )
 
-for ringIndex in range(0, 6):
+for ringIndex in range(0, 5):
 	CreateExtraPhaserCircle(
 		IntoArray=ExtraPhasers,
-		Radius=INNER_CIRCLE_RADIUS + CROSSHAIR_CIRCLE_RADIUS_GAP * (ringIndex - 1),
+		Radius=MAIN_CIRCLE_RADIUS + CROSSHAIR_CIRCLE_RADIUS_GAP * (ringIndex - 1),
 		NPhasers=4,
-		DamageFactor=0.06,
+		DamageFactor=0.04,
+		DamageRadius=0,
 		FiringArcRads=0.35,
 		MainBeamRadius=0.06,
 	)
@@ -635,7 +638,7 @@ PortPhaser1.SetIconPositionX(24.000000)
 PortPhaser1.SetIconPositionY(71.000000)
 PortPhaser1.SetIconAboveShip(1)
 PortPhaser1.SetFireSound("Galaxy Phaser")
-PortPhaser1.SetMaxCharge(10 * 1.000000)
+PortPhaser1.SetMaxCharge(AAAAAAAAAAMainPhaserMaxChargeFactor * 1.000000)
 PortPhaser1.SetMaxDamage(AAAAAAAAAAAAANormalPhaserDamageFactor * 960.000000)
 PortPhaser1.SetMaxDamageDistance(200.000000)
 PortPhaser1.SetMinFiringCharge(1.000000)
@@ -698,7 +701,7 @@ PortPhaser2.SetIconPositionX(38.000000)
 PortPhaser2.SetIconPositionY(71.000000)
 PortPhaser2.SetIconAboveShip(1)
 PortPhaser2.SetFireSound("Galaxy Phaser")
-PortPhaser2.SetMaxCharge(10 * 1.000000)
+PortPhaser2.SetMaxCharge(AAAAAAAAAAMainPhaserMaxChargeFactor * 1.000000)
 PortPhaser2.SetMaxDamage(AAAAAAAAAAAAANormalPhaserDamageFactor * 960.000000)
 PortPhaser2.SetMaxDamageDistance(200.000000)
 PortPhaser2.SetMinFiringCharge(1.000000)
@@ -761,7 +764,7 @@ StarPhaser1.SetIconPositionX(104.000000)
 StarPhaser1.SetIconPositionY(71.000000)
 StarPhaser1.SetIconAboveShip(1)
 StarPhaser1.SetFireSound("Galaxy Phaser")
-StarPhaser1.SetMaxCharge(10 * 1.000000)
+StarPhaser1.SetMaxCharge(AAAAAAAAAAMainPhaserMaxChargeFactor * 1.000000)
 StarPhaser1.SetMaxDamage(AAAAAAAAAAAAANormalPhaserDamageFactor * 960.000000)
 StarPhaser1.SetMaxDamageDistance(200.000000)
 StarPhaser1.SetMinFiringCharge(1.000000)
@@ -824,7 +827,7 @@ StarPhaser2.SetIconPositionX(103.000000)
 StarPhaser2.SetIconPositionY(71.000000)
 StarPhaser2.SetIconAboveShip(1)
 StarPhaser2.SetFireSound("Galaxy Phaser")
-StarPhaser2.SetMaxCharge(10 * 1.000000)
+StarPhaser2.SetMaxCharge(AAAAAAAAAAMainPhaserMaxChargeFactor * 1.000000)
 StarPhaser2.SetMaxDamage(AAAAAAAAAAAAANormalPhaserDamageFactor * 960.000000)
 StarPhaser2.SetMaxDamageDistance(200.000000)
 StarPhaser2.SetMinFiringCharge(1.000000)
@@ -887,7 +890,7 @@ AftPhaser1.SetIconPositionX(39.000000)
 AftPhaser1.SetIconPositionY(127.000000)
 AftPhaser1.SetIconAboveShip(1)
 AftPhaser1.SetFireSound("Galaxy Phaser")
-AftPhaser1.SetMaxCharge(10 * 1.000000)
+AftPhaser1.SetMaxCharge(AAAAAAAAAAMainPhaserMaxChargeFactor * 1.000000)
 AftPhaser1.SetMaxDamage(AAAAAAAAAAAAANormalPhaserDamageFactor * 960.000000)
 AftPhaser1.SetMaxDamageDistance(200.000000)
 AftPhaser1.SetMinFiringCharge(1.000000)
@@ -950,7 +953,7 @@ AftPhaser2.SetIconPositionX(90.000000)
 AftPhaser2.SetIconPositionY(127.000000)
 AftPhaser2.SetIconAboveShip(1)
 AftPhaser2.SetFireSound("Galaxy Phaser")
-AftPhaser2.SetMaxCharge(10 * 1.000000)
+AftPhaser2.SetMaxCharge(AAAAAAAAAAMainPhaserMaxChargeFactor * 1.000000)
 AftPhaser2.SetMaxDamage(AAAAAAAAAAAAANormalPhaserDamageFactor * 960.000000)
 AftPhaser2.SetMaxDamageDistance(200.000000)
 AftPhaser2.SetMinFiringCharge(1.000000)
@@ -1013,7 +1016,7 @@ VentralPhaser1.SetIconPositionX(55.000000)
 VentralPhaser1.SetIconPositionY(78.000000)
 VentralPhaser1.SetIconAboveShip(1)
 VentralPhaser1.SetFireSound("Galaxy Phaser")
-VentralPhaser1.SetMaxCharge(10 * 1.000000)
+VentralPhaser1.SetMaxCharge(AAAAAAAAAAMainPhaserMaxChargeFactor * 1.000000)
 VentralPhaser1.SetMaxDamage(AAAAAAAAAAAAANormalPhaserDamageFactor * 960.000000)
 VentralPhaser1.SetMaxDamageDistance(200.000000)
 VentralPhaser1.SetMinFiringCharge(1.000000)
@@ -1076,7 +1079,7 @@ VentralPhaser2.SetIconPositionX(86.000000)
 VentralPhaser2.SetIconPositionY(78.000000)
 VentralPhaser2.SetIconAboveShip(1)
 VentralPhaser2.SetFireSound("Galaxy Phaser")
-VentralPhaser2.SetMaxCharge(10 * 1.000000)
+VentralPhaser2.SetMaxCharge(AAAAAAAAAAMainPhaserMaxChargeFactor * 1.000000)
 VentralPhaser2.SetMaxDamage(AAAAAAAAAAAAANormalPhaserDamageFactor * 960.000000)
 VentralPhaser2.SetMaxDamageDistance(200.000000)
 VentralPhaser2.SetMinFiringCharge(1.000000)
