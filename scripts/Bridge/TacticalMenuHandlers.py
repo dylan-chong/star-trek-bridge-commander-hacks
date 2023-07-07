@@ -653,15 +653,16 @@ def GetNewAbilityButtonTitle():
     import Custom.CrazyShipAbilities.PerShip.NoAbilities
 
     remainingCooldown = Custom.CrazyShipAbilities.Abilities.GetRemainingCooldown()
+    title = Custom.CrazyShipAbilities.Abilities.GetTitle()
 
     if (remainingCooldown == Custom.CrazyShipAbilities.PerShip.NoAbilities.NO_ABILITIES_COOLDOWN):
         return App.TGString('No ability available')
     elif (remainingCooldown == 0):
-        return App.TGString('Use Ability (Ready)')
+        return App.TGString(title + ' (Ready)')
     else:
         import math
         cooldownString = str(int(math.ceil(remainingCooldown)))
-        return App.TGString('Use Ability (' + cooldownString + ')')
+        return App.TGString(title + '(' + cooldownString + ')')
 
 def UseAbility(_pObject, _pEvent):
     import Custom.CrazyShipAbilities.Abilities

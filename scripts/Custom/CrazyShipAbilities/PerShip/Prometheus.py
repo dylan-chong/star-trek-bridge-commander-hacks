@@ -2,25 +2,28 @@ import App
 import Custom.CrazyShipAbilities.Cooldowns
 import Custom.CrazyShipAbilities.Utils
 
-KNOCKBACK_COOLDOWN_S = 16
+DASHBACK_COOLDOWN_S = 16
 
 def Reset():
-    global cooldown
-    cooldown = Custom.CrazyShipAbilities.Cooldowns.SimpleCooldown(KNOCKBACK_COOLDOWN_S)
+    global Cooldown
+    Cooldown = Custom.CrazyShipAbilities.Cooldowns.SimpleCooldown(DASHBACK_COOLDOWN_S)
     pass
 
+def GetTitle():
+    return 'Dashback'
+
 def GetRemainingCooldown():
-    return cooldown.GetRemainingCooldown()
+    return Cooldown.GetRemainingCooldown()
 
 def UseAbility(pPlayer):
-    if not cooldown.IsReady():
+    if not Cooldown.IsReady():
         return
 
-    cooldown.Trigger()
-        
-    knockbackVelocity = Custom.CrazyShipAbilities.Utils.Unitized(pPlayer.GetWorldForwardTG())
-    knockbackVelocity.Scale(Custom.CrazyShipAbilities.Utils.KphToInternalGameSpeed(-250000))
+    Cooldown.Trigger()
+
+    dashbackVelocity = Custom.CrazyShipAbilities.Utils.Unitized(pPlayer.GetWorldForwardTG())
+    dashbackVelocity.Scale(Custom.CrazyShipAbilities.Utils.KphToInternalGameSpeed(-250000))
 
     newVelocity = pPlayer.GetVelocityTG()
-    newVelocity.Add(knockbackVelocity)
+    newVelocity.Add(dashbackVelocity)
     pPlayer.SetVelocity(newVelocity)
