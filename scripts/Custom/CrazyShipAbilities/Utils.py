@@ -1,4 +1,5 @@
 import App
+import loadspacehelper
 
 def GenChildShipName(prefix, i, pPlayer):
 	return prefix + ' ' + str(i + 1) + ' (' + pPlayer.GetName() + ')'
@@ -48,16 +49,6 @@ def GetCurrentTarget(pPlayer):
 			return castedTarget
 
 	return None
-
-def SetEnemyGroup(pPlayer):
-	global enemyGroup
-	
-	if not enemyGroup:
-		enemyGroup = App.ObjectGroup()
-	enemyGroup.RemoveAllNames()
-	target = GetCurrentTarget(pPlayer)
-	if target:
-		enemyGroup.AddName(target.GetName())
 
 def SpawnDroneShip(shipType, shipName, distance, pPlayer, group):
 	import MissionLib

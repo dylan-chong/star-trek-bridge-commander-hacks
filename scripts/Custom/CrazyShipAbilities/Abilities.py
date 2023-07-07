@@ -1,9 +1,15 @@
 import App
-import loadspacehelper
 
 import Custom.CrazyShipAbilities.PerShip.NoAbilities
-import Custom.CrazyShipAbilities.PerShip.Prometheus
+
+import Custom.CrazyShipAbilities.PerShip.Akira
+import Custom.CrazyShipAbilities.PerShip.BugRammer
 import Custom.CrazyShipAbilities.PerShip.Defiant
+import Custom.CrazyShipAbilities.PerShip.Nova
+import Custom.CrazyShipAbilities.PerShip.Prometheus
+import Custom.CrazyShipAbilities.PerShip.Scimitar
+import Custom.CrazyShipAbilities.PerShip.Shuttle
+import Custom.CrazyShipAbilities.PerShip.Valdore
 
 SHIP_TO_ABILITY_MODULES = {
 	'Akira': Custom.CrazyShipAbilities.PerShip.Akira,
@@ -17,8 +23,6 @@ SHIP_TO_ABILITY_MODULES = {
 }
 
 def Reset():
-	LastBoostTime = -999999999
-
 	for mod in SHIP_TO_ABILITY_MODULES.values():
 		mod.Reset()
 
@@ -40,8 +44,5 @@ def GetShipAbilityModule():
 	pPlayer = App.ShipClass_Cast(pGame.GetPlayer())
 	playerShipName = pPlayer.GetShipProperty().GetName().GetCString()
 
-	mod = SHIP_TO_ABILITY_MODULES[playerShipName]
-	if not mod:
-		return Custom.CrazyShipAbilities.NoAbilities
-
-	return mod
+	mod = SHIP_TO_ABILITY_MODULES.get(playerShipName)
+	return mod or Custom.CrazyShipAbilities.PerShip.NoAbilities

@@ -662,7 +662,7 @@ def GetNewAbilityButtonTitle():
     else:
         import math
         cooldownString = str(int(math.ceil(remainingCooldown)))
-        return App.TGString(title + '(' + cooldownString + ')')
+        return App.TGString(title + ' (' + cooldownString + 's)')
 
 def UseAbility(_pObject, _pEvent):
     import Custom.CrazyShipAbilities.Abilities
