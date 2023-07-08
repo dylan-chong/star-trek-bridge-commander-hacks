@@ -624,47 +624,6 @@ def UpdateManualAim():
     else:
         pTacWindow.SetMousePickFire(0)
 
-def SetupUseAbilityRefreshTimer(pTacticalMenu):
-    global g_bHasSetUpRefreshAbilityTimer
-    if g_bHasSetUpRefreshAbilityTimer:
-        return
-    g_bHasSetUpRefreshAbilityTimer = 1
-
-    pTacticalMenu.AddPythonFuncHandlerForInstance(ET_REFRESH_USE_ABILITY, __name__ + '.RefreshUseAbilityButton')
-
-    pEvent = App.TGEvent_Create()
-    pEvent.SetEventType(ET_REFRESH_USE_ABILITY)
-    pEvent.SetDestination(pTacticalMenu)
-
-    pTimer = App.TGTimer_Create()
-    pTimer.SetTimerStart(App.g_kUtopiaModule.GetGameTime() + 0.125)
-    pTimer.SetDelay(0.125)
-    pTimer.SetDuration(-1)
-    pTimer.SetEvent(pEvent)
-    App.g_kTimerManager.AddTimer(pTimer)
-
-def RefreshUseAbilityButton(_pObject, _pEvent):
-    g_pAbilityButton.SetName(GetNewAbilityButtonTitle())
-
-def GetNewAbilityButtonTitle():
-    import Custom.CrazyShipAbilities.Abilities
-    import Custom.CrazyShipAbilities.PerShip.NoAbilities
-
-    remainingCooldown = Custom.CrazyShipAbilities.Abilities.GetRemainingCooldown()
-    title = Custom.CrazyShipAbilities.Abilities.GetTitle()
-
-    if (remainingCooldown == Custom.CrazyShipAbilities.PerShip.NoAbilities.NO_ABILITIES_COOLDOWN):
-        return App.TGString('No ability available')
-    elif (remainingCooldown == 0):
-        return App.TGString(title + ' (Ready)')
-    else:
-        import math
-        cooldownString = str(int(math.ceil(remainingCooldown)))
-        return App.TGString(title + ' (' + cooldownString + 's)')
-
-def UseAbility(_pObject, _pEvent):
-    import Custom.CrazyShipAbilities.Abilities
-    Custom.CrazyShipAbilities.Abilities.UseAbility()
 
 def PhasersOnlyToggled(pObject, pEvent):
     pPlayer = MissionLib.GetPlayer()
