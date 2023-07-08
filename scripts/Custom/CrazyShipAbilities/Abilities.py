@@ -2,35 +2,23 @@ import App
 
 import Custom.CrazyShipAbilities.PerShip.NoAbilities
 
-import Custom.CrazyShipAbilities.PerShip.Akira
-import Custom.CrazyShipAbilities.PerShip.BugRammer
-import Custom.CrazyShipAbilities.PerShip.Defiant
-import Custom.CrazyShipAbilities.PerShip.Nova
-import Custom.CrazyShipAbilities.PerShip.Prometheus
-import Custom.CrazyShipAbilities.PerShip.Scimitar
-import Custom.CrazyShipAbilities.PerShip.Shuttle
-import Custom.CrazyShipAbilities.PerShip.Valdore
-
-SHIP_TO_ABILITY_MODULES = {
-	'Akira': Custom.CrazyShipAbilities.PerShip.Akira,
-	'BugRammer': Custom.CrazyShipAbilities.PerShip.BugRammer,
-	'Defiant': Custom.CrazyShipAbilities.PerShip.Defiant,
-	'Nova': Custom.CrazyShipAbilities.PerShip.Nova,
-	'Prometheus': Custom.CrazyShipAbilities.PerShip.Prometheus,
-	'Scimitar': Custom.CrazyShipAbilities.PerShip.Scimitar,
-	'Shuttle': Custom.CrazyShipAbilities.PerShip.Shuttle,
-	'Valdore': Custom.CrazyShipAbilities.PerShip.Valdore,
-}
-NO_ABILITIES_MODULE = Custom.CrazyShipAbilities.PerShip.NoAbilities
+SHIPS_WITH_ABILITIES = [
+	'Akira',
+	'BugRammer',
+	'Defiant',
+	'Nova',
+	'Prometheus',
+	'Scimitar',
+	'Shuttle',
+	'Valdore'
+]
 
 def Reset():
-	for mod in SHIP_TO_ABILITY_MODULES.values():
-		mod.Reset()
-
-Reset()
+	for ship in SHIPS_WITH_ABILITIES:
+		ModuleForShipName(ship).Reset()
 
 def IsAvailable():
-	return GetShipAbilityModule() != NO_ABILITIES_MODULE
+	return GetShipAbilityModule() != Custom.CrazyShipAbilities.PerShip.NoAbilities
 
 def GetTitle():
 	return GetShipAbilityModule().GetTitle()
@@ -61,7 +49,14 @@ def GetShipAbilityModule():
 	pGame = App.Game_GetCurrentGame()
 	pPlayer = pGame.GetPlayer()
 	if not pPlayer:
-		return NO_ABILITIES_MODULE
+		return Custom.CrazyShipAbilities.PerShip.NoAbilities
 
 	playerShipName = pPlayer.GetShipProperty().GetName().GetCString()
-	return SHIP_TO_ABILITY_MODULES.get(playerShipName, NO_ABILITIES_MODULE)
+
+	if playerShipName not in SHIPS_WITH_ABILITIES:
+		return Custom.CrazyShipAbilities.PerShip.NoAbilities
+
+	return ModuleForShipName(playerShipName)
+
+def ModuleForShipName(shipName):
+	return __import__('Custom.CrazyShipAbilities.PerShip.' + shipName)

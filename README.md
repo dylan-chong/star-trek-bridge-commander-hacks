@@ -35,7 +35,6 @@ The point of this is to allow you to diff the changes to the file that this mod 
 ## TODO
 
 - Fix: Rebalance Prometheus for campaign
-- Test: Implement button for ability status / activation
 - Feature: Implement sending ship modifications across stream
     - This will fix:
         - Client wall does not get scaled

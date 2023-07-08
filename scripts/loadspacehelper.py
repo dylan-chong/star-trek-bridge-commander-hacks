@@ -41,8 +41,8 @@ def PreloadShip(sModelName, iNumToLoad = 0):
 
 	if not HasPreloadedExtraShips:  # LOOOOOOOOL Dylan AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 		HasPreloadedExtraShips = 1  # LOOOOOOOOL Dylan AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-		import Bridge.XOMenuHandlers
-		for ship in Bridge.XOMenuHandlers.POSSIBLE_SHIPS:
+		import Custom.CrazyShipAbilities.PerShip.Nova
+		for ship in Custom.CrazyShipAbilities.PerShip.Nova.POSSIBLE_SHIPS:
 			PreloadShip(ship, 0)  # LOOOOOOOOL Dylan AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 
 	# Before the mission is initialized, we'll want to create a
