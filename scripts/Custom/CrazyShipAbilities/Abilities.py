@@ -41,7 +41,10 @@ def UseAbility():
 
 def GetShipAbilityModule():
 	pGame = App.Game_GetCurrentGame()
-	pPlayer = App.ShipClass_Cast(pGame.GetPlayer())
+	pPlayer = pGame.GetPlayer()
+	if not pPlayer:
+		return Custom.CrazyShipAbilities.PerShip.NoAbilities
+
 	playerShipName = pPlayer.GetShipProperty().GetName().GetCString()
 
 	mod = SHIP_TO_ABILITY_MODULES.get(playerShipName)
