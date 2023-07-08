@@ -538,10 +538,11 @@ def RemoveAllCommandableShips():
 def CreatePlayerShip(sShipClass, pSet, pcName, sWaypoint, bUnloadShip = 0):
 	import string
 	if string.find(GetMission().GetScript() or '', 'Maelstrom.') == 0:
-		# Modded ships: BugRammer, Defiant, Akira, Prometheus, Scimitar, Shuttle, Nova, Valdore
+		# For a list of modded ships see scripts\Custom\CrazyShipAbilities\Abilities.py
 		sShipClass = 'Prometheus'
-		import Custom.CrazyShipAbilities.Abilities
-		Custom.CrazyShipAbilities.Abilities.Reset()
+
+	import Custom.CrazyShipAbilities.Abilities
+	Custom.CrazyShipAbilities.Abilities.Reset()
 	
 	pGame = App.Game_GetCurrentGame()
 

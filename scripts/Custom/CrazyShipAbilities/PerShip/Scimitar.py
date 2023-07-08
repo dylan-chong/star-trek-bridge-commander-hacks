@@ -9,10 +9,16 @@ def Reset():
 	Cooldown = Custom.CrazyShipAbilities.Cooldowns.SimpleCooldown(DASH_COOLDOWN_S)
 
 def GetTitle():
-	return 'Dash'
+	return 'Charge'
 
-def GetRemainingCooldown():
-	return Cooldown.GetRemainingCooldown()
+def GetCooldownS():
+	return Cooldown.GetCooldownS()
+
+def GetNReady():
+	return Cooldown.GetNReady()
+
+def GetNCooldowns():
+	return Cooldown.GetNCooldowns()
 
 def UseAbility(pPlayer):
 	if not Cooldown.IsReady():

@@ -1,5 +1,4 @@
 import App
-import loadspacehelper
 
 def GenChildShipName(prefix, i, pPlayer):
 	return prefix + ' ' + str(i + 1) + ' (' + pPlayer.GetName() + ')'
@@ -52,6 +51,7 @@ def GetCurrentTarget(pPlayer):
 
 def SpawnDroneShip(shipType, shipName, distance, pPlayer, group):
 	import MissionLib
+	import loadspacehelper
 	pSetName = MissionLib.GetPlayerSet().GetName()
 	pSet = App.g_kSetManager.GetSet(pSetName)
 

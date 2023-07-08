@@ -1,5 +1,4 @@
 import App
-import MissionLib
 import Custom.CrazyShipAbilities.Cooldowns
 import Custom.CrazyShipAbilities.Utils
 
@@ -9,14 +8,20 @@ NUKE_PREFIX = '42km Nuke'
 
 def Reset():
 	global Cooldown, NukeNamesAndSpawnTimes
-	Cooldown = Custom.CrazyShipAbilities.Cooldowns.SimpleCooldown(NUKE_COOLDOWN_PERIOD)
+	Cooldown = Custom.CrazyShipAbilities.Cooldowns.ParallelCooldown(NUKE_COOLDOWN_PERIOD, MAX_NUKES_PER_PERIOD)
 	NukeNamesAndSpawnTimes = []
 
 def GetTitle():
 	return 'Nuke'
 
-def GetRemainingCooldown():
-	return Cooldown.GetRemainingCooldown()
+def GetCooldownS():
+	return Cooldown.GetCooldownS()
+
+def GetNReady():
+	return Cooldown.GetNReady()
+
+def GetNCooldowns():
+	return Cooldown.GetNCooldowns()
 
 def UseAbility(pPlayer):
 	# TODO this will not work 
@@ -38,6 +43,7 @@ def UseAbility(pPlayer):
 		shipName = Custom.CrazyShipAbilities.Utils.GenChildShipName(NUKE_PREFIX, len(NukeNamesAndSpawnTimes), pPlayer)
 		NukeNamesAndSpawnTimes.append((shipName, App.g_kUtopiaModule.GetGameTime()))
 
+		import MissionLib
 		nuke = Custom.CrazyShipAbilities.Utils.SpawnDroneShip(
 			'Probe',
 			shipName,

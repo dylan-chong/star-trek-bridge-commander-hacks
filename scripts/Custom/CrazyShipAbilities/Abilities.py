@@ -21,6 +21,7 @@ SHIP_TO_ABILITY_MODULES = {
 	'Shuttle': Custom.CrazyShipAbilities.PerShip.Shuttle,
 	'Valdore': Custom.CrazyShipAbilities.PerShip.Valdore,
 }
+NO_ABILITIES_MODULE = Custom.CrazyShipAbilities.PerShip.NoAbilities
 
 def Reset():
 	for mod in SHIP_TO_ABILITY_MODULES.values():
@@ -28,11 +29,28 @@ def Reset():
 
 Reset()
 
-def GetRemainingCooldown():
-	return GetShipAbilityModule().GetRemainingCooldown()
+def IsAvailable():
+	return GetShipAbilityModule() != NO_ABILITIES_MODULE
 
 def GetTitle():
 	return GetShipAbilityModule().GetTitle()
+
+def GetCooldownS():
+	"""
+	Returns the number of seconds until the ability is ready.
+	If the cooldown is compound, then this is the time until the next is ready.
+	"""
+	return GetShipAbilityModule().GetCooldownS()
+
+def GetNReady():
+	"""
+	Returns the number of available ability triggers.
+	1 for simple cooldown, multiple for a compound.
+	"""
+	return GetShipAbilityModule().GetNReady()
+
+def GetNCooldowns():
+	return GetShipAbilityModule().GetNCooldowns()
 
 def UseAbility():
 	pGame = App.Game_GetCurrentGame()
@@ -43,9 +61,7 @@ def GetShipAbilityModule():
 	pGame = App.Game_GetCurrentGame()
 	pPlayer = pGame.GetPlayer()
 	if not pPlayer:
-		return Custom.CrazyShipAbilities.PerShip.NoAbilities
+		return NO_ABILITIES_MODULE
 
 	playerShipName = pPlayer.GetShipProperty().GetName().GetCString()
-
-	mod = SHIP_TO_ABILITY_MODULES.get(playerShipName)
-	return mod or Custom.CrazyShipAbilities.PerShip.NoAbilities
+	return SHIP_TO_ABILITY_MODULES.get(playerShipName, NO_ABILITIES_MODULE)

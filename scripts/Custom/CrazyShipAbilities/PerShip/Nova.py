@@ -1,5 +1,4 @@
 import App
-import MissionLib
 import Custom.CrazyShipAbilities.Cooldowns
 import Custom.CrazyShipAbilities.Utils
 
@@ -30,8 +29,14 @@ def Reset():
 def GetTitle():
 	return 'Drone'
 
-def GetRemainingCooldown():
-	return Cooldown.GetRemainingCooldown()
+def GetCooldownS():
+	return Cooldown.GetCooldownS()
+
+def GetNReady():
+	return Cooldown.GetNReady()
+
+def GetNCooldowns():
+	return Cooldown.GetNCooldowns()
 
 def UseAbility(pPlayer):
 	if not Cooldown.IsReady():
@@ -75,6 +80,7 @@ def UseAbility(pPlayer):
 			distance = SPAWN_DISTANCE * 2
 
 		SetEnemyGroup(pPlayer)
+		import MissionLib
 		pShip = Custom.CrazyShipAbilities.Utils.SpawnDroneShip(
 			shipType,
 			shipName,

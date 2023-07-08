@@ -1,13 +1,17 @@
-NO_ABILITIES_COOLDOWN = 'NO_ABILITIES_COOLDOWN'
-
 def Reset():
 	pass
 
 def GetTitle():
 	return ''
 
-def GetRemainingCooldown():
-	return NO_ABILITIES_COOLDOWN
+def GetCooldownS():
+	return -1
+
+def GetNReady():
+	return 0
+
+def GetNCooldowns():
+	return 0
 
 def UseAbility(_pPlayer):
 	pass

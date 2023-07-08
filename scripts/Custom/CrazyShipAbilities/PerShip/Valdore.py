@@ -1,5 +1,4 @@
 import App
-import MissionLib
 import Custom.CrazyShipAbilities.Cooldowns
 import Custom.CrazyShipAbilities.Utils
 
@@ -16,10 +15,18 @@ def Reset():
 def GetTitle():
 	return 'Wall'
 
-def GetRemainingCooldown():
-	return Cooldown.GetRemainingCooldown()
+def GetCooldownS():
+	return Cooldown.GetCooldownS()
+
+def GetNReady():
+	return Cooldown.GetNReady()
+
+def GetNCooldowns():
+	return Cooldown.GetNCooldowns()
 
 def UseAbility(pPlayer):
+	import MissionLib
+
 	if not Cooldown.IsReady():
 		return
 

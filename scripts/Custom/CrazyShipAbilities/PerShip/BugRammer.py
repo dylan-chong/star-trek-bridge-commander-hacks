@@ -1,5 +1,4 @@
 import App
-import MissionLib
 import Custom.CrazyShipAbilities.Cooldowns
 import Custom.CrazyShipAbilities.Utils
 
@@ -19,10 +18,17 @@ def Reset():
 def GetTitle():
 	return 'Ram'
 
-def GetRemainingCooldown():
-	return Cooldown.GetRemainingCooldown()
+def GetCooldownS():
+	return Cooldown.GetCooldownS()
+
+def GetNReady():
+	return Cooldown.GetNReady()
+
+def GetNCooldowns():
+	return Cooldown.GetNCooldowns()
 
 def UseAbility(pPlayer):
+	import MissionLib
 	global RammerNames
 	target = Custom.CrazyShipAbilities.Utils.GetCurrentTarget(pPlayer)
 	targetName = target and target.GetName() or None
