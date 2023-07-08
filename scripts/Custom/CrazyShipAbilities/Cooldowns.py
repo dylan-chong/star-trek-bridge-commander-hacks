@@ -36,7 +36,7 @@ class ParallelCooldown:
 
 		self.simpleCooldowns = []
 		for _ in range(0, nCooldowns):
-			self.simpleCooldowns.push(SimpleCooldown(cooldown))
+			self.simpleCooldowns.append(SimpleCooldown(cooldown))
 	
 	def Trigger(self):
 		oldestCooldown = self.GetOldestReadyCooldown()
