@@ -4,6 +4,7 @@ import App
 import BridgeHandlers
 import BridgeUtils
 import MissionLib
+import Custom.CrazyShipAbilities.UseAbilityButtonHandlers
 if App.Game_GetCurrentGame():
     App.Game_GetCurrentGame().AddPersistentModule(__name__)
 
@@ -29,8 +30,6 @@ EST_MANEUVER_MAINTAIN = 22
 EST_MANEUVER_SEPARATE = 23
 EST_LAST_MANEUVER = 29
 EST_USE_ABILITY = 31
-
-ET_REFRESH_USE_ABILITY = App.Game_GetNextEventType()
 
 g_bIgnoreNextAIDone = 0
 g_fLastWarnTime = 0
@@ -65,8 +64,6 @@ g_lManeuvers = [
     ('ManeuverClose', EST_MANEUVER_CLOSE),
     ('ManeuverMaintain', EST_MANEUVER_MAINTAIN),
     ('ManeuverSeparate', EST_MANEUVER_SEPARATE)]
-g_bHasSetUpRefreshAbilityTimer = 0
-g_pAbilityButton = None
 
 def Mix(vMain, vSecondary):
     vMain.Scale(2.0)
@@ -214,7 +211,7 @@ def CreateMenus():
 
 
 def CreateTacticalMenu():
-    global g_idTacticalMenu, g_pAbilityButton
+    global g_idTacticalMenu
     LCARS = __import__(App.GraphicsModeInfo_GetCurrentMode().GetLcarsModule())
     pDatabase = App.g_kLocalizationManager.Load('data/TGL/Bridge Menus.tgl')
     pTacticalMenu = App.STTopLevelMenu_CreateW(pDatabase.GetString('Tactical'))
@@ -229,8 +226,9 @@ def CreateTacticalMenu():
     import BridgeMenus
     pCommunicate = BridgeMenus.CreateCommunicateButton('Tactical', pTacticalMenu)
     pTacticalMenu.AddChild(pCommunicate)
-    g_pAbilityButton = BridgeUtils.CreateBridgeMenuButton(App.TGString('...'), EST_USE_ABILITY, 0, pTacticalMenu)
-    pTacticalMenu.AddChild(g_pAbilityButton)
+    abilityButton = BridgeUtils.CreateBridgeMenuButton(App.TGString('...'), EST_USE_ABILITY, 0, pTacticalMenu)
+    pTacticalMenu.AddChild(abilityButton)
+    Custom.CrazyShipAbilities.UseAbilityButtonHandlers.ButtonCreated(abilityButton)
     pFireButton = BridgeUtils.CreateBridgeMenuButton(pDatabase.GetString('Manual Aim'), App.ET_FIRE, 0, pTacticalMenu)
     pFireButton.SetAutoChoose(1)
     pFireButton.SetChosen(0)
@@ -256,11 +254,11 @@ def CreateTacticalMenu():
     pTacticalMenu.ForceUpdate()
     pTacticalMenu.AddPythonFuncHandlerForInstance(App.ET_MANEUVER, __name__ + '.Maneuver')
     pTacticalMenu.AddPythonFuncHandlerForInstance(App.ET_FIRE, __name__ + '.Fire')
-    pTacticalMenu.AddPythonFuncHandlerForInstance(EST_USE_ABILITY, __name__ + '.UseAbility')
+    pTacticalMenu.AddPythonFuncHandlerForInstance(EST_USE_ABILITY, 'Custom.CrazyShipAbilities.UseAbilityButtonHandlers.UseAbility')
+    Custom.CrazyShipAbilities.UseAbilityButtonHandlers.SetupUseAbilityRefreshTimer()
     pTacticalMenu.AddPythonFuncHandlerForInstance(ET_PHASERS_ONLY, __name__ + '.PhasersOnlyToggled')
     pTacticalMenu.AddPythonFuncHandlerForInstance(ET_TARGETING_TOGGLED, __name__ + '.TargetingModeToggled')
     pTacticalMenu.AddPythonFuncHandlerForInstance(App.ET_COMMUNICATE, 'Bridge.Characters.CommonAnimations.NothingToAdd')
-    SetupUseAbilityRefreshTimer(pTacticalMenu)
     App.g_kEventManager.AddBroadcastPythonFuncHandler(App.ET_TARGET_WAS_CHANGED, pTacticalMenu, __name__ + '.TargetChanged')
     App.g_kEventManager.AddBroadcastPythonFuncHandler(App.ET_RESTORE_PERSISTENT_TARGET, pTacticalMenu, __name__ + '.PersistentTargetRestored')
     App.g_kEventManager.AddBroadcastPythonFuncHandler(App.ET_SET_PLAYER, pTacticalMenu, __name__ + '.SetPlayer')
