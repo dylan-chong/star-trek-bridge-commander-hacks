@@ -46,14 +46,14 @@ class ParallelCooldown:
 		oldestCooldown.Trigger()
 
 	def GetCooldownS(self):
-		minCooldownS = None
+		cooldownsS = map(lambda cd: cd.GetCooldownS(), self.simpleCooldowns)
+		cooldownsS = filter(lambda cds: cds > 0, cooldownsS)
+		cooldownsS.sort()
 
-		for simpleCooldown in self.simpleCooldowns:
-			cooldownS = simpleCooldown.GetCooldownS()
-			if not minCooldownS or cooldownS < minCooldownS:
-				minCooldownS = cooldownS
+		if len(cooldownsS) == 0:
+			return 0
 
-		return minCooldownS
+		return cooldownsS[0]
 	
 	def GetNReady(self):
 		nReady = 0
