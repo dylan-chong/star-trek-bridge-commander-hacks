@@ -34,9 +34,8 @@ The point of this is to allow you to diff the changes to the file that this mod 
 
 ## TODO
 
-- Test: Make it easier to aim the Prometheus sniper beam
 - Fix: Rebalance Prometheus for campaign
-- Feature: Implement button for ability status / activation
+- Test: Implement button for ability status / activation
 - Feature: Implement sending ship modifications across stream
     - This will fix:
         - Client wall does not get scaled
