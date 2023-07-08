@@ -255,7 +255,7 @@ def CreateTacticalMenu():
     pTacticalMenu.AddPythonFuncHandlerForInstance(App.ET_MANEUVER, __name__ + '.Maneuver')
     pTacticalMenu.AddPythonFuncHandlerForInstance(App.ET_FIRE, __name__ + '.Fire')
     pTacticalMenu.AddPythonFuncHandlerForInstance(EST_USE_ABILITY, 'Custom.CrazyShipAbilities.UseAbilityButtonHandlers.UseAbility')
-    Custom.CrazyShipAbilities.UseAbilityButtonHandlers.SetupUseAbilityRefreshTimer()
+    Custom.CrazyShipAbilities.UseAbilityButtonHandlers.SetupButtonTitleRefreshTimer()
     pTacticalMenu.AddPythonFuncHandlerForInstance(ET_PHASERS_ONLY, __name__ + '.PhasersOnlyToggled')
     pTacticalMenu.AddPythonFuncHandlerForInstance(ET_TARGETING_TOGGLED, __name__ + '.TargetingModeToggled')
     pTacticalMenu.AddPythonFuncHandlerForInstance(App.ET_COMMUNICATE, 'Bridge.Characters.CommonAnimations.NothingToAdd')

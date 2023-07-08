@@ -3,20 +3,23 @@ import Custom.CrazyShipAbilities.Abilities
 
 ET_REFRESH_USE_ABILITY = App.Game_GetNextEventType()
 
-g_bHasSetUpRefreshAbilityTimer = 0
+g_iButtonRefreshTimerId = None
 g_pAbilityButton = None
 
 def ButtonCreated(button):
-    global g_pAbilityButton
+    global g_pAbilityButton, g_iButtonRefreshTimerId
+    if g_iButtonRefreshTimerId:
+        App.g_kTimerManager.DeleteTimer(g_iButtonRefreshTimerId)
+
+    g_iButtonRefreshTimerId = None
     g_pAbilityButton = button
 
-def SetupUseAbilityRefreshTimer():
-    global g_bHasSetUpRefreshAbilityTimer
-    if g_bHasSetUpRefreshAbilityTimer:
+def SetupButtonTitleRefreshTimer():
+    global g_iButtonRefreshTimerId
+    if g_iButtonRefreshTimerId:
         return
-    g_bHasSetUpRefreshAbilityTimer = 1
 
-    g_pAbilityButton.AddPythonFuncHandlerForInstance(ET_REFRESH_USE_ABILITY, __name__ + '.RefreshUseAbilityButton')
+    g_pAbilityButton.AddPythonFuncHandlerForInstance(ET_REFRESH_USE_ABILITY, __name__ + '.RefreshButtonTitle')
 
     pEvent = App.TGEvent_Create()
     pEvent.SetEventType(ET_REFRESH_USE_ABILITY)
@@ -27,9 +30,9 @@ def SetupUseAbilityRefreshTimer():
     pTimer.SetDelay(0.125)
     pTimer.SetDuration(-1)
     pTimer.SetEvent(pEvent)
-    App.g_kTimerManager.AddTimer(pTimer)
+    g_iButtonRefreshTimerId = App.g_kTimerManager.AddTimer(pTimer)
 
-def RefreshUseAbilityButton(_pObject, _pEvent):
+def RefreshButtonTitle(_pObject, _pEvent):
     g_pAbilityButton.SetName(GetAbilityButtonTitle())
 
 def UseAbility(_pObject, _pEvent):
