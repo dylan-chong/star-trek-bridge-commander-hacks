@@ -36,7 +36,7 @@ def UseAbility(_pObject, _pEvent):
     Custom.CrazyShipAbilities.Abilities.UseAbility()
 
 def GetAbilityButtonTitle():
-    if Custom.CrazyShipAbilities.Abilities.IsAvailable():
+    if not Custom.CrazyShipAbilities.Abilities.IsAvailable():
         return App.TGString('No ability available')
 
     nCooldowns = Custom.CrazyShipAbilities.Abilities.GetNCooldowns()
@@ -53,17 +53,17 @@ def GetButtonTitleForSingleCooldown():
     if cooldownS == 0:
         return App.TGString(title + ' (Ready)')
     else:
-        return App.TGString(title + ' (' + FormatCooldownS(cooldownS) + 's)')
+        return App.TGString(title + ' (' + FormatCooldownS(cooldownS) + ')')
 
 def GetButtonTitleForCompoundCooldown(nCooldowns):
     title = Custom.CrazyShipAbilities.Abilities.GetTitle()
     nReady = Custom.CrazyShipAbilities.Abilities.GetNReady()
 
     if nReady == nCooldowns:
-        return App.TGString(title + ' (' + nCooldowns + '/' + nCooldowns + ')')
+        return App.TGString(title + ' (' + str(nCooldowns) + '/' + str(nCooldowns) + ')')
     else:
-        s = Custom.CrazyShipAbilities.Abilities.GetCooldownS()
-        return App.TGString(title + ' (' + nReady + '/' + nCooldowns + ') (' + s + ')')
+        s = FormatCooldownS(Custom.CrazyShipAbilities.Abilities.GetCooldownS())
+        return App.TGString(title + ' (' + str(nReady) + '/' + str(nCooldowns) + ') (' + s + ')')
 
 def FormatCooldownS(cooldownS):
     import math

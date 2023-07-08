@@ -6,7 +6,7 @@ class SimpleCooldown:
 		self.lastTriggeredAt = -9999999
 	
 	def Trigger(self):
-		if self.GetNCooldownS() > 0:
+		if self.GetCooldownS() > 0:
 			raise "Unexpectedly triggered when still in cooldown for " + str(self.GetCooldownS()) + " seconds"
 
 		self.lastTriggeredAt = Now()
@@ -39,21 +39,21 @@ class ParallelCooldown:
 			self.simpleCooldowns.append(SimpleCooldown(cooldown))
 	
 	def Trigger(self):
-		oldestCooldown = self.GetOldestReadyCooldown()
+		oldestCooldown = self.GetAnyReadyCooldown()
 		if not oldestCooldown:
 			raise "Unexpectedly triggered when not ready"
 		
 		oldestCooldown.Trigger()
 
 	def GetCooldownS(self):
-		minCooldown = None
+		minCooldownS = None
 
 		for simpleCooldown in self.simpleCooldowns:
 			cooldownS = simpleCooldown.GetCooldownS()
-			if not minCooldown or cooldownS < minCooldown:
-				minCooldown = simpleCooldown
+			if not minCooldownS or cooldownS < minCooldownS:
+				minCooldownS = cooldownS
 
-		return minCooldown
+		return minCooldownS
 	
 	def GetNReady(self):
 		nReady = 0
@@ -66,6 +66,16 @@ class ParallelCooldown:
 
 	def GetNCooldowns(self):
 		return len(self.simpleCooldowns)
+
+	def IsReady(self):
+		return self.GetNReady() >= 1
+
+	def GetAnyReadyCooldown(self):
+		for simpleCooldown in self.simpleCooldowns:
+			if simpleCooldown.IsReady():
+				return simpleCooldown
+		return None
+
 
 def Now():
 	return App.g_kUtopiaModule.GetGameTime()
