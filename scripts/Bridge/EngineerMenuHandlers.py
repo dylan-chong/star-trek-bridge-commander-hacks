@@ -11,12 +11,15 @@
 import App
 import BridgeUtils
 import MissionLib
+import Custom.CrazyShipAbilities.UseAbilityButtonHandlers
 
 # Create debug object
 #kDebugObj = App.CPyDebug()
 #NonSerializedObjects = ( "kDebugObj", )
 
 g_kPowerTitleSizes = [6, 6, 6, 6, 6]
+
+EST_USE_ABILITY = 1
 
 ###############################################################################
 #	CreateMenus(pEngineer)
@@ -80,6 +83,11 @@ def CreateMenus():
 	pCommunicate = Bridge.BridgeMenus.CreateCommunicateButton("Engineer", pEngineeringMenu)
 	pEngineeringMenu.AddChild(pCommunicate, 0.0, 0.0, 0)
 	pEngineeringMenu.ResizeToContents()
+
+	pAbilityButton = BridgeUtils.CreateBridgeMenuButton(App.TGString('...'), EST_USE_ABILITY, 0, pEngineeringMenu)
+	pEngineeringMenu.AddPythonFuncHandlerForInstance(EST_USE_ABILITY, 'Custom.CrazyShipAbilities.UseAbilityButtonHandlers.UseAbility')
+	pEngineeringMenu.AddChild(pAbilityButton)
+	Custom.CrazyShipAbilities.UseAbilityButtonHandlers.ButtonCreated(pAbilityButton)
 
 	pRepairPane = App.EngRepairPane_Create(1.0, 0.4, 3)
 	pEngineeringMenu.AddChild(pRepairPane, 0.0, 0.0, 0)

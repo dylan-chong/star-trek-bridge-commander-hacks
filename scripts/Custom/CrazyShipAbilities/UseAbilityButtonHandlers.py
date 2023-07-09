@@ -4,39 +4,46 @@ import Custom.CrazyShipAbilities.KeyBinds
 
 ET_REFRESH_USE_ABILITY = App.Game_GetNextEventType()
 
-g_iButtonRefreshTimerId = None
-g_pAbilityButton = None
+ButtonRefreshTimerId = None
 
-def ButtonCreated(button):
-    global g_pAbilityButton, g_iButtonRefreshTimerId
-    if g_iButtonRefreshTimerId:
-        App.g_kTimerManager.DeleteTimer(g_iButtonRefreshTimerId)
+def Reset():
+    global ButtonRefreshTimerId, AbilityButtons
+    AbilityButtons = []
 
-    g_iButtonRefreshTimerId = None
-    g_pAbilityButton = button
+    if ButtonRefreshTimerId:
+        App.g_kTimerManager.DeleteTimer(ButtonRefreshTimerId)
+        ButtonRefreshTimerId = None
 
     Custom.CrazyShipAbilities.KeyBinds.SetUpKeyHandler()
 
-def SetupButtonTitleRefreshTimer():
-    global g_iButtonRefreshTimerId
-    if g_iButtonRefreshTimerId:
+def ButtonCreated(button):
+    global AbilityButtons
+    AbilityButtons.append(button)
+
+    if ButtonRefreshTimerId:
         return
 
-    g_pAbilityButton.AddPythonFuncHandlerForInstance(ET_REFRESH_USE_ABILITY, __name__ + '.RefreshButtonTitle')
+    SetupButtonTitleRefreshTimer()
+
+def SetupButtonTitleRefreshTimer():
+    global ButtonRefreshTimerId
+    AbilityButtons[0].AddPythonFuncHandlerForInstance(ET_REFRESH_USE_ABILITY, __name__ + '.RefreshButtonsTitles')
 
     pEvent = App.TGEvent_Create()
     pEvent.SetEventType(ET_REFRESH_USE_ABILITY)
-    pEvent.SetDestination(g_pAbilityButton)
+    pEvent.SetDestination(AbilityButtons[0])
 
     pTimer = App.TGTimer_Create()
     pTimer.SetTimerStart(App.g_kUtopiaModule.GetGameTime() + 0.125)
     pTimer.SetDelay(0.125)
     pTimer.SetDuration(-1)
     pTimer.SetEvent(pEvent)
-    g_iButtonRefreshTimerId = App.g_kTimerManager.AddTimer(pTimer)
+    ButtonRefreshTimerId = App.g_kTimerManager.AddTimer(pTimer)
 
-def RefreshButtonTitle(_pObject, _pEvent):
-    g_pAbilityButton.SetName(GetAbilityButtonTitle())
+def RefreshButtonsTitles(_pObject, _pEvent):
+    title = GetAbilityButtonTitle()
+    for button in AbilityButtons:
+        button.SetName(title)
 
 def UseAbility(_pObject, _pEvent):
     Custom.CrazyShipAbilities.Abilities.UseAbility()
