@@ -67,10 +67,6 @@ def SetAlertLevel(pObject, pEvent):
 		iLevel = pPlayer.YELLOW_ALERT
 	
 	if iType == App.CharacterClass.EST_ALERT_RED:
-		# TODO: Don't abuse red alert shortcut to trigger ability
-		import Custom.CrazyShipAbilities.Abilities
-		Custom.CrazyShipAbilities.Abilities.UseAbility()
-
 		iLevel = pPlayer.RED_ALERT
 	
 	if iLevel != pPlayer.GetAlertLevel():

@@ -34,6 +34,7 @@ The point of this is to allow you to diff the changes to the file that this mod 
 
 ## TODO
 
+- Test: Proper keyboard shortcut for ability
 - Fix: Rebalance Prometheus for campaign
 - Feature: Implement sending ship modifications across stream
     - This will fix:
@@ -57,9 +58,6 @@ The point of this is to allow you to diff the changes to the file that this mod 
 
 ## Possible TODO
 
-- Feature: Proper configurable keyboard shortcut for ability(ies)
-    - Investigate: Can you add a new keyboard shortcut to here scripts\MainMenu\KeyboardConfig.py:1250
-    - Investigate: Can replace the self destruct functionality
 - Feature: Nuke has a glow effect (may make it clearer in multiplayer)
 - Feature: New ship with a large cutting beam using a stream of non-tracking disruptors (krenim ship?)
 - Feature: New mage ship with suck and power drain abilities (breen?)
