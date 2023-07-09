@@ -1,6 +1,7 @@
 # File: D (Python 1.5)
 
 import App
+import Custom.CrazyShipAbilities.KeyBinds
 
 def Initialize():
     App.g_kKeyboardBinding.BindKey(App.WC_BACKQUOTE, App.TGKeyboardEvent.KS_NORMAL, App.ET_INPUT_TOGGLE_CONSOLE, App.KeyboardBinding.GET_EVENT, 0, App.KeyboardBinding.KBT_LOCKOUT_CHANGE)
@@ -124,3 +125,4 @@ def Initialize():
     App.g_kKeyboardBinding.BindKey(App.WC_ALT_7, App.TGKeyboardEvent.KS_NORMAL, App.ET_MANAGE_POWER, App.KeyboardBinding.GET_INT_EVENT, 6, App.KeyboardBinding.KBT_SINGLE_KEY_TO_EVENT)
     App.g_kKeyboardBinding.BindKey(App.WC_ALT_8, App.TGKeyboardEvent.KS_NORMAL, App.ET_MANAGE_POWER, App.KeyboardBinding.GET_INT_EVENT, 7, App.KeyboardBinding.KBT_SINGLE_KEY_TO_EVENT)
 
+    App.g_kKeyboardBinding.BindKey(App.WC_CTRL_B, App.TGKeyboardEvent.KS_KEYDOWN, Custom.CrazyShipAbilities.KeyBinds.ET_INPUT_USE_ABILITY, 0, 0)

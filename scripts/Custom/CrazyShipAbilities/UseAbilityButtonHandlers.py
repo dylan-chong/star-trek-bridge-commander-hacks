@@ -1,5 +1,6 @@
 import App
 import Custom.CrazyShipAbilities.Abilities
+import Custom.CrazyShipAbilities.KeyBinds
 
 ET_REFRESH_USE_ABILITY = App.Game_GetNextEventType()
 
@@ -13,6 +14,8 @@ def ButtonCreated(button):
 
     g_iButtonRefreshTimerId = None
     g_pAbilityButton = button
+
+    Custom.CrazyShipAbilities.KeyBinds.SetUpKeyHandler()
 
 def SetupButtonTitleRefreshTimer():
     global g_iButtonRefreshTimerId
