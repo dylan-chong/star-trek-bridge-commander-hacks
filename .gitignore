@@ -522,7 +522,6 @@ scripts/Maelstrom/Episode8/E8M2/E8M2_P.py
 scripts/Maelstrom/Episode8/Episode8.py
 scripts/Maelstrom/Maelstrom.py
 scripts/MainMenu/CardSpecificSetup.py
-scripts/MainMenu/KeyboardConfig.py
 scripts/MainMenu/mainmenu.py
 scripts/MissionLib.py
 scripts/Multiplayer/Episode/Mission1/Mission1.py
