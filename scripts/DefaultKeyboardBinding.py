@@ -100,7 +100,6 @@ def Initialize():
     App.g_kKeyboardBinding.BindKey(App.WC_INSERT, App.TGKeyboardEvent.KS_KEYDOWN, App.ET_INPUT_VIEWSCREEN_DOWN, 0, 0)
     App.g_kKeyboardBinding.BindKey(App.WC_C, App.TGKeyboardEvent.KS_KEYDOWN, App.ET_INPUT_CYCLE_CAMERA, 0, 0)
     App.g_kKeyboardBinding.BindKey(App.WC_V, App.TGKeyboardEvent.KS_KEYDOWN, App.ET_INPUT_REVERSE_CHASE, 0, 0)
-    App.g_kKeyboardBinding.BindKey(App.WC_B, App.TGKeyboardEvent.KS_KEYDOWN, App.ET_INPUT_FIRSTPERSON, 0, 0)
     App.g_kKeyboardBinding.BindKey(App.WC_TAB, App.TGKeyboardEvent.KS_KEYDOWN, App.ET_INPUT_TAB_FOCUS_CHANGE, 0, 0)
     App.g_kKeyboardBinding.BindKey(App.WC_CAPS_K, App.TGKeyboardEvent.KS_KEYDOWN, App.ET_INPUT_DEBUG_KILL_TARGET, 0, 0)
     App.g_kKeyboardBinding.BindKey(App.WC_CAPS_R, App.TGKeyboardEvent.KS_KEYDOWN, App.ET_INPUT_DEBUG_QUICK_REPAIR, 0, 0)
@@ -125,4 +124,4 @@ def Initialize():
     App.g_kKeyboardBinding.BindKey(App.WC_ALT_7, App.TGKeyboardEvent.KS_NORMAL, App.ET_MANAGE_POWER, App.KeyboardBinding.GET_INT_EVENT, 6, App.KeyboardBinding.KBT_SINGLE_KEY_TO_EVENT)
     App.g_kKeyboardBinding.BindKey(App.WC_ALT_8, App.TGKeyboardEvent.KS_NORMAL, App.ET_MANAGE_POWER, App.KeyboardBinding.GET_INT_EVENT, 7, App.KeyboardBinding.KBT_SINGLE_KEY_TO_EVENT)
 
-    App.g_kKeyboardBinding.BindKey(App.WC_CTRL_B, App.TGKeyboardEvent.KS_KEYDOWN, Custom.CrazyShipAbilities.KeyBinds.ET_INPUT_USE_ABILITY, 0, 0)
+    App.g_kKeyboardBinding.BindKey(App.WC_B, App.TGKeyboardEvent.KS_KEYDOWN, Custom.CrazyShipAbilities.KeyBinds.ET_INPUT_USE_ABILITY, 0, 0)
