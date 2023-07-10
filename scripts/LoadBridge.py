@@ -133,6 +133,9 @@ def Load(sBridgeConfigScript):
 #   Return: none
 ###############################################################################
 def CreateCharacterMenus():
+    import Custom.CrazyShipAbilities.UseAbilityButtonHandlers
+    Custom.CrazyShipAbilities.UseAbilityButtonHandlers.Reset()
+
     # Create our Tactical menus     
     import Bridge.TacticalMenuHandlers
     Bridge.TacticalMenuHandlers.CreateMenus()
