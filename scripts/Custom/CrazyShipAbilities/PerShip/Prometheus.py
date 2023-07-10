@@ -4,10 +4,11 @@ import Custom.CrazyShipAbilities.Utils
 
 DASHBACK_COOLDOWN_S = 16
 
-def Reset():
+def Initialize(OverrideExisting):
 	global Cooldown
+	if 'Cooldown' in globals().keys() and not OverrideExisting:
+		return 
 	Cooldown = Custom.CrazyShipAbilities.Cooldowns.SimpleCooldown(DASHBACK_COOLDOWN_S)
-	pass
 
 def GetTitle():
 	return 'Dashback'

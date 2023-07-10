@@ -1,4 +1,4 @@
-def Reset():
+def Initialize(OverrideExisting):
 	pass
 
 def GetTitle():

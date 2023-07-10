@@ -10,8 +10,10 @@ BUG_BEEFY_DRONE_NAME_PREFIX = 'BeefyRam'
 BUG_BEEFY_DRONE_SCALE = 1.5
 BUG_BEEFY_DRONE_SPEED_MULT = 0.5
 
-def Reset():
+def Initialize(OverrideExisting):
 	global Cooldown, RammerNames
+	if 'Cooldown' in globals().keys() and not OverrideExisting:
+		return
 	Cooldown = Custom.CrazyShipAbilities.Cooldowns.SimpleCooldown(BUG_DRONE_COOLDOWN_S)
 	RammerNames = []
 

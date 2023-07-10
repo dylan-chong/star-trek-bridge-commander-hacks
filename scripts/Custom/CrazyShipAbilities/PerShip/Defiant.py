@@ -4,8 +4,10 @@ import Custom.CrazyShipAbilities.Utils
 
 DASH_COOLDOWN_S = 10
 
-def Reset():
+def Initialize(OverrideExisting):
 	global Cooldown
+	if 'Cooldown' in globals().keys() and not OverrideExisting:
+		return
 	Cooldown = Custom.CrazyShipAbilities.Cooldowns.SimpleCooldown(DASH_COOLDOWN_S)
 
 def GetTitle():

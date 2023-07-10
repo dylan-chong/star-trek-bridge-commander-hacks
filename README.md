@@ -87,6 +87,8 @@ The point of this is to allow you to diff the changes to the file that this mod 
 
 ## TODO
 
+- Investigate: Game sometimes starts with abnormal execution error
+    - It appears that a bunch of python files (including in scripts/Actions) are simply not there when the game is broken.
 - Fix: Engineer menu ability and report buttons are blank in multiplayer
 - Fix: Rebalance Prometheus for campaign
 - Feature: Implement sending ship modifications across stream

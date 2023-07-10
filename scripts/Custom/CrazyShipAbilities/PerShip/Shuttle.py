@@ -6,8 +6,10 @@ MAX_NUKES_PER_PERIOD = 3
 NUKE_COOLDOWN_PERIOD = 24
 NUKE_PREFIX = '42km Nuke'
 
-def Reset():
+def Initialize(OverrideExisting):
 	global Cooldown, NukeNames
+	if 'Cooldown' in globals().keys() and not OverrideExisting:
+		return
 	Cooldown = Custom.CrazyShipAbilities.Cooldowns.ParallelCooldown(NUKE_COOLDOWN_PERIOD, MAX_NUKES_PER_PERIOD)
 	NukeNames = []
 

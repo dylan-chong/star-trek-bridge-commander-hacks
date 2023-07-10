@@ -7,8 +7,10 @@ MAX_SIMULTANEOUS_WALLS = 1
 WALL_LIFETIME_S = WALL_COOLDOWN_S * MAX_SIMULTANEOUS_WALLS - 1 # TODO this only applies when spawning a new wall
 
 
-def Reset():
+def Initialize(OverrideExisting):
 	global Cooldown, WallNamesAndSpawnTimes
+	if 'Cooldown' in globals().keys() and not OverrideExisting:
+		return
 	Cooldown = Custom.CrazyShipAbilities.Cooldowns.SimpleCooldown(WALL_COOLDOWN_S)
 	WallNamesAndSpawnTimes = []
 

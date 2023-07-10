@@ -18,8 +18,10 @@ POSSIBLE_SHIPS = [
 	"BugRammer"
 ]
 
-def Reset():
+def Initialize(OverrideExisting):
 	global Cooldown, DroneNames, LastSpawnDroneTime, DroneSpawnTimes, EnemyGroup, LastBoostTime
+	if 'Cooldown' in globals().keys() and not OverrideExisting:
+		return
 	DroneNames = []
 	LastSpawnDroneTime = 0
 	DroneSpawnTimes = []
