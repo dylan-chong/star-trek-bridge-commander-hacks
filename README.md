@@ -74,6 +74,17 @@ The point of this is to allow you to diff the changes to the file that this mod 
 1. Then make a commit committing the original version of that file(s)
 1. Then make your changes and commit those
 
+## Getting decompiled source code for existing .pyc files
+
+1. Download <https://sourceforge.net/projects/easypythondecompiler/> which can decompile Python 1.x files
+1. Open it and click "Decompile a directory"
+1. Move the broken `scripts/Multiplayer/Episode/Mission4/Mission4Menus.py` file onto your desktop temporarily
+    * The decompiler will crash when it hits this file
+1. Select the `C:\GOG Games\Star Trek Bridge Commander\scripts` directory
+    * This will create a `.pyc_dis` file for each `.py` the decompiler found
+    * NOTE: The decompiler doesn't write the decompiled `import` statements properly. Statements like `import A.B as A` should actually be `import A.B`.
+1. Put back the broken `Mission4Menus.py`
+
 ## TODO
 
 - Fix: Engineer menu ability and report buttons are blank in multiplayer
