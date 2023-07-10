@@ -34,7 +34,7 @@ The point of this is to allow you to diff the changes to the file that this mod 
 
 ## TODO
 
-- Test: Proper keyboard shortcut for ability
+- Fix: Engineer menu ability and report buttons are blank in multiplayer
 - Fix: Rebalance Prometheus for campaign
 - Feature: Implement sending ship modifications across stream
     - This will fix:

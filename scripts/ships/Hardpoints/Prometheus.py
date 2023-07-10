@@ -349,7 +349,7 @@ ForwardPhaser2.SetIconPositionX(90.000000)
 ForwardPhaser2.SetIconPositionY(37.000000)
 ForwardPhaser2.SetIconAboveShip(1)
 ForwardPhaser2.SetFireSound("Galaxy Phaser")
-ForwardPhaser2.SetMaxCharge(AAAAAAAAAAMainPhaserMaxChargeFactor * 10 *1.000000)
+ForwardPhaser2.SetMaxCharge(AAAAAAAAAAMainPhaserMaxChargeFactor * 1.000000)
 ForwardPhaser2.SetMaxDamage(AAAAAAAAAAAAANormalPhaserDamageFactor * 960.000000)
 ForwardPhaser2.SetMaxDamageDistance(200.000000)
 ForwardPhaser2.SetMinFiringCharge(1.000000)
@@ -522,7 +522,7 @@ App.g_kModelPropertyManager.RegisterLocalTemplate(ForwardPhaser4)
 Z_OFF = 550 * 0.75 # 550 is about 100km
 ExtraPhasers = []
 
-def CreateExtraPhaserCircle(IntoArray, Radius, NPhasers, DamageFactor, DamageRadius, FiringArcRads, MainBeamRadius):
+def CreateExtraPhaserCircle(IntoArray, Radius, NPhasers, DamageFactor, DamageRadius, FiringArcRads, MainBeamRadius, FireSound):
 	import math
 
 	for i in range(0, NPhasers):
@@ -547,7 +547,7 @@ def CreateExtraPhaserCircle(IntoArray, Radius, NPhasers, DamageFactor, DamageRad
 		ExtraPhaser.SetIconPositionX(0.000000)
 		ExtraPhaser.SetIconPositionY(0.000000)
 		ExtraPhaser.SetIconAboveShip(1)
-		ExtraPhaser.SetFireSound("8472 Phaser")
+		ExtraPhaser.SetFireSound(FireSound)
 		ExtraPhaser.SetMaxCharge(1000000 * 1.000000)
 		ExtraPhaser.SetMaxDamage(DamageFactor * 960.000000)
 		ExtraPhaser.SetMaxDamageDistance(1000000 * 60.000000)
@@ -593,28 +593,30 @@ def CreateExtraPhaserCircle(IntoArray, Radius, NPhasers, DamageFactor, DamageRad
 
 		IntoArray.append(ExtraPhaser)
 
-MAIN_CIRCLE_RADIUS = 6
-CROSSHAIR_CIRCLE_RADIUS_GAP = 7
+MAIN_CIRCLE_RADIUS = 5
+CROSSHAIR_CIRCLE_RADIUS_GAP = 8
 
 CreateExtraPhaserCircle(
 	IntoArray=ExtraPhasers,
 	Radius=MAIN_CIRCLE_RADIUS,
 	NPhasers=8,
-	DamageFactor=0.8,
-	DamageRadius=0,
+	DamageFactor=0.4,
+	DamageRadius=0.3,
 	FiringArcRads=0.06,
 	MainBeamRadius=0.23,
+	FireSound="8472 Phaser"
 )
 
-for ringIndex in range(0, 5):
+for ringIndex in range(0, 4):
 	CreateExtraPhaserCircle(
 		IntoArray=ExtraPhasers,
-		Radius=MAIN_CIRCLE_RADIUS + CROSSHAIR_CIRCLE_RADIUS_GAP * (ringIndex - 1),
+		Radius=MAIN_CIRCLE_RADIUS + CROSSHAIR_CIRCLE_RADIUS_GAP * (ringIndex),
 		NPhasers=4,
-		DamageFactor=0.04,
+		DamageFactor=0.02,
 		DamageRadius=0,
 		FiringArcRads=0.35,
 		MainBeamRadius=0.06,
+		FireSound=''
 	)
 
 #################################################
