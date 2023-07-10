@@ -452,7 +452,6 @@ scripts/Icons/LCARS_640.py
 scripts/Icons/SystemIcons.py
 scripts/KeyboardBinding.py
 scripts/LibConfig.py
-scripts/LoadBridge.py
 scripts/LoadInterface.py
 scripts/loadspacehelper.py
 scripts/LoadTacticalSounds.py
