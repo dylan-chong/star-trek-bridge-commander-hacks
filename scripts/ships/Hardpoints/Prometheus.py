@@ -5,7 +5,9 @@
 AAAAAAAAAAMainPhaserMaxChargeFactor = 4.0
 AAAAAAAAAMainPhaserRadiusWidthFactor = 0.2
 
-AAAAAAAAATorpReloadDelay = 16.0 * 1.5 # same as DASHBACK_COOLDOWN_S  scripts\Custom\CrazyShipAbilities\PerShip\Prometheus.py
+NTorps = 2
+DashbackTorpComboNerf = 1.5
+AAAAAAAAATorpReloadDelay = 16.0 * DashbackTorpComboNerf * NTorps # same as DASHBACK_COOLDOWN_S  scripts\Custom\CrazyShipAbilities\PerShip\Prometheus.py
 
 import App
 import GlobalPropertyTemplates
@@ -1142,7 +1144,7 @@ Torpedoes.SetWeaponSystemType(Torpedoes.WST_TORPEDO)
 Torpedoes.SetSingleFire(0)
 Torpedoes.SetAimedWeapon(1)
 kFiringChainString = App.TGString()
-kFiringChainString.SetString("1234;Full")
+kFiringChainString.SetString("0;Single")
 Torpedoes.SetFiringChainString(kFiringChainString)
 Torpedoes.SetMaxTorpedoes(0, 400)
 Torpedoes.SetTorpedoScript(0, "Tactical.Projectiles.Full Impulse Blocker")

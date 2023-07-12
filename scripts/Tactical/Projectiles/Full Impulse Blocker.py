@@ -34,11 +34,11 @@ def GetPowerCost():
 
 
 def GetName():
-    return 'Full Impulse Blocker'
+    return 'Blocker'
 
 
 def GetDamage():
-    return 4000.0
+    return 12000.0
 
 
 def GetGuidanceLifetime():
