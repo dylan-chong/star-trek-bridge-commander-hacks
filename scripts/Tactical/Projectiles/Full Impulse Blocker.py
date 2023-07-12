@@ -4,15 +4,18 @@
 
 import App
 
+SIZE = 7.0
+
 def Create(pTorp):
     kCoreColor = App.TGColorA()
     kCoreColor.SetRGBA(150.0 / 255.0, 180.0 / 255.0, 255.0 / 255.0, 1.0)
     kGlowColor = App.TGColorA()
     kGlowColor.SetRGBA(61.0 / 255.0, 98.0 / 255.0, 255.0 / 255.0, 1.0)
-    pTorp.CreateTorpedoModel('data/Textures/Tactical/TorpedoCore.tga', kCoreColor, 0.3, 1.3, 'data/Textures/Tactical/TorpedoGlow.tga', kGlowColor, 3.0, 0.3, 0.6, 'data/Textures/Tactical/TorpedoFlares.tga', kGlowColor, 8, 0.2, 0.2)
+    pTorp.CreateTorpedoModel('data/Textures/Tactical/TorpedoCore.tga', kCoreColor, SIZE * 0.3, 1.3, 'data/Textures/Tactical/TorpedoGlow.tga', kGlowColor, SIZE * 3.0, 0.3, 0.6, 'data/Textures/Tactical/TorpedoFlares.tga', kGlowColor, SIZE * 8, 0.2, 0.2)
     pTorp.SetDamage(GetDamage())
     pTorp.SetDamageRadiusFactor(0.1)
     pTorp.SetGuidanceLifetime(GetGuidanceLifetime())
+    pTorp.SetLifetime(GetLifetime())
     pTorp.SetMaxAngularAccel(GetMaxAngularAccel())
     import Multiplayer.SpeciesToTorp
     pTorp.SetNetType(Multiplayer.SpeciesToTorp.FULLIMPULSEBLOCKER)
@@ -20,7 +23,7 @@ def Create(pTorp):
 
 
 def GetLaunchSpeed():
-    return 30.0
+    return 5.0
 
 
 def GetLaunchSound():
@@ -36,13 +39,15 @@ def GetName():
 
 
 def GetDamage():
-    return 10000.0
+    return 8000.0
 
 
 def GetGuidanceLifetime():
-    return 2.0
+    return 0.1
 
 
 def GetMaxAngularAccel():
-    return 1.0
+    return 0
 
+def GetLifetime():
+    return 300.0

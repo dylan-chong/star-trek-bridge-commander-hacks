@@ -91,7 +91,7 @@ kSpeciesTuple = ((UNKNOWN, None),
 	(HYPOTHERMIC, "Hypothermic"),
 	(KRENIMPULSE, "KrenimPulse"),
 	(SPATIALCHARGE, "SpatialCharge"),
-	(PHOTON9001, "Photon 9001")
+	(PHOTON9001, "Photon 9001"),
 	(FULLIMPULSEBLOCKER, "Full Impulse Blocker"),
 	(NULL, "Null"),
 	(MAX_TORPS, None))

@@ -90,7 +90,10 @@ The point of this is to allow you to diff the changes to the file that this mod 
 - Investigate: Game sometimes starts with abnormal execution error
     - It appears that a bunch of python files (including in scripts/Actions) are simply not there when the game is broken.
     - `while true; do sleep 1; date; find scripts/Actions/ -name 'CameraScriptActions.pyc'; done`
-    - A lot of python files disappear when the app is started, sometimes, causing the error
+    - `while true; do sleep 1; date; find scripts -name '*.pyc' | wc -l; done`
+    - A lot of compiled python files disappear when the app is started, sometimes, causing the error
+    - You can run this command to copy the compiled files back, but they'll get deleted again when starting the app
+        - `cp -nvr 'Star Trek Bridge Commander - 3 fresh working setup with mod and keybinds and decompiled files/'* 'Star Trek Bridge Commander' | tee cplog`
 - Investigate: Engineer menu ability and report buttons are blank in multiplayer
     - This only sometimes happens?
 - Fix: Rebalance Prometheus for campaign
