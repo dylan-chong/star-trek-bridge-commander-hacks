@@ -89,8 +89,12 @@ The point of this is to allow you to diff the changes to the file that this mod 
 
 - Investigate: Game sometimes starts with abnormal execution error
     - It appears that a bunch of python files (including in scripts/Actions) are simply not there when the game is broken.
-- Fix: Engineer menu ability and report buttons are blank in multiplayer
+    - `while true; do sleep 1; date; find scripts/Actions/ -name 'CameraScriptActions.pyc'; done`
+    - A lot of python files disappear when the app is started, sometimes, causing the error
+- Investigate: Engineer menu ability and report buttons are blank in multiplayer
+    - This only sometimes happens?
 - Fix: Rebalance Prometheus for campaign
+    - Make torpedoes larger and slower so that they can stop the enemy from chasing?
 - Feature: Implement sending ship modifications across stream
     - This will fix:
         - Client wall does not get scaled

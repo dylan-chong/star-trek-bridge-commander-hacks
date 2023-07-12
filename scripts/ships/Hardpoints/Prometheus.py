@@ -614,7 +614,7 @@ for ringIndex in range(0, 4):
 		NPhasers=4,
 		DamageFactor=0.02,
 		DamageRadius=0,
-		FiringArcRads=0.35,
+		FiringArcRads=0.40,
 		MainBeamRadius=0.06,
 		FireSound=''
 	)
@@ -1414,7 +1414,7 @@ QuantumTube1.SetOrientation(QuantumTube1Forward, QuantumTube1Up)
 QuantumTube1.SetArcWidthAngles(-0.349066, 0.349066)
 QuantumTube1.SetArcHeightAngles(-0.349066, 0.087266)
 QuantumTube1.SetCooldownTime(0.250000)
-QuantumTube1.SetModuleName("Tactical.Projectiles.Quantum 2")
+QuantumTube1.SetModuleName("Tactical.Projectiles.Full Impulse Blocker")
 App.g_kModelPropertyManager.RegisterLocalTemplate(QuantumTube1)
 #################################################
 Tractors = App.WeaponSystemProperty_Create("Tractors")
@@ -1857,7 +1857,7 @@ CloakingDevice.SetPosition2D(63.000000, 44.000000)
 CloakingDevice.SetRepairComplexity(1.000000)
 CloakingDevice.SetDisabledPercentage(0.500000)
 CloakingDevice.SetRadius(0.050000)
-CloakingDevice.SetNormalPowerPerSecond(20 * 240.000000)
+CloakingDevice.SetNormalPowerPerSecond(50 * 240.000000)
 CloakingDevice.SetCloakStrength(1.000000)
 App.g_kModelPropertyManager.RegisterLocalTemplate(CloakingDevice)
 
