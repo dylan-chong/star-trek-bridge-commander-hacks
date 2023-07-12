@@ -4,7 +4,7 @@
 
 import App
 
-SIZE = 7.0
+SIZE = 6.0
 
 def Create(pTorp):
     kCoreColor = App.TGColorA()
@@ -15,7 +15,6 @@ def Create(pTorp):
     pTorp.SetDamage(GetDamage())
     pTorp.SetDamageRadiusFactor(0.1)
     pTorp.SetGuidanceLifetime(GetGuidanceLifetime())
-    pTorp.SetLifetime(GetLifetime())
     pTorp.SetMaxAngularAccel(GetMaxAngularAccel())
     import Multiplayer.SpeciesToTorp
     pTorp.SetNetType(Multiplayer.SpeciesToTorp.FULLIMPULSEBLOCKER)
@@ -39,15 +38,12 @@ def GetName():
 
 
 def GetDamage():
-    return 8000.0
+    return 4000.0
 
 
 def GetGuidanceLifetime():
-    return 0.1
+    return 0.0
 
 
 def GetMaxAngularAccel():
-    return 0
-
-def GetLifetime():
-    return 300.0
+    return 0.0
