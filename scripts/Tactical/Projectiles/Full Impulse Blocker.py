@@ -34,7 +34,7 @@ def GetPowerCost():
 
 
 def GetName():
-    return 'Blocker'
+    return 'In the way'
 
 
 def GetDamage():
