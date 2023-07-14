@@ -43,9 +43,10 @@ VERTERONPULSE = 38
 HYPOTHERMIC = 39
 KRENIMPULSE = 40
 SPATIALCHARGE = 41
-PHOTON9001 = 44
-NULL = 43
-MAX_TORPS = 44
+PHOTON9001 = 42
+FULLIMPULSEBLOCKER = 43
+NULL = 44
+MAX_TORPS = 45
 
 # Setup tuples
 kSpeciesTuple = ((UNKNOWN, None),
@@ -90,6 +91,8 @@ kSpeciesTuple = ((UNKNOWN, None),
 	(HYPOTHERMIC, "Hypothermic"),
 	(KRENIMPULSE, "KrenimPulse"),
 	(SPATIALCHARGE, "SpatialCharge"),
+	(PHOTON9001, "Photon 9001"),
+	(FULLIMPULSEBLOCKER, "Full Impulse Blocker"),
 	(NULL, "Null"),
 	(MAX_TORPS, None))
 

@@ -87,10 +87,11 @@ The point of this is to allow you to diff the changes to the file that this mod 
 
 ## TODO
 
-- Investigate: Game sometimes starts with abnormal execution error
-    - It appears that a bunch of python files (including in scripts/Actions) are simply not there when the game is broken.
-- Fix: Engineer menu ability and report buttons are blank in multiplayer
+- Reset scripts folder
+- Investigate: Engineer menu ability and report buttons are blank in multiplayer
+    - This only sometimes happens?
 - Fix: Rebalance Prometheus for campaign
+    - Make torpedoes larger and slower so that they can stop the enemy from chasing?
 - Feature: Implement sending ship modifications across stream
     - This will fix:
         - Client wall does not get scaled
@@ -114,6 +115,8 @@ The point of this is to allow you to diff the changes to the file that this mod 
 ## Possible TODO
 
 - Feature: Nuke has a glow effect (may make it clearer in multiplayer)
+- Feature: New orb-based ship. Torpedoes are big orbs of different colours, for hull damage, shield drain, disable engines + knock away, healing?, disable sensors/stun, disable weapons?. Can pick up various orbs around to get more stock? Ability is spawning a gravity well. Ship is fast (15kmph), orbs slowish
+    - Investigate: a way to garbage collect torpedoes
 - Feature: New ship with a large cutting beam using a stream of non-tracking disruptors (krenim ship?)
 - Feature: New mage ship with suck and power drain abilities (breen?)
 - Feature: New ship that can launch large rocks
