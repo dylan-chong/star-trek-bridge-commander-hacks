@@ -5,9 +5,9 @@
 AAAAAAAAAAMainPhaserMaxChargeFactor = 4.0
 AAAAAAAAAMainPhaserRadiusWidthFactor = 0.2
 
-NTorps = 2
-DashbackTorpComboNerf = 1.5
-AAAAAAAAATorpReloadDelay = 16.0 * DashbackTorpComboNerf * NTorps # same as DASHBACK_COOLDOWN_S  scripts\Custom\CrazyShipAbilities\PerShip\Prometheus.py
+NTorpsOnSideOfShip = 2
+DashbackTorpComboNerf = 1.2
+AAAAAAAAATorpReloadDelay = 20.0 * DashbackTorpComboNerf * NTorpsOnSideOfShip # same as DASHBACK_COOLDOWN_S  scripts\Custom\CrazyShipAbilities\PerShip\Prometheus.py
 
 import App
 import GlobalPropertyTemplates
@@ -1597,7 +1597,7 @@ Repair.SetRepairComplexity(1.000000)
 Repair.SetDisabledPercentage(0.100000)
 Repair.SetRadius(0.150000)
 Repair.SetNormalPowerPerSecond(1.000000)
-Repair.SetMaxRepairPoints(2 * 50.000000)
+Repair.SetMaxRepairPoints(1.2 * 50.000000)
 Repair.SetNumRepairTeams(3)
 App.g_kModelPropertyManager.RegisterLocalTemplate(Repair)
 #################################################

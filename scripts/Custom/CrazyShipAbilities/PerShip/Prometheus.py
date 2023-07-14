@@ -2,7 +2,7 @@ import App
 import Custom.CrazyShipAbilities.Cooldowns
 import Custom.CrazyShipAbilities.Utils
 
-DASHBACK_COOLDOWN_S = 16 # same as AAAAAAAAATorpReloadDelay scripts\ships\Hardpoints\Prometheus.py
+DASHBACK_COOLDOWN_S = 20 # same as AAAAAAAAATorpReloadDelay scripts\ships\Hardpoints\Prometheus.py
 
 def Initialize(OverrideExisting):
 	global Cooldown

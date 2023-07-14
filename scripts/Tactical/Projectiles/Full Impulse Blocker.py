@@ -13,7 +13,7 @@ def Create(pTorp):
     kGlowColor.SetRGBA(61.0 / 255.0, 98.0 / 255.0, 255.0 / 255.0, 1.0)
     pTorp.CreateTorpedoModel('data/Textures/Tactical/TorpedoCore.tga', kCoreColor, SIZE * 0.3, 1.3, 'data/Textures/Tactical/TorpedoGlow.tga', kGlowColor, SIZE * 3.0, 0.3, 0.6, 'data/Textures/Tactical/TorpedoFlares.tga', kGlowColor, SIZE * 8, 0.2, 0.2)
     pTorp.SetDamage(GetDamage())
-    pTorp.SetDamageRadiusFactor(0.1)
+    pTorp.SetDamageRadiusFactor(0.8)
     pTorp.SetGuidanceLifetime(GetGuidanceLifetime())
     pTorp.SetMaxAngularAccel(GetMaxAngularAccel())
     import Multiplayer.SpeciesToTorp
