@@ -1,6 +1,8 @@
 #####  Created by:
 #####  Tactical Display Icon Editor
 
+NLoadableTorps = 6
+
 
 
 import App
@@ -385,9 +387,11 @@ Torpedoes.SetAimedWeapon(1)
 kFiringChainString = App.TGString()
 kFiringChainString.SetString("")
 Torpedoes.SetFiringChainString(kFiringChainString)
-Torpedoes.SetMaxTorpedoes(0, 1000)
+Torpedoes.SetMaxTorpedoes(0, NLoadableTorps * 3)
 Torpedoes.SetTorpedoScript(0, "Tactical.Projectiles.Orbs.Shield Drain Orb")
-Torpedoes.SetNumAmmoTypes(1)
+Torpedoes.SetMaxTorpedoes(1, NLoadableTorps * 3)
+Torpedoes.SetTorpedoScript(1, "Tactical.Projectiles.Orbs.Shield Drain Orb")
+Torpedoes.SetNumAmmoTypes(2)
 App.g_kModelPropertyManager.RegisterLocalTemplate(Torpedoes)
 #################################################
 ForwardTube = App.TorpedoTubeProperty_Create("Forward Tube")
@@ -411,7 +415,7 @@ ForwardTube.SetIconPositionY(38.000000)
 ForwardTube.SetIconAboveShip(1)
 ForwardTube.SetImmediateDelay(0.250000)
 ForwardTube.SetReloadDelay(12.000000)
-ForwardTube.SetMaxReady(6)
+ForwardTube.SetMaxReady(NLoadableTorps)
 ForwardTubeDirection = App.TGPoint3()
 ForwardTubeDirection.SetXYZ(0.000000, 1.000000, 0.000000)
 ForwardTube.SetDirection(ForwardTubeDirection)
