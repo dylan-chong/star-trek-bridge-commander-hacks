@@ -1,7 +1,7 @@
 import App
 
 TORP_RADIUS_TO_TORP_HANDLER = {
-    1.987001: 'ShieldDrainTorpHitHandler',
+    0.022211: 'ShieldDrainTorpHitHandler',
 }
 # TODO
 #  hull damage
@@ -9,7 +9,7 @@ TORP_RADIUS_TO_TORP_HANDLER = {
 #  healing?
 #  disable sensors/stun
 
-TORP_RADIUS_MOE = 0.00000001
+TORP_RADIUS_MOE = TORP_RADIUS_TO_TORP_HANDLER.keys()[0] * 0.01
 
 SHIELD_SIDES = [ 
     App.ShieldClass.FRONT_SHIELDS,
@@ -19,7 +19,7 @@ SHIELD_SIDES = [
     App.ShieldClass.LEFT_SHIELDS,
     App.ShieldClass.RIGHT_SHIELDS,
 ]
-SHIELD_DRAIN_FACTOR = 0.2
+SHIELD_DRAIN = 1000
 
 HasSetUpHitHandler = 0
 
@@ -62,6 +62,5 @@ def ShieldDrainTorpHitHandler(TargetShip, IsHullHit):
 
     for side in SHIELD_SIDES:
         current = pShieldSystem.GetCurShields(side)
-        max = pShieldSystem.GetMaxShields(side)
-        drained = max(0, current - max * SHIELD_DRAIN_FACTOR)
+        drained = max(0.0, current - SHIELD_DRAIN)
         pShieldSystem.SetCurShields(side, drained)

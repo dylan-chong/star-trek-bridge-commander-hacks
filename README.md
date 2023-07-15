@@ -116,6 +116,7 @@ The point of this is to allow you to diff the changes to the file that this mod 
 
 ## Possible TODO
 
+- Feature: New faction for crazy ships
 - Feature: Nuke has a glow effect (may make it clearer in multiplayer)
 - Feature: New mage ship with suck and power drain abilities (breen?)
 - Feature: New ship that can launch large rocks
