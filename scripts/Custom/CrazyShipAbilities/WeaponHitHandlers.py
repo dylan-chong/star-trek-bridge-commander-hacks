@@ -4,22 +4,14 @@ TORP_RADIUS_TO_TORP_HANDLER = {
     0.022211: 'ShieldDrainTorpHitHandler',
 }
 # TODO
-#  hull damage
 #  disable engines + knock away
-#  healing?
 #  disable sensors/stun
+#  healing?
 
 TORP_RADIUS_MOE = TORP_RADIUS_TO_TORP_HANDLER.keys()[0] * 0.01
 
-SHIELD_SIDES = [ 
-    App.ShieldClass.FRONT_SHIELDS,
-    App.ShieldClass.REAR_SHIELDS,
-    App.ShieldClass.TOP_SHIELDS,
-    App.ShieldClass.BOTTOM_SHIELDS,
-    App.ShieldClass.LEFT_SHIELDS,
-    App.ShieldClass.RIGHT_SHIELDS,
-]
-SHIELD_DRAIN = 1000
+SHIELD_DRAIN = 300
+SHIELD_GAIN = SHIELD_DRAIN * 2.0
 
 HasSetUpHitHandler = 0
 
@@ -52,15 +44,39 @@ def WeaponHitHandler(_pObject, pEvent):
         handlerFunc = getattr(__import__(__name__), funcName)
 
         hitShip = App.ShipClass_Cast(pEvent.GetTargetObject())
+        firingShip = App.ShipClass_Cast(pEvent.GetFiringObject())
         isHullHit = pEvent.IsHullHit()
-        handlerFunc(hitShip, isHullHit)
+        handlerFunc(hitShip, firingShip, isHullHit)
         return
 
     
-def ShieldDrainTorpHitHandler(TargetShip, IsHullHit):
-    pShieldSystem = TargetShip.GetShields()
+def ShieldDrainTorpHitHandler(TargetShip, FiringShip, IsHullHit):
+    targetShields = TargetShip.GetShields()
+    firersShields = FiringShip.GetShields()
 
-    for side in SHIELD_SIDES:
-        current = pShieldSystem.GetCurShields(side)
+    shieldSides = [ 
+        App.ShieldClass.FRONT_SHIELDS,
+        App.ShieldClass.REAR_SHIELDS,
+        App.ShieldClass.TOP_SHIELDS,
+        App.ShieldClass.BOTTOM_SHIELDS,
+        App.ShieldClass.LEFT_SHIELDS,
+        App.ShieldClass.RIGHT_SHIELDS,
+    ]
+
+    totalDrain = 0
+
+    for side in shieldSides:
+        current = targetShields.GetCurShields(side)
         drained = max(0.0, current - SHIELD_DRAIN)
-        pShieldSystem.SetCurShields(side, drained)
+        targetShields.SetCurShields(side, drained)
+        totalDrain = totalDrain + (current - drained)
+
+    shieldGain = totalDrain / (SHIELD_DRAIN * len(shieldSides)) * SHIELD_GAIN
+
+    # TODO only once the ability activated
+    for side in shieldSides:
+        current = firersShields.GetCurShields(side)
+        limit = firersShields.GetMaxShields(side)
+
+        gained = min(limit, current + shieldGain)
+        firersShields.SetCurShields(side, gained)

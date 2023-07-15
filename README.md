@@ -83,13 +83,39 @@ The point of this is to allow you to diff the changes to the file that this mod 
 1. Select the `C:\GOG Games\Star Trek Bridge Commander\scripts` directory
     * This will create a `.pyc_dis` file for each `.py` the decompiler found
     * NOTE: The decompiler doesn't write the decompiled `import` statements properly. Statements like `import A.B as A` should actually be `import A.B`.
-1. Put back the broken `Mission4Menus.py`
+1. Put back the broken `Mission4Menus.pyc`
 
 ## TODO
 
 - Feature: New orb-based ship. Torpedoes are big orbs of different colours, for hull damage, shield drain, disable engines + knock away, healing?, disable sensors/stun, disable weapons?. Can pick up various orbs around to get more stock? Ability is spawning a gravity well. Ship is fast (15kmph), orbs slowish
     - Investigate: a way to garbage collect torpedoes?
     - Tidy: BridgeHandlers registers a key event with App.g_kKeyboardBinding
+    - Options:
+        - torps temporarily disable systems
+            - Semi-tanky
+            - Temp damage to shield gen
+                - cannons and beams can burst damage to exposed subsystems
+                - Powerful combo with burst damage ships
+            - Temp damage to sensor array
+                - Reduces number of attacking ships
+            - Pros
+                - Powerful as a support to a DPS, not OP by itself
+                - I don't have enough tank ships
+            - Cons
+                - Weak by itself in campaign - therefore, gameplay must be more traditional. (More health/shields, more reliant on primary weapons for permanent damage)
+        - PREFERRED OPTION: Limited amount of each torp, recharge over time (increase by incoming damage)
+            - Tanky due to drain charge
+            - damage to shield gen, regen shields
+                - Powerful combo with defiant
+                - Burst cannons can do damage to core subsystems
+            - damage to hull, regen health
+            - a little damage to sensor array, charge standard weapons
+                - Reduces number of attacking ships
+            - Pros
+                - Not OP in 1v1 but can scale to 1vN
+            - Cons
+                - When in 1vN, when enemies run out of shields, is weak
+                - When in 1vN, is tricky to pick the ships with remaining shields to drain
 - Investigate: Engineer menu ability and report buttons are blank in multiplayer
     - This only sometimes happens?
 - Fix: Rebalance Prometheus for campaign
