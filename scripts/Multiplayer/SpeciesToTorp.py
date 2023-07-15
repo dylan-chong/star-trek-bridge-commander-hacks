@@ -45,8 +45,9 @@ KRENIMPULSE = 40
 SPATIALCHARGE = 41
 PHOTON9001 = 42
 FULLIMPULSEBLOCKER = 43
-NULL = 44
-MAX_TORPS = 45
+SHIELDDRAINORB = 44
+NULL = 45
+MAX_TORPS = 46
 
 # Setup tuples
 kSpeciesTuple = ((UNKNOWN, None),
@@ -93,6 +94,7 @@ kSpeciesTuple = ((UNKNOWN, None),
 	(SPATIALCHARGE, "SpatialCharge"),
 	(PHOTON9001, "Photon 9001"),
 	(FULLIMPULSEBLOCKER, "Full Impulse Blocker"),
+	(SHIELDDRAINORB, "Shield Drain Orb"),
 	(NULL, "Null"),
 	(MAX_TORPS, None))
 

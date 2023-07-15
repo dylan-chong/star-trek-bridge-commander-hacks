@@ -87,7 +87,9 @@ The point of this is to allow you to diff the changes to the file that this mod 
 
 ## TODO
 
-- Reset scripts folder
+- Feature: New orb-based ship. Torpedoes are big orbs of different colours, for hull damage, shield drain, disable engines + knock away, healing?, disable sensors/stun, disable weapons?. Can pick up various orbs around to get more stock? Ability is spawning a gravity well. Ship is fast (15kmph), orbs slowish
+    - Investigate: a way to garbage collect torpedoes?
+    - Tidy: BridgeHandlers registers a key event with App.g_kKeyboardBinding
 - Investigate: Engineer menu ability and report buttons are blank in multiplayer
     - This only sometimes happens?
 - Fix: Rebalance Prometheus for campaign
@@ -115,9 +117,6 @@ The point of this is to allow you to diff the changes to the file that this mod 
 ## Possible TODO
 
 - Feature: Nuke has a glow effect (may make it clearer in multiplayer)
-- Feature: New orb-based ship. Torpedoes are big orbs of different colours, for hull damage, shield drain, disable engines + knock away, healing?, disable sensors/stun, disable weapons?. Can pick up various orbs around to get more stock? Ability is spawning a gravity well. Ship is fast (15kmph), orbs slowish
-    - Investigate: a way to garbage collect torpedoes
-- Feature: New ship with a large cutting beam using a stream of non-tracking disruptors (krenim ship?)
 - Feature: New mage ship with suck and power drain abilities (breen?)
 - Feature: New ship that can launch large rocks
 
