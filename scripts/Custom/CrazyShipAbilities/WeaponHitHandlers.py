@@ -1,4 +1,5 @@
 import App
+import Custom.CrazyShipAbilities.Utils
 
 TORP_RADIUS_TO_TORP_HANDLER = {
     0.022211: 'HealthDrainTorpHitHandler',
@@ -11,7 +12,8 @@ SHIELD_GAIN_FACTOR = 2.0
 HULL_DRAIN = 300
 HULL_GAIN_FACTOR = 1.2
 
-WEAPON_DRAIN = 300
+SENSOR_DRAIN = 300
+WEAPON_GAIN = 0.3
 
 HasSetUpHitHandler = 0
 
@@ -26,9 +28,11 @@ def Reset():
     # TODO what happens on a second game. does this still work?
     # TODO do i need reset function here, or can you call event manager immediately
     # TODO can change the key handler so it doesnt require a set up
+    # TODO what happens when hits happen when a ship dies.
 
 
 def WeaponHitHandler(_pObject, pEvent):
+    print('weapon hit ' + str(pEvent.GetWeaponType()))
     if pEvent.GetWeaponType() != App.WeaponHitEvent.TORPEDO:
         return
 
@@ -113,8 +117,28 @@ def HullDrainTorpHitHandler(TargetShip, FiringShip):
     firerHull.SetCondition(firerGained)
 
 def WeaponDrainTorpHitHandler(TargetShip, FiringShip, IsHullHit):
-    # TODO charge weapons
-    pass
+    sensorArray = TargetShip.GetSensorSubsystem()
+    if not sensorArray:
+        return
+
+    current = sensorArray.GetCondition()
+    drained = max(0, current - SENSOR_DRAIN)
+    diff = current - drained
+
+    if diff == 0:
+        return
+
+    sensorArray.SetCondition(drained)
+
+    if not ShouldUpdateFiringShip(FiringShip):
+        return
+
+    deathBeamSubsystem = Custom.CrazyShipAbilities.Utils.GetSubsystemByName(FiringShip, "Death Beam")
+    deathBeam = App.EnergyWeapon_Cast(deathBeamSubsystem)
+
+    maxCharge = deathBeam.GetMaxCharge()
+    currentCharge = deathBeam.GetChargeLevel()
+    deathBeam.SetChargeLevel(min(maxCharge, currentCharge + WEAPON_GAIN))
 
 def ShouldUpdateFiringShip(FiringShip):
     """

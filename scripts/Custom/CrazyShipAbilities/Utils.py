@@ -72,3 +72,25 @@ def SpawnDroneShip(shipType, shipName, distance, pPlayer, group):
 	group.AddName(shipName)
 	
 	return pShip
+
+def GetSubsystemByName(pShip, name):
+	pPropSet = pShip.GetPropertySet()
+	pPropList = pPropSet.GetPropertiesByType(App.CT_SUBSYSTEM_PROPERTY)
+	iNumItems = pPropList.TGGetNumItems()
+
+	desiredSubsystem = None
+
+	pPropList.TGBeginIteration()
+	for i in range(iNumItems):
+		pInstance = pPropList.TGGetNext()
+		pProperty = App.SubsystemProperty_Cast(pInstance.GetProperty())
+		pSubsystem = pShip.GetSubsystemByProperty(pProperty)
+
+		if pSubsystem.GetName() != name:
+			continue
+
+		desiredSubsystem = pSubsystem
+		break
+
+	pPropList.TGDoneIterating()
+	return desiredSubsystem
