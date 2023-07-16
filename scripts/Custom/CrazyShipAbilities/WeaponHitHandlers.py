@@ -1,17 +1,15 @@
 import App
 
 TORP_RADIUS_TO_TORP_HANDLER = {
-    0.022211: 'ShieldDrainTorpHitHandler',
-    0.022212: 'HullDrainTorpHitHandler',
-    0.022213: 'WeaponDrainTorpHitHandler',
+    0.022211: 'HealthDrainTorpHitHandler',
+    0.022212: 'WeaponDrainTorpHitHandler',
 }
 TORP_RADIUS_MOE = TORP_RADIUS_TO_TORP_HANDLER.keys()[0] * 0.01
 
 SHIELD_DRAIN = 300
 SHIELD_GAIN_FACTOR = 2.0
-
-HULL_DRAIN = 1000
-HULL_GAIN_FACTOR = 2.0
+HULL_DRAIN = 300
+HULL_GAIN_FACTOR = 1.2
 
 WEAPON_DRAIN = 300
 
@@ -53,7 +51,14 @@ def WeaponHitHandler(_pObject, pEvent):
     # TODO if firer is player and  charge orbs on krenim orb ship
 
     
-def ShieldDrainTorpHitHandler(TargetShip, FiringShip, IsHullHit):
+def HealthDrainTorpHitHandler(TargetShip, FiringShip, IsHullHit):
+    if IsHullHit:
+        return HullDrainTorpHitHandler(TargetShip, FiringShip)
+    return ShieldDrainTorpHitHandler(TargetShip, FiringShip)
+
+    # TODO animation for drain (electric line between ship)
+    
+def ShieldDrainTorpHitHandler(TargetShip, FiringShip):
     targetShields = TargetShip.GetShields()
 
     shieldSides = [ 
@@ -73,10 +78,7 @@ def ShieldDrainTorpHitHandler(TargetShip, FiringShip, IsHullHit):
         targetShields.SetCurShields(side, drained)
         totalDrain = totalDrain + (current - drained)
 
-    # TODO Test in multiplayer. As the server needs to process the target's changes and the client needs to manage it's own firer's changes
-    import MissionLib
-    player = MissionLib.GetPlayer()
-    if not player or player.GetObjID() != FiringShip.GetObjID():
+    if not ShouldUpdateFiringShip(FiringShip):
         return
 
     firersShields = FiringShip.GetShields()
@@ -89,10 +91,7 @@ def ShieldDrainTorpHitHandler(TargetShip, FiringShip, IsHullHit):
         gained = min(limit, current + shieldGain)
         firersShields.SetCurShields(side, gained)
 
-def HullDrainTorpHitHandler(TargetShip, FiringShip, IsHullHit):
-    if not IsHullHit:
-        return
-
+def HullDrainTorpHitHandler(TargetShip, FiringShip):
     targetHull = TargetShip.GetHull()
     if not targetHull:
         return
@@ -103,17 +102,26 @@ def HullDrainTorpHitHandler(TargetShip, FiringShip, IsHullHit):
 
     targetDrain = targetCurrent - targetDrained
 
-    # TODO Test in multiplayer. As the server needs to process the target's changes and the client needs to manage it's own firer's changes
-    import MissionLib
-    player = MissionLib.GetPlayer()
-    if not player or player.GetObjID() != FiringShip.GetObjID():
+    # TODO can you temporarily boost the repair speed of the firing ship instead?
+
+    if not ShouldUpdateFiringShip(FiringShip):
         return
 
-    playerHull = player.GetHull()
-    playerCurrent = playerHull.GetCondition()
-    playerGained = min(playerHull.GetMaxCondition(), playerCurrent + targetDrain * HULL_GAIN_FACTOR)
-    playerHull.SetCondition(playerGained)
+    firerHull = FiringShip.GetHull()
+    firerCurrent = firerHull.GetCondition()
+    firerGained = min(firerHull.GetMaxCondition(), firerCurrent + targetDrain * HULL_GAIN_FACTOR)
+    firerHull.SetCondition(firerGained)
 
 def WeaponDrainTorpHitHandler(TargetShip, FiringShip, IsHullHit):
     # TODO charge weapons
     pass
+
+def ShouldUpdateFiringShip(FiringShip):
+    """
+    The event handling will happen on all clients and the host. Changes to non player ships are not propagated
+    As the server needs to process the target's changes and the client needs to manage it's own firer's changes
+    """
+    # TODO Test in multiplayer. Should we just not handle the events at all on clients?
+    import MissionLib
+    player = MissionLib.GetPlayer()
+    return player and player.GetObjID() == FiringShip.GetObjID()
