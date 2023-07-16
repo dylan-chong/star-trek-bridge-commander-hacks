@@ -1,19 +1,27 @@
 import App
 import Custom.CrazyShipAbilities.Utils
 
+# TODO ability: redistribute shields?, or do this automatically by healing the weakest shield
+# TODO when torpedo used, decrement the count of the other one? Or don't
+# TODO incoming damage charges your n orbs
+
 TORP_RADIUS_TO_TORP_HANDLER = {
     0.022211: 'HealthDrainTorpHitHandler',
     0.022212: 'WeaponDrainTorpHitHandler',
 }
-TORP_RADIUS_MOE = TORP_RADIUS_TO_TORP_HANDLER.keys()[0] * 0.01
+TORP_RADIUS_MOE = 0.0000001
 
-SHIELD_DRAIN = 300
-SHIELD_GAIN_FACTOR = 2.0
+SHIELD_DRAIN = 200
+SHIELD_GAIN_FACTOR = 1.8
 HULL_DRAIN = 300
-HULL_GAIN_FACTOR = 1.2
+REPAIR_GAIN = 50
+REPAIR_WITHOUT_GAIN = 50 # Must match MaxRepairPoints in Hardpoints/KrenimOrbship.py TODO not used anywhere
+REPAIR_GAIN_DURATION_S = 5
 
-SENSOR_DRAIN = 300
-WEAPON_GAIN = 0.3
+SENSOR_DRAIN = 100
+WEAPON_GAIN = 0.25
+
+ET_DECREMENT_BUFFED_REPAIR_POINTS = App.Episode_GetNextEventType()
 
 HasSetUpHitHandler = 0
 
@@ -25,6 +33,9 @@ def Reset():
     HasSetUpHitHandler = 1
     pGame = App.Game_GetCurrentGame()
     App.g_kEventManager.AddBroadcastPythonFuncHandler(App.ET_WEAPON_HIT, pGame, __name__ + '.WeaponHitHandler')
+
+    pGame.AddPythonFuncHandlerForInstance(ET_DECREMENT_BUFFED_REPAIR_POINTS, __name__ + '.DecrementPlayerRepairPoints')
+
     # TODO what happens on a second game. does this still work?
     # TODO do i need reset function here, or can you call event manager immediately
     # TODO can change the key handler so it doesnt require a set up
@@ -32,7 +43,6 @@ def Reset():
 
 
 def WeaponHitHandler(_pObject, pEvent):
-    print('weapon hit ' + str(pEvent.GetWeaponType()))
     if pEvent.GetWeaponType() != App.WeaponHitEvent.TORPEDO:
         return
 
@@ -53,7 +63,6 @@ def WeaponHitHandler(_pObject, pEvent):
         handlerFunc(hitShip, firingShip, isHullHit)
 
     # TODO if firer is player and  charge orbs on krenim orb ship
-
     
 def HealthDrainTorpHitHandler(TargetShip, FiringShip, IsHullHit):
     if IsHullHit:
@@ -106,17 +115,35 @@ def HullDrainTorpHitHandler(TargetShip, FiringShip):
 
     targetDrain = targetCurrent - targetDrained
 
-    # TODO can you temporarily boost the repair speed of the firing ship instead?
+    if not ShouldUpdateFiringShip(FiringShip) or targetDrain == 0:
+        return
+    
+    ChangePlayerRepairPointsBy(REPAIR_GAIN)
+    Custom.CrazyShipAbilities.Utils.EmitEventAfterDelay(ET_DECREMENT_BUFFED_REPAIR_POINTS, REPAIR_GAIN_DURATION_S)
 
-    if not ShouldUpdateFiringShip(FiringShip):
+
+def ChangePlayerRepairPointsBy(amount):
+    import MissionLib
+    player = MissionLib.GetPlayer()
+    if not player:
         return
 
-    firerHull = FiringShip.GetHull()
-    firerCurrent = firerHull.GetCondition()
-    firerGained = min(firerHull.GetMaxCondition(), firerCurrent + targetDrain * HULL_GAIN_FACTOR)
-    firerHull.SetCondition(firerGained)
+    repairSubsystem = player.GetRepairSubsystem()
+    if not repairSubsystem:
+        return
+
+    repair = repairSubsystem.GetProperty()
+    currentPoints = repair.GetMaxRepairPoints()
+    repair.SetMaxRepairPoints(currentPoints + REPAIR_GAIN)
+    print('max repair points changed from ' + str(currentPoints) + ' to ' + str(currentPoints + REPAIR_GAIN))
+
+def DecrementPlayerRepairPoints(_pObject, _pEvent):
+    ChangePlayerRepairPointsBy(-REPAIR_GAIN)
 
 def WeaponDrainTorpHitHandler(TargetShip, FiringShip, IsHullHit):
+    if not IsHullHit:
+        return
+
     sensorArray = TargetShip.GetSensorSubsystem()
     if not sensorArray:
         return

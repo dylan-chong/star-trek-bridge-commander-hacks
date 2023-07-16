@@ -94,3 +94,18 @@ def GetSubsystemByName(pShip, name):
 
 	pPropList.TGDoneIterating()
 	return desiredSubsystem
+
+def EmitEventAfterDelay(eType, delayS):
+	"""
+	Schedules a timer on the current game object.
+	Assumes that you have already registered an event handler on the game object to call your function using:
+
+		pGame.AddPythonFuncHandlerForInstance(eType, 'Module.FnName')
+	"""
+	pEvent = App.TGEvent_Create()
+	pEvent.SetEventType(eType)
+	pEvent.SetDestination(App.Game_GetCurrentGame())
+	pTimer = App.TGTimer_Create()
+	pTimer.SetTimerStart(App.g_kUtopiaModule.GetGameTime() + delayS)
+	pTimer.SetEvent(pEvent)
+	App.g_kTimerManager.AddTimer(pTimer)
