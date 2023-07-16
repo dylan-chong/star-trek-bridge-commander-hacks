@@ -3,6 +3,7 @@ import App
 TORP_RADIUS_TO_TORP_HANDLER = {
     0.022211: 'ShieldDrainTorpHitHandler',
     0.022212: 'HullDrainTorpHitHandler',
+    0.022213: 'WeaponDrainTorpHitHandler',
 }
 TORP_RADIUS_MOE = TORP_RADIUS_TO_TORP_HANDLER.keys()[0] * 0.01
 
@@ -46,7 +47,8 @@ def WeaponHitHandler(_pObject, pEvent):
         firingShip = App.ShipClass_Cast(pEvent.GetFiringObject())
         isHullHit = pEvent.IsHullHit()
         handlerFunc(hitShip, firingShip, isHullHit)
-        return
+
+    # TODO if firer is player and  charge orbs on krenim orb ship
 
     
 def ShieldDrainTorpHitHandler(TargetShip, FiringShip, IsHullHit):
@@ -83,6 +85,8 @@ def HullDrainTorpHitHandler(TargetShip, FiringShip, IsHullHit):
     if not IsHullHit:
         return
 
+    # TODO this will not work in multiplayer as the server needs to process the target's changes and the client needs to manage it's own firer's changes
+
     targetHull = TargetShip.GetHull()
     if not targetHull:
         return
@@ -93,12 +97,11 @@ def HullDrainTorpHitHandler(TargetShip, FiringShip, IsHullHit):
 
     targetDrain = targetCurrent - targetDrained
 
-    import MissionLib
-    player = MissionLib.GetPlayer()
-    if not player or FiringShip.GetObjID() != player.GetObjID():
-        # In multiplayer, both the client and server will be a
-        return
-
     playerHull = player.GetHull()
     playerCurrent = playerHull.GetCondition()
     playerGained = min(playerHull.GetMaxCondition(), playerCurrent + targetDrain * HULL_GAIN_FACTOR)
+    playerHull.SetCondition(playerGained)
+
+def WeaponDrainTorpHitHandler(TargetShip, FiringShip, IsHullHit):
+    # TODO
+    pass

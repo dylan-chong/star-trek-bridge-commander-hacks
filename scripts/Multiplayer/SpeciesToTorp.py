@@ -47,8 +47,9 @@ PHOTON9001 = 42
 FULLIMPULSEBLOCKER = 43
 SHIELDDRAINORB = 44
 HULLDRAINORB = 45
-NULL = 46
-MAX_TORPS = 47
+WEAPONDRAINORB = 46
+NULL = 47
+MAX_TORPS = 48
 
 # Setup tuples
 kSpeciesTuple = ((UNKNOWN, None),
@@ -97,6 +98,7 @@ kSpeciesTuple = ((UNKNOWN, None),
 	(FULLIMPULSEBLOCKER, "Full Impulse Blocker"),
 	(SHIELDDRAINORB, "Shield Drain Orb"),
 	(HULLDRAINORB, "Hull Drain Orb"),
+	(WEAPONDRAINORB, "Weapon Drain Orb"),
 	(NULL, "Null"),
 	(MAX_TORPS, None))
 
