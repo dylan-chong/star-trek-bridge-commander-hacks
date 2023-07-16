@@ -392,7 +392,7 @@ Torpedoes.SetTorpedoScript(0, "Tactical.Projectiles.Orbs.Weapon Drain Orb")
 Torpedoes.SetMaxTorpedoes(1, NLoadableTorps * 3)
 Torpedoes.SetTorpedoScript(1, "Tactical.Projectiles.Orbs.Shield Drain Orb")
 Torpedoes.SetMaxTorpedoes(2, NLoadableTorps * 3)
-Torpedoes.SetTorpedoScript(2, "Tactical.Projectiles.Orbs.Shield Drain Orb")
+Torpedoes.SetTorpedoScript(2, "Tactical.Projectiles.Orbs.Hull Drain Orb")
 Torpedoes.SetNumAmmoTypes(3)
 App.g_kModelPropertyManager.RegisterLocalTemplate(Torpedoes)
 #################################################

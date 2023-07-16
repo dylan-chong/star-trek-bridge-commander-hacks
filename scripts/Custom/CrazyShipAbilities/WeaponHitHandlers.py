@@ -13,6 +13,8 @@ SHIELD_GAIN_FACTOR = 2.0
 HULL_DRAIN = 1000
 HULL_GAIN_FACTOR = 2.0
 
+WEAPON_DRAIN = 300
+
 HasSetUpHitHandler = 0
 
 def Reset():
@@ -53,7 +55,6 @@ def WeaponHitHandler(_pObject, pEvent):
     
 def ShieldDrainTorpHitHandler(TargetShip, FiringShip, IsHullHit):
     targetShields = TargetShip.GetShields()
-    firersShields = FiringShip.GetShields()
 
     shieldSides = [ 
         App.ShieldClass.FRONT_SHIELDS,
@@ -72,6 +73,13 @@ def ShieldDrainTorpHitHandler(TargetShip, FiringShip, IsHullHit):
         targetShields.SetCurShields(side, drained)
         totalDrain = totalDrain + (current - drained)
 
+    # TODO Test in multiplayer. As the server needs to process the target's changes and the client needs to manage it's own firer's changes
+    import MissionLib
+    player = MissionLib.GetPlayer()
+    if not player or player.GetObjID() != FiringShip.GetObjID():
+        return
+
+    firersShields = FiringShip.GetShields()
     shieldGain = totalDrain / len(shieldSides) * SHIELD_GAIN_FACTOR
 
     for side in shieldSides:
@@ -85,8 +93,6 @@ def HullDrainTorpHitHandler(TargetShip, FiringShip, IsHullHit):
     if not IsHullHit:
         return
 
-    # TODO this will not work in multiplayer as the server needs to process the target's changes and the client needs to manage it's own firer's changes
-
     targetHull = TargetShip.GetHull()
     if not targetHull:
         return
@@ -97,11 +103,17 @@ def HullDrainTorpHitHandler(TargetShip, FiringShip, IsHullHit):
 
     targetDrain = targetCurrent - targetDrained
 
+    # TODO Test in multiplayer. As the server needs to process the target's changes and the client needs to manage it's own firer's changes
+    import MissionLib
+    player = MissionLib.GetPlayer()
+    if not player or player.GetObjID() != FiringShip.GetObjID():
+        return
+
     playerHull = player.GetHull()
     playerCurrent = playerHull.GetCondition()
     playerGained = min(playerHull.GetMaxCondition(), playerCurrent + targetDrain * HULL_GAIN_FACTOR)
     playerHull.SetCondition(playerGained)
 
 def WeaponDrainTorpHitHandler(TargetShip, FiringShip, IsHullHit):
-    # TODO
+    # TODO charge weapons
     pass

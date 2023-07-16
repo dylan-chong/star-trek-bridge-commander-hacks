@@ -16,7 +16,7 @@ def Create(pTorp):
     pTorp.SetGuidanceLifetime(GetGuidanceLifetime())
     pTorp.SetMaxAngularAccel(GetMaxAngularAccel())
     import Multiplayer.SpeciesToTorp
-    pTorp.SetNetType(Multiplayer.SpeciesToTorp.HULLDRAINORB)
+    pTorp.SetNetType(Multiplayer.SpeciesToTorp.WEAPONDRAINORB)
     return 0
 
 
