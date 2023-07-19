@@ -23,7 +23,7 @@ SHIELD_SIDES = [
 ]
 
 HULL_DRAIN = 300
-REPAIR_GAIN = 50
+REPAIR_GAIN = 100
 REPAIR_GAIN_DURATION_S = 5
 
 SENSOR_DRAIN = 100
@@ -162,8 +162,7 @@ def ChangePlayerRepairPointsBy(amount):
 
     repair = repairSubsystem.GetProperty()
     currentPoints = repair.GetMaxRepairPoints()
-    repair.SetMaxRepairPoints(currentPoints + REPAIR_GAIN)
-    print('max repair points changed from ' + str(currentPoints) + ' to ' + str(currentPoints + REPAIR_GAIN))
+    repair.SetMaxRepairPoints(currentPoints + amount)
 
 def DecrementPlayerRepairPoints(_pObject, _pEvent):
     ChangePlayerRepairPointsBy(-REPAIR_GAIN)
