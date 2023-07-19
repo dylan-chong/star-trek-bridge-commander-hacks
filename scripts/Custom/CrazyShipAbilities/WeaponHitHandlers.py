@@ -1,9 +1,9 @@
 import App
 import Custom.CrazyShipAbilities.Utils
 
-# TODO ability: redistribute shields?, or do this automatically by healing the weakest shield
-# TODO when torpedo used, decrement the count of the other one? Or don't
+# TODO ability: redistribute shields?, or do this automatically by healing the weakest shield only
 # TODO incoming damage charges your n orbs
+# TODO when torpedo used, decrement the count of the other one? Or don't
 
 TORP_RADIUS_TO_TORP_HANDLER = {
     0.022211: 'HealthDrainTorpHitHandler',
@@ -13,10 +13,19 @@ TORP_RADIUS_MOE = 0.0000001
 
 SHIELD_DRAIN = 200
 SHIELD_GAIN_FACTOR = 1.8
+SHIELD_SIDES = [ 
+    App.ShieldClass.FRONT_SHIELDS,
+    App.ShieldClass.REAR_SHIELDS,
+    App.ShieldClass.TOP_SHIELDS,
+    App.ShieldClass.BOTTOM_SHIELDS,
+    App.ShieldClass.LEFT_SHIELDS,
+    App.ShieldClass.RIGHT_SHIELDS,
+]
+
 HULL_DRAIN = 300
 REPAIR_GAIN = 50
-REPAIR_WITHOUT_GAIN = 50 # Must match MaxRepairPoints in Hardpoints/KrenimOrbship.py TODO not used anywhere
 REPAIR_GAIN_DURATION_S = 5
+REPAIR_WITHOUT_GAIN = 50 # Must match MaxRepairPoints in Hardpoints/KrenimOrbship.py TODO not used anywhere
 
 SENSOR_DRAIN = 100
 WEAPON_GAIN = 0.25
@@ -72,37 +81,35 @@ def HealthDrainTorpHitHandler(TargetShip, FiringShip, IsHullHit):
     # TODO animation for drain (electric line between ship)
     
 def ShieldDrainTorpHitHandler(TargetShip, FiringShip):
+    if not ShouldUpdateFiringShip(FiringShip):
+        return
+    
+    totalDrain = DrainShields(TargetShip)
+    BoostShields(FiringShip, totalDrain)
+
+
+def DrainShields(TargetShip):
     targetShields = TargetShip.GetShields()
-
-    shieldSides = [ 
-        App.ShieldClass.FRONT_SHIELDS,
-        App.ShieldClass.REAR_SHIELDS,
-        App.ShieldClass.TOP_SHIELDS,
-        App.ShieldClass.BOTTOM_SHIELDS,
-        App.ShieldClass.LEFT_SHIELDS,
-        App.ShieldClass.RIGHT_SHIELDS,
-    ]
-
     totalDrain = 0
 
-    for side in shieldSides:
+    for side in SHIELD_SIDES:
         current = targetShields.GetCurShields(side)
         drained = max(0.0, current - SHIELD_DRAIN)
         targetShields.SetCurShields(side, drained)
         totalDrain = totalDrain + (current - drained)
 
-    if not ShouldUpdateFiringShip(FiringShip):
-        return
+    return totalDrain
 
-    firersShields = FiringShip.GetShields()
-    shieldGain = totalDrain / len(shieldSides) * SHIELD_GAIN_FACTOR
+def BoostShields(Ship, totalDrain):
+    shields = Ship.GetShields()
+    shieldGain = totalDrain / len(SHIELD_SIDES) * SHIELD_GAIN_FACTOR
 
-    for side in shieldSides:
-        current = firersShields.GetCurShields(side)
-        limit = firersShields.GetMaxShields(side)
+    for side in SHIELD_SIDES:
+        current = shields.GetCurShields(side)
+        limit = shields.GetMaxShields(side)
 
         gained = min(limit, current + shieldGain)
-        firersShields.SetCurShields(side, gained)
+        shields.SetCurShields(side, gained)
 
 def HullDrainTorpHitHandler(TargetShip, FiringShip):
     targetHull = TargetShip.GetHull()
