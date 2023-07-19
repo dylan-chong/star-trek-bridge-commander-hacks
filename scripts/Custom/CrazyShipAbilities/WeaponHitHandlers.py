@@ -1,7 +1,6 @@
 import App
 import Custom.CrazyShipAbilities.Utils
 
-# TODO ability: redistribute shields?, or do this automatically by healing the weakest shield only
 # TODO incoming damage charges your n orbs
 # TODO when torpedo used, decrement the count of the other one? Or don't
 
@@ -26,10 +25,9 @@ SHIELD_SIDES = [
 HULL_DRAIN = 300
 REPAIR_GAIN = 50
 REPAIR_GAIN_DURATION_S = 5
-REPAIR_WITHOUT_GAIN = 50 # Must match MaxRepairPoints in Hardpoints/KrenimOrbship.py TODO not used anywhere
 
 SENSOR_DRAIN = 100
-WEAPON_GAIN = 0.5
+WEAPON_GAIN = 0.35
 
 ET_DECREMENT_BUFFED_REPAIR_POINTS = App.Episode_GetNextEventType()
 

@@ -710,7 +710,7 @@ Repair.SetRepairComplexity(1.000000)
 Repair.SetDisabledPercentage(0.100000)
 Repair.SetRadius(0.050000)
 Repair.SetNormalPowerPerSecond(1.000000)
-Repair.SetMaxRepairPoints(50.000000) # Must match REPAIR_WITHOUT_GAIN in WeaponHitHandlers.py
+Repair.SetMaxRepairPoints(50.000000)
 Repair.SetNumRepairTeams(4)
 App.g_kModelPropertyManager.RegisterLocalTemplate(Repair)
 #################################################
