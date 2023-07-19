@@ -12,7 +12,8 @@ TORP_RADIUS_TO_TORP_HANDLER = {
 TORP_RADIUS_MOE = 0.0000001
 
 SHIELD_DRAIN = 200
-SHIELD_GAIN_FACTOR = 1.8
+SHIELD_GAIN_FACTOR = 1.2
+N_SHIELDS_TO_GAIN = 2
 SHIELD_SIDES = [ 
     App.ShieldClass.FRONT_SHIELDS,
     App.ShieldClass.REAR_SHIELDS,
@@ -28,7 +29,7 @@ REPAIR_GAIN_DURATION_S = 5
 REPAIR_WITHOUT_GAIN = 50 # Must match MaxRepairPoints in Hardpoints/KrenimOrbship.py TODO not used anywhere
 
 SENSOR_DRAIN = 100
-WEAPON_GAIN = 0.25
+WEAPON_GAIN = 0.5
 
 ET_DECREMENT_BUFFED_REPAIR_POINTS = App.Episode_GetNextEventType()
 
@@ -102,14 +103,36 @@ def DrainShields(TargetShip):
 
 def BoostShields(Ship, totalDrain):
     shields = Ship.GetShields()
-    shieldGain = totalDrain / len(SHIELD_SIDES) * SHIELD_GAIN_FACTOR
-
+    perShieldGain = totalDrain * SHIELD_GAIN_FACTOR / N_SHIELDS_TO_GAIN
+    
+    shieldSidesWithPercents = []
     for side in SHIELD_SIDES:
         current = shields.GetCurShields(side)
         limit = shields.GetMaxShields(side)
+        shieldSidesWithPercents.append((side, current / limit))
 
-        gained = min(limit, current + shieldGain)
+    shieldSidesWithPercents.sort(CompareForLowestShield)
+
+    for (side, _percent) in shieldSidesWithPercents[0:N_SHIELDS_TO_GAIN]:
+        current = shields.GetCurShields(side)
+        limit = shields.GetMaxShields(side)
+
+        gained = min(limit, current + perShieldGain)
         shields.SetCurShields(side, gained)
+
+
+def CompareForLowestShield(ShieldTupleA, ShieldTupleB):
+    (SideA, PercentA) = ShieldTupleA
+    (SideB, PercentB) = ShieldTupleB
+    import math
+    return int(math.ceil(PercentA * 1000 - PercentB * 1000))
+
+def CreateGetShieldPercentageTupleFunc(Shields):
+    def GetShieldPercentageTuple(Side):
+        current = Shields.GetCurShields(Side)
+        limit = Shields.GetMaxShields(Side)
+        return (Side, current / limit)
+    return GetShieldPercentageTuple
 
 def HullDrainTorpHitHandler(TargetShip, FiringShip):
     targetHull = TargetShip.GetHull()
