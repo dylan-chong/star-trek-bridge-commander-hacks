@@ -1,7 +1,7 @@
+import math
 import App
 import Custom.CrazyShipAbilities.Utils
 
-# TODO incoming damage charges your n orbs
 # TODO when torpedo used, decrement the count of the other one? Or don't
 
 TORP_RADIUS_TO_TORP_HANDLER = {
@@ -10,8 +10,8 @@ TORP_RADIUS_TO_TORP_HANDLER = {
 }
 TORP_RADIUS_MOE = 0.0000001
 
-SHIELD_DRAIN = 200
-SHIELD_GAIN_FACTOR = 1.2
+SHIELD_DRAIN = 120
+SHIELD_GAIN_FACTOR = 1.5
 N_SHIELDS_TO_GAIN = 2
 SHIELD_SIDES = [ 
     App.ShieldClass.FRONT_SHIELDS,
@@ -21,13 +21,23 @@ SHIELD_SIDES = [
     App.ShieldClass.LEFT_SHIELDS,
     App.ShieldClass.RIGHT_SHIELDS,
 ]
+SHIELD_GAIN_PER_ORB = SHIELD_DRAIN * len(SHIELD_SIDES) * SHIELD_GAIN_FACTOR
 
 HULL_DRAIN = 300
-REPAIR_GAIN = 100
-REPAIR_GAIN_DURATION_S = 5
+REPAIR_GAIN = 20
+REPAIR_GAIN_DURATION_S = 10
 
 SENSOR_DRAIN = 100
 WEAPON_GAIN = 0.35
+
+"""
+Player should hit EXPECTED_USER_ORB_HIT_ACCURACY of orbs (as health orbs) on target with enough shields in order to break even with orb charge from incoming damage.
+Note that even if the player's accuracy is below this mark, due to damage done to the enemy shields, the exchange is likely still positive.
+"""
+EXPECTED_PLAYER_ORB_HIT_ACCURACY = 0.90
+HEALTH_ORBS_GAINED_PER_DAMAGE_POINT = 1.0 / (SHIELD_GAIN_PER_ORB * EXPECTED_PLAYER_ORB_HIT_ACCURACY)
+# You mainly fire the health orbs so you don't need so many of the weapon orbs. They will charge up over time
+WEAPON_ORBS_GAINED_PER_DAMAGE_POINT = HEALTH_ORBS_GAINED_PER_DAMAGE_POINT * 0.15
 
 ET_DECREMENT_BUFFED_REPAIR_POINTS = App.Episode_GetNextEventType()
 
@@ -51,6 +61,13 @@ def Reset():
 
 
 def WeaponHitHandler(_pObject, pEvent):
+    targetShip = App.ShipClass_Cast(pEvent.GetTargetObject())
+    firingShip = App.ShipClass_Cast(pEvent.GetFiringObject())
+    isHullHit = pEvent.IsHullHit()
+
+    if not isHullHit and IsKrenimOrbship(targetShip):
+        GainOrbs(targetShip, pEvent.GetDamage())
+
     if pEvent.GetWeaponType() != App.WeaponHitEvent.TORPEDO:
         return
 
@@ -65,12 +82,34 @@ def WeaponHitHandler(_pObject, pEvent):
         funcName = TORP_RADIUS_TO_TORP_HANDLER[torpRadius]
         handlerFunc = getattr(__import__(__name__), funcName)
 
-        hitShip = App.ShipClass_Cast(pEvent.GetTargetObject())
-        firingShip = App.ShipClass_Cast(pEvent.GetFiringObject())
-        isHullHit = pEvent.IsHullHit()
-        handlerFunc(hitShip, firingShip, isHullHit)
+        handlerFunc(targetShip, firingShip, isHullHit)
 
-    # TODO if firer is player and  charge orbs on krenim orb ship
+def IsKrenimOrbship(Ship):
+    return Ship.GetShipProperty().GetName().GetCString() == 'KrenimOrbship'
+    
+def GainOrbs(TargetShip, Damage):
+    if not ShouldUpdateFiringShip(TargetShip) or Damage == 0:
+        return
+
+    pTorpSys = TargetShip.GetTorpedoSystem()
+    if not pTorpSys:
+        return
+
+    for i in range(pTorpSys.GetNumAmmoTypes()):
+        script = pTorpSys.GetProperty().GetTorpedoScript(i)
+        if script == "Tactical.Projectiles.Orbs.Health Drain Orb":
+            pTorpSys.LoadAmmoType(i, NumberOfOrbsToGain(Damage, HEALTH_ORBS_GAINED_PER_DAMAGE_POINT))
+        elif script == "Tactical.Projectiles.Orbs.Weapon Drain Orb":
+            pTorpSys.LoadAmmoType(i, NumberOfOrbsToGain(Damage, WEAPON_ORBS_GAINED_PER_DAMAGE_POINT))
+    
+def NumberOfOrbsToGain(Damage, OrbsPerDamage):
+    NOrbs = Damage * OrbsPerDamage
+    if NOrbs >= 1:
+        return (NOrbs)
+
+    ChanceOfGettingOrb = NOrbs * 1000.0
+    Roll = App.g_kSystemWrapper.GetRandomNumber(1000)
+    return Roll < ChanceOfGettingOrb
     
 def HealthDrainTorpHitHandler(TargetShip, FiringShip, IsHullHit):
     if IsHullHit:
@@ -122,7 +161,6 @@ def BoostShields(Ship, totalDrain):
 def CompareForLowestShield(ShieldTupleA, ShieldTupleB):
     (SideA, PercentA) = ShieldTupleA
     (SideB, PercentB) = ShieldTupleB
-    import math
     return int(math.ceil(PercentA * 1000 - PercentB * 1000))
 
 def CreateGetShieldPercentageTupleFunc(Shields):
@@ -168,9 +206,6 @@ def DecrementPlayerRepairPoints(_pObject, _pEvent):
     ChangePlayerRepairPointsBy(-REPAIR_GAIN)
 
 def WeaponDrainTorpHitHandler(TargetShip, FiringShip, IsHullHit):
-    if not IsHullHit:
-        return
-
     sensorArray = TargetShip.GetSensorSubsystem()
     if not sensorArray:
         return

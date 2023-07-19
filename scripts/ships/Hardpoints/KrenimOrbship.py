@@ -2,7 +2,7 @@
 #####  Tactical Display Icon Editor
 
 NLoadableTorps = 4
-NMaxTorpLoads = 2 * 100
+NMaxTorpLoads = 4
 CannonMaxCharge = 1.5 * 3.00000
 CannonRechargeRate = 1.2 * 0.300000
 CannonMaxDamage = 0.5 * 480.000000
@@ -710,7 +710,7 @@ Repair.SetRepairComplexity(1.000000)
 Repair.SetDisabledPercentage(0.100000)
 Repair.SetRadius(0.050000)
 Repair.SetNormalPowerPerSecond(1.000000)
-Repair.SetMaxRepairPoints(50.000000)
+Repair.SetMaxRepairPoints(30.000000)
 Repair.SetNumRepairTeams(4)
 App.g_kModelPropertyManager.RegisterLocalTemplate(Repair)
 #################################################
