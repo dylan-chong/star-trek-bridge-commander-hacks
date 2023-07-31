@@ -2,7 +2,7 @@ import math
 import App
 import Custom.CrazyShipAbilities.Utils
 
-# TODO when torpedo used, decrement the count of the other one? Or don't
+# TODO generate orb over time, or outgoing damage generates orbs
 
 TORP_RADIUS_TO_TORP_HANDLER = {
     0.022211: 'HealthDrainTorpHitHandler',
@@ -10,9 +10,9 @@ TORP_RADIUS_TO_TORP_HANDLER = {
 }
 TORP_RADIUS_MOE = 0.0000001
 
-SHIELD_DRAIN = 110
+SHIELD_DRAIN = 122
 SHIELD_GAIN_FACTOR = 1.55
-N_SHIELDS_TO_GAIN = 2
+N_SHIELDS_TO_GAIN = 3
 SHIELD_SIDES = [ 
     App.ShieldClass.FRONT_SHIELDS,
     App.ShieldClass.REAR_SHIELDS,
@@ -23,12 +23,12 @@ SHIELD_SIDES = [
 ]
 SHIELD_GAIN_PER_ORB = SHIELD_DRAIN * len(SHIELD_SIDES) * SHIELD_GAIN_FACTOR
 
-HULL_DRAIN = 300
-REPAIR_GAIN = 20
-REPAIR_GAIN_DURATION_S = 10
+HULL_DRAIN = 1000
+REPAIR_GAIN = 70
+REPAIR_GAIN_DURATION_S = 4
 
-SENSOR_DRAIN = 200
-WEAPON_GAIN = 0.35
+SENSOR_DRAIN = 350
+WEAPON_GAIN = 0.40
 
 """
 Player should hit EXPECTED_USER_ORB_HIT_ACCURACY of orbs (as health orbs) on target with enough shields in order to break even with orb charge from incoming damage.
@@ -37,7 +37,7 @@ Note that even if the player's accuracy is below this mark, due to damage done t
 EXPECTED_PLAYER_ORB_HIT_ACCURACY = 0.90
 HEALTH_ORBS_GAINED_PER_DAMAGE_POINT = 1.0 / (SHIELD_GAIN_PER_ORB * EXPECTED_PLAYER_ORB_HIT_ACCURACY)
 # You mainly fire the health orbs so you don't need so many of the weapon orbs. They will charge up over time
-WEAPON_ORBS_GAINED_PER_DAMAGE_POINT = HEALTH_ORBS_GAINED_PER_DAMAGE_POINT * 0.5
+WEAPON_ORBS_GAINED_PER_DAMAGE_POINT = HEALTH_ORBS_GAINED_PER_DAMAGE_POINT * 0.2
 
 ET_DECREMENT_BUFFED_REPAIR_POINTS = App.Episode_GetNextEventType()
 

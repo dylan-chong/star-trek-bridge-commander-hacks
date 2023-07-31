@@ -2,10 +2,12 @@
 #####  Tactical Display Icon Editor
 
 NLoadableTorps = 4
-NMaxTorpLoads = 4
 CannonMaxCharge = 1.5 * 3.00000
 CannonRechargeRate = 1.2 * 0.300000
 CannonMaxDamage = 0.5 * 480.000000
+CannonCooldown = 0.8
+
+SubsystemConditionFactor = 1.5
 
 import App
 import GlobalPropertyTemplates
@@ -14,7 +16,7 @@ import GlobalPropertyTemplates
 #################################################
 Hull = App.HullProperty_Create("Hull")
 
-Hull.SetMaxCondition(12000.000000)
+Hull.SetMaxCondition(1.1 * 12000.000000)
 Hull.SetCritical(1)
 Hull.SetTargetable(1)
 Hull.SetPrimary(1)
@@ -27,7 +29,7 @@ App.g_kModelPropertyManager.RegisterLocalTemplate(Hull)
 #################################################
 Bridge = App.HullProperty_Create("Bridge")
 
-Bridge.SetMaxCondition(6000.000000)
+Bridge.SetMaxCondition(SubsystemConditionFactor * 6000.000000)
 Bridge.SetCritical(1)
 Bridge.SetTargetable(1)
 Bridge.SetPrimary(0)
@@ -40,7 +42,7 @@ App.g_kModelPropertyManager.RegisterLocalTemplate(Bridge)
 #################################################
 ShieldGenerator = App.ShieldProperty_Create("Shield Generator")
 
-ShieldGenerator.SetMaxCondition(6000.000000)
+ShieldGenerator.SetMaxCondition(SubsystemConditionFactor * 6000.000000)
 ShieldGenerator.SetCritical(0)
 ShieldGenerator.SetTargetable(1)
 ShieldGenerator.SetPrimary(1)
@@ -54,23 +56,23 @@ ShieldGeneratorShieldGlowColor = App.TGColorA()
 ShieldGeneratorShieldGlowColor.SetRGBA(0.494118, 0.247059, 1.000000, 1.000000)
 ShieldGenerator.SetShieldGlowColor(ShieldGeneratorShieldGlowColor)
 ShieldGenerator.SetShieldGlowDecay(1.000000)
-ShieldGenerator.SetMaxShields(ShieldGenerator.FRONT_SHIELDS, 4 * 12000.000000)
-ShieldGenerator.SetMaxShields(ShieldGenerator.REAR_SHIELDS, 1.8 * 4800.000000)
-ShieldGenerator.SetMaxShields(ShieldGenerator.TOP_SHIELDS, 1.8 * 4800.000000)
-ShieldGenerator.SetMaxShields(ShieldGenerator.BOTTOM_SHIELDS, 1.8 * 4800.000000)
-ShieldGenerator.SetMaxShields(ShieldGenerator.LEFT_SHIELDS, 1.8 * 4800.000000)
-ShieldGenerator.SetMaxShields(ShieldGenerator.RIGHT_SHIELDS, 1.8 * 4800.000000)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.FRONT_SHIELDS, 0.8 * 24.000000)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.REAR_SHIELDS, 0.8 * 9.600000)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.TOP_SHIELDS, 0.8 * 9.600000)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.BOTTOM_SHIELDS, 0.8 * 9.600000)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.LEFT_SHIELDS, 0.8 * 9.600000)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.RIGHT_SHIELDS, 0.8 * 9.600000)
+ShieldGenerator.SetMaxShields(ShieldGenerator.FRONT_SHIELDS, 2.5 * 12000.000000)
+ShieldGenerator.SetMaxShields(ShieldGenerator.REAR_SHIELDS, 1.1 * 4800.000000)
+ShieldGenerator.SetMaxShields(ShieldGenerator.TOP_SHIELDS, 1.1 * 4800.000000)
+ShieldGenerator.SetMaxShields(ShieldGenerator.BOTTOM_SHIELDS, 1.1 * 4800.000000)
+ShieldGenerator.SetMaxShields(ShieldGenerator.LEFT_SHIELDS, 1.1 * 4800.000000)
+ShieldGenerator.SetMaxShields(ShieldGenerator.RIGHT_SHIELDS, 1.1 * 4800.000000)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.FRONT_SHIELDS, 0.3 * 24.000000)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.REAR_SHIELDS, 0.3 * 9.600000)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.TOP_SHIELDS, 0.3 * 9.600000)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.BOTTOM_SHIELDS, 0.3 * 9.600000)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.LEFT_SHIELDS, 0.3 * 9.600000)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.RIGHT_SHIELDS, 0.3 * 9.600000)
 App.g_kModelPropertyManager.RegisterLocalTemplate(ShieldGenerator)
 #################################################
 SensorArray = App.SensorProperty_Create("Sensor Array")
 
-SensorArray.SetMaxCondition(6000.000000)
+SensorArray.SetMaxCondition(SubsystemConditionFactor * 6000.000000)
 SensorArray.SetCritical(0)
 SensorArray.SetTargetable(1)
 SensorArray.SetPrimary(1)
@@ -86,7 +88,7 @@ App.g_kModelPropertyManager.RegisterLocalTemplate(SensorArray)
 #################################################
 ImpulseEngines = App.ImpulseEngineProperty_Create("Impulse Engines")
 
-ImpulseEngines.SetMaxCondition(3000.000000)
+ImpulseEngines.SetMaxCondition(SubsystemConditionFactor * 3000.000000)
 ImpulseEngines.SetCritical(0)
 ImpulseEngines.SetTargetable(0)
 ImpulseEngines.SetPrimary(1)
@@ -105,7 +107,7 @@ App.g_kModelPropertyManager.RegisterLocalTemplate(ImpulseEngines)
 #################################################
 PortImpulse = App.EngineProperty_Create("Port Impulse")
 
-PortImpulse.SetMaxCondition(3000.000000)
+PortImpulse.SetMaxCondition(SubsystemConditionFactor * 3000.000000)
 PortImpulse.SetCritical(0)
 PortImpulse.SetTargetable(1)
 PortImpulse.SetPrimary(1)
@@ -119,7 +121,7 @@ App.g_kModelPropertyManager.RegisterLocalTemplate(PortImpulse)
 #################################################
 StarImpulse = App.EngineProperty_Create("Star Impulse")
 
-StarImpulse.SetMaxCondition(3000.000000)
+StarImpulse.SetMaxCondition(SubsystemConditionFactor * 3000.000000)
 StarImpulse.SetCritical(0)
 StarImpulse.SetTargetable(1)
 StarImpulse.SetPrimary(1)
@@ -133,7 +135,7 @@ App.g_kModelPropertyManager.RegisterLocalTemplate(StarImpulse)
 #################################################
 WarpCore = App.PowerProperty_Create("Warp Core")
 
-WarpCore.SetMaxCondition(6000.000000)
+WarpCore.SetMaxCondition(SubsystemConditionFactor * 6000.000000)
 WarpCore.SetCritical(1)
 WarpCore.SetTargetable(1)
 WarpCore.SetPrimary(1)
@@ -151,7 +153,7 @@ App.g_kModelPropertyManager.RegisterLocalTemplate(WarpCore)
 #################################################
 WarpEngines = App.WarpEngineProperty_Create("Warp Engines")
 
-WarpEngines.SetMaxCondition(3000.000000)
+WarpEngines.SetMaxCondition(SubsystemConditionFactor * 3000.000000)
 WarpEngines.SetCritical(0)
 WarpEngines.SetTargetable(0)
 WarpEngines.SetPrimary(1)
@@ -165,7 +167,7 @@ App.g_kModelPropertyManager.RegisterLocalTemplate(WarpEngines)
 #################################################
 PortWarp = App.EngineProperty_Create("Port Warp")
 
-PortWarp.SetMaxCondition(3000.000000)
+PortWarp.SetMaxCondition(SubsystemConditionFactor * 3000.000000)
 PortWarp.SetCritical(0)
 PortWarp.SetTargetable(1)
 PortWarp.SetPrimary(1)
@@ -179,7 +181,7 @@ App.g_kModelPropertyManager.RegisterLocalTemplate(PortWarp)
 #################################################
 StarWarp = App.EngineProperty_Create("Star Warp")
 
-StarWarp.SetMaxCondition(3000.000000)
+StarWarp.SetMaxCondition(SubsystemConditionFactor * 3000.000000)
 StarWarp.SetCritical(0)
 StarWarp.SetTargetable(1)
 StarWarp.SetPrimary(1)
@@ -193,7 +195,7 @@ App.g_kModelPropertyManager.RegisterLocalTemplate(StarWarp)
 #################################################
 TemporalBeams = App.WeaponSystemProperty_Create("Temporal Beams")
 
-TemporalBeams.SetMaxCondition(3000.000000)
+TemporalBeams.SetMaxCondition(SubsystemConditionFactor * 3000.000000)
 TemporalBeams.SetCritical(0)
 TemporalBeams.SetTargetable(0)
 TemporalBeams.SetPrimary(1)
@@ -213,7 +215,7 @@ App.g_kModelPropertyManager.RegisterLocalTemplate(TemporalBeams)
 #################################################
 DeathBeam = App.PhaserProperty_Create("Death Beam")
 
-DeathBeam.SetMaxCondition(6000.000000)
+DeathBeam.SetMaxCondition(SubsystemConditionFactor * 6000.000000)
 DeathBeam.SetCritical(0)
 DeathBeam.SetTargetable(1)
 DeathBeam.SetPrimary(1)
@@ -276,7 +278,7 @@ App.g_kModelPropertyManager.RegisterLocalTemplate(DeathBeam)
 #################################################
 PulseCannons = App.WeaponSystemProperty_Create("Pulse Cannons")
 
-PulseCannons.SetMaxCondition(1500.000000)
+PulseCannons.SetMaxCondition(SubsystemConditionFactor * 1500.000000)
 PulseCannons.SetCritical(0)
 PulseCannons.SetTargetable(0)
 PulseCannons.SetPrimary(1)
@@ -296,7 +298,7 @@ App.g_kModelPropertyManager.RegisterLocalTemplate(PulseCannons)
 #################################################
 ForwardCannon1 = App.PulseWeaponProperty_Create("Forward Cannon 1")
 
-ForwardCannon1.SetMaxCondition(3000.000000)
+ForwardCannon1.SetMaxCondition(SubsystemConditionFactor * 3000.000000)
 ForwardCannon1.SetCritical(0)
 ForwardCannon1.SetTargetable(1)
 ForwardCannon1.SetPrimary(1)
@@ -330,13 +332,13 @@ ForwardCannon1Up.SetXYZ(0.000000, 0.000000, 1.000000)
 ForwardCannon1.SetOrientation(ForwardCannon1Forward, ForwardCannon1Up)
 ForwardCannon1.SetArcWidthAngles(-0.785398, 0.785398)
 ForwardCannon1.SetArcHeightAngles(-0.785398, 0.785398)
-ForwardCannon1.SetCooldownTime(0.250000)
+ForwardCannon1.SetCooldownTime(CannonCooldown)
 ForwardCannon1.SetModuleName("Tactical.Projectiles.KrenimPulse")
 App.g_kModelPropertyManager.RegisterLocalTemplate(ForwardCannon1)
 #################################################
 ForwardCannon2 = App.PulseWeaponProperty_Create("Forward Cannon 2")
 
-ForwardCannon2.SetMaxCondition(3000.000000)
+ForwardCannon2.SetMaxCondition(SubsystemConditionFactor * 3000.000000)
 ForwardCannon2.SetCritical(0)
 ForwardCannon2.SetTargetable(1)
 ForwardCannon2.SetPrimary(1)
@@ -370,13 +372,13 @@ ForwardCannon2Up.SetXYZ(0.000000, 0.000000, 1.000000)
 ForwardCannon2.SetOrientation(ForwardCannon2Forward, ForwardCannon2Up)
 ForwardCannon2.SetArcWidthAngles(-0.785398, 0.785398)
 ForwardCannon2.SetArcHeightAngles(-0.785398, 0.785398)
-ForwardCannon2.SetCooldownTime(0.250000)
+ForwardCannon2.SetCooldownTime(CannonCooldown)
 ForwardCannon2.SetModuleName("Tactical.Projectiles.KrenimPulse")
 App.g_kModelPropertyManager.RegisterLocalTemplate(ForwardCannon2)
 #################################################
 AftCannon1 = App.PulseWeaponProperty_Create("Aft Cannon 1")
 
-AftCannon1.SetMaxCondition(1500.000000)
+AftCannon1.SetMaxCondition(SubsystemConditionFactor * 1500.000000)
 AftCannon1.SetCritical(0)
 AftCannon1.SetTargetable(1)
 AftCannon1.SetPrimary(1)
@@ -410,13 +412,13 @@ AftCannon1Up.SetXYZ(0.000000, 0.000000, 1.000000)
 AftCannon1.SetOrientation(AftCannon1Forward, AftCannon1Up)
 AftCannon1.SetArcWidthAngles(-1.308997, 1.308997)
 AftCannon1.SetArcHeightAngles(-0.087266, 2.094395)
-AftCannon1.SetCooldownTime(0.250000)
+AftCannon1.SetCooldownTime(CannonCooldown)
 AftCannon1.SetModuleName("Tactical.Projectiles.KrenimPulse")
 App.g_kModelPropertyManager.RegisterLocalTemplate(AftCannon1)
 #################################################
 AftCannon2 = App.PulseWeaponProperty_Create("Aft Cannon 2")
 
-AftCannon2.SetMaxCondition(1500.000000)
+AftCannon2.SetMaxCondition(SubsystemConditionFactor * 1500.000000)
 AftCannon2.SetCritical(0)
 AftCannon2.SetTargetable(1)
 AftCannon2.SetPrimary(1)
@@ -450,13 +452,13 @@ AftCannon2Up.SetXYZ(0.000000, 0.000000, 1.000000)
 AftCannon2.SetOrientation(AftCannon2Forward, AftCannon2Up)
 AftCannon2.SetArcWidthAngles(-1.308997, 1.308997)
 AftCannon2.SetArcHeightAngles(-2.094395, 0.087266)
-AftCannon2.SetCooldownTime(0.250000)
+AftCannon2.SetCooldownTime(CannonCooldown)
 AftCannon2.SetModuleName("Tactical.Projectiles.KrenimPulse")
 App.g_kModelPropertyManager.RegisterLocalTemplate(AftCannon2)
 #################################################
 Torpedoes = App.TorpedoSystemProperty_Create("Torpedoes")
 
-Torpedoes.SetMaxCondition(1500.000000)
+Torpedoes.SetMaxCondition(SubsystemConditionFactor * 1500.000000)
 Torpedoes.SetCritical(0)
 Torpedoes.SetTargetable(0)
 Torpedoes.SetPrimary(1)
@@ -472,16 +474,16 @@ Torpedoes.SetAimedWeapon(1)
 kFiringChainString = App.TGString()
 kFiringChainString.SetString("")
 Torpedoes.SetFiringChainString(kFiringChainString)
-Torpedoes.SetMaxTorpedoes(0, NLoadableTorps * NMaxTorpLoads)
+Torpedoes.SetMaxTorpedoes(0, NLoadableTorps * 4)
 Torpedoes.SetTorpedoScript(0, "Tactical.Projectiles.Orbs.Health Drain Orb")
-Torpedoes.SetMaxTorpedoes(1, NLoadableTorps * NMaxTorpLoads)
+Torpedoes.SetMaxTorpedoes(1, NLoadableTorps * 2)
 Torpedoes.SetTorpedoScript(1, "Tactical.Projectiles.Orbs.Weapon Drain Orb")
 Torpedoes.SetNumAmmoTypes(2)
 App.g_kModelPropertyManager.RegisterLocalTemplate(Torpedoes)
 #################################################
 ForwardTube = App.TorpedoTubeProperty_Create("Forward Tube")
 
-ForwardTube.SetMaxCondition(2 * 6000.000000)
+ForwardTube.SetMaxCondition(SubsystemConditionFactor * 2 * 6000.000000)
 ForwardTube.SetCritical(0)
 ForwardTube.SetTargetable(1)
 ForwardTube.SetPrimary(1)
@@ -511,7 +513,7 @@ App.g_kModelPropertyManager.RegisterLocalTemplate(ForwardTube)
 #################################################
 Tractors = App.WeaponSystemProperty_Create("Tractors")
 
-Tractors.SetMaxCondition(1500.000000)
+Tractors.SetMaxCondition(SubsystemConditionFactor * 1500.000000)
 Tractors.SetCritical(0)
 Tractors.SetTargetable(0)
 Tractors.SetPrimary(1)
@@ -531,7 +533,7 @@ App.g_kModelPropertyManager.RegisterLocalTemplate(Tractors)
 #################################################
 ForwardTractor = App.TractorBeamProperty_Create("Forward Tractor")
 
-ForwardTractor.SetMaxCondition(1500.000000)
+ForwardTractor.SetMaxCondition(SubsystemConditionFactor * 1500.000000)
 ForwardTractor.SetCritical(0)
 ForwardTractor.SetTargetable(1)
 ForwardTractor.SetPrimary(1)
@@ -593,7 +595,7 @@ App.g_kModelPropertyManager.RegisterLocalTemplate(ForwardTractor)
 #################################################
 AftTractor = App.TractorBeamProperty_Create("Aft Tractor")
 
-AftTractor.SetMaxCondition(1500.000000)
+AftTractor.SetMaxCondition(SubsystemConditionFactor * 1500.000000)
 AftTractor.SetCritical(0)
 AftTractor.SetTargetable(1)
 AftTractor.SetPrimary(1)
@@ -700,7 +702,7 @@ App.g_kModelPropertyManager.RegisterLocalTemplate(KrenimOrbship)
 #################################################
 Repair = App.RepairSubsystemProperty_Create("Repair")
 
-Repair.SetMaxCondition(1500.000000)
+Repair.SetMaxCondition(SubsystemConditionFactor * 1500.000000)
 Repair.SetCritical(0)
 Repair.SetTargetable(0)
 Repair.SetPrimary(1)
