@@ -10,8 +10,8 @@ TORP_RADIUS_TO_TORP_HANDLER = {
 }
 TORP_RADIUS_MOE = 0.0000001
 
-SHIELD_DRAIN = 120
-SHIELD_GAIN_FACTOR = 1.5
+SHIELD_DRAIN = 110
+SHIELD_GAIN_FACTOR = 1.55
 N_SHIELDS_TO_GAIN = 2
 SHIELD_SIDES = [ 
     App.ShieldClass.FRONT_SHIELDS,
@@ -27,7 +27,7 @@ HULL_DRAIN = 300
 REPAIR_GAIN = 20
 REPAIR_GAIN_DURATION_S = 10
 
-SENSOR_DRAIN = 100
+SENSOR_DRAIN = 200
 WEAPON_GAIN = 0.35
 
 """
@@ -37,7 +37,7 @@ Note that even if the player's accuracy is below this mark, due to damage done t
 EXPECTED_PLAYER_ORB_HIT_ACCURACY = 0.90
 HEALTH_ORBS_GAINED_PER_DAMAGE_POINT = 1.0 / (SHIELD_GAIN_PER_ORB * EXPECTED_PLAYER_ORB_HIT_ACCURACY)
 # You mainly fire the health orbs so you don't need so many of the weapon orbs. They will charge up over time
-WEAPON_ORBS_GAINED_PER_DAMAGE_POINT = HEALTH_ORBS_GAINED_PER_DAMAGE_POINT * 0.15
+WEAPON_ORBS_GAINED_PER_DAMAGE_POINT = HEALTH_ORBS_GAINED_PER_DAMAGE_POINT * 0.5
 
 ET_DECREMENT_BUFFED_REPAIR_POINTS = App.Episode_GetNextEventType()
 
@@ -98,9 +98,11 @@ def GainOrbs(TargetShip, Damage):
     for i in range(pTorpSys.GetNumAmmoTypes()):
         script = pTorpSys.GetProperty().GetTorpedoScript(i)
         if script == "Tactical.Projectiles.Orbs.Health Drain Orb":
-            pTorpSys.LoadAmmoType(i, NumberOfOrbsToGain(Damage, HEALTH_ORBS_GAINED_PER_DAMAGE_POINT))
+            nOrbs = NumberOfOrbsToGain(Damage, HEALTH_ORBS_GAINED_PER_DAMAGE_POINT)
+            pTorpSys.LoadAmmoType(i, nOrbs)
         elif script == "Tactical.Projectiles.Orbs.Weapon Drain Orb":
-            pTorpSys.LoadAmmoType(i, NumberOfOrbsToGain(Damage, WEAPON_ORBS_GAINED_PER_DAMAGE_POINT))
+            nOrbs = NumberOfOrbsToGain(Damage, WEAPON_ORBS_GAINED_PER_DAMAGE_POINT)
+            pTorpSys.LoadAmmoType(i, nOrbs)
     
 def NumberOfOrbsToGain(Damage, OrbsPerDamage):
     NOrbs = Damage * OrbsPerDamage
