@@ -105,7 +105,8 @@ ASTEROIDH2 = 100
 ASTEROIDH3 = 101
 BUGRAMMER = 102
 WALL = 103
-MAX_SHIPS = 104
+KRENIMORBSHIP = 104
+MAX_SHIPS = 105
 MAX_FLYABLE_SHIPS = 85
 
 # Setup tuples
@@ -214,7 +215,8 @@ kSpeciesTuple = (
 	("Asteroidh3" , App.SPECIES_ASTEROID, "Neutral", 1),
 	("BugRammer" , 1001, "Dominion", 1),
 	("Wall" , 1002, "Neutral", 1),
-	(None, 0, "Neutral", 1))
+	("KrenimOrbship" , 1003, "Delta Quadrant", 1),
+	(None, 1, "Neutral", 1))
 
 def GetShipFromSpecies (iSpecies):
 	if (iSpecies <= 0 or iSpecies >= MAX_SHIPS):

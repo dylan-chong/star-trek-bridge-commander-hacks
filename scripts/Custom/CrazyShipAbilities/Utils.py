@@ -72,3 +72,40 @@ def SpawnDroneShip(shipType, shipName, distance, pPlayer, group):
 	group.AddName(shipName)
 	
 	return pShip
+
+def GetSubsystemByName(pShip, name):
+	pPropSet = pShip.GetPropertySet()
+	pPropList = pPropSet.GetPropertiesByType(App.CT_SUBSYSTEM_PROPERTY)
+	iNumItems = pPropList.TGGetNumItems()
+
+	desiredSubsystem = None
+
+	pPropList.TGBeginIteration()
+	for i in range(iNumItems):
+		pInstance = pPropList.TGGetNext()
+		pProperty = App.SubsystemProperty_Cast(pInstance.GetProperty())
+		pSubsystem = pShip.GetSubsystemByProperty(pProperty)
+
+		if pSubsystem.GetName() != name:
+			continue
+
+		desiredSubsystem = pSubsystem
+		break
+
+	pPropList.TGDoneIterating()
+	return desiredSubsystem
+
+def EmitEventAfterDelay(eType, delayS):
+	"""
+	Schedules a timer on the current game object.
+	Assumes that you have already registered an event handler on the game object to call your function using:
+
+		pGame.AddPythonFuncHandlerForInstance(eType, 'Module.FnName')
+	"""
+	pEvent = App.TGEvent_Create()
+	pEvent.SetEventType(eType)
+	pEvent.SetDestination(App.Game_GetCurrentGame())
+	pTimer = App.TGTimer_Create()
+	pTimer.SetTimerStart(App.g_kUtopiaModule.GetGameTime() + delayS)
+	pTimer.SetEvent(pEvent)
+	App.g_kTimerManager.AddTimer(pTimer)
