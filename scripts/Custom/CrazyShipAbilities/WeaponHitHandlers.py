@@ -34,7 +34,7 @@ WEAPON_GAIN = 0.40
 Player should hit EXPECTED_USER_ORB_HIT_ACCURACY of orbs (as health orbs) on target with enough shields in order to break even with orb charge from incoming damage.
 Note that even if the player's accuracy is below this mark, due to damage done to the enemy shields, the exchange is likely still positive.
 """
-EXPECTED_PLAYER_ORB_HIT_ACCURACY = 0.90
+EXPECTED_PLAYER_ORB_HIT_ACCURACY = 0.85
 HEALTH_ORBS_GAINED_PER_DAMAGE_POINT = 1.0 / (SHIELD_GAIN_PER_ORB * EXPECTED_PLAYER_ORB_HIT_ACCURACY)
 # You mainly fire the health orbs so you don't need so many of the weapon orbs. They will charge up over time
 WEAPON_ORBS_GAINED_PER_DAMAGE_POINT = HEALTH_ORBS_GAINED_PER_DAMAGE_POINT * 0.5
@@ -236,7 +236,9 @@ def ShouldUpdateFiringShip(FiringShip):
     The event handling will happen on all clients and the host. Changes to non player ships are not propagated
     As the server needs to process the target's changes and the client needs to manage it's own firer's changes
     """
-    # TODO Test in multiplayer. Should we just not handle the events at all on clients?
-    import MissionLib
-    player = MissionLib.GetPlayer()
-    return player and player.GetObjID() == FiringShip.GetObjID()
+    return 1
+    # TODO Test if we need this in multiplayer. Should we just not handle the events at all on clients?
+
+    # import MissionLib
+    # player = MissionLib.GetPlayer()
+    # return player and player.GetObjID() == FiringShip.GetObjID()
