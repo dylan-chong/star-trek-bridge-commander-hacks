@@ -101,6 +101,7 @@ def LoadShipIcons(ShipIcons = None):
 	ShipIconDef('KrenimPatrol', { 'species': 756 } )
 	ShipIconDef('KrenimWarship', { 'species': 757 } )
 	ShipIconDef('KrenimTimeship', { 'species': 758 } )
+	ShipIconDef('KrenimOrbship', { 'species': 1003, 'file': 'Data/Icons/Ships/KrenimWarship.tga' } )
 	ShipIconDef('MalonFreighter', { 'species': 759 } )
 	ShipIconDef('VidiianCruiser', { 'species': 760 } )
 	ShipIconDef('FedShuttle', { 'species': App.SPECIES_SHUTTLE } )

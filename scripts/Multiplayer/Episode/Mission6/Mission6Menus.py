@@ -133,7 +133,8 @@ kBattleshipList = [
 	"Warbird",
 	"CardHybrid",
 	"Vorta",
-	"Scimitar"]
+	"Scimitar",
+	"KrenimOrbship"]
 
 ###############################################################################
 #	BuildShipSelectWindow()	
