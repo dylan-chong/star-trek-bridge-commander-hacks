@@ -250,7 +250,7 @@ data/Movies
 data/Textures
 data/Textures/Effects
 data/Textures/Tactical
-data/TGL
+data/TGL/*.tgl
 data/TGL/Maelstrom
 data/TGL/Maelstrom/Episode 1
 data/TGL/Maelstrom/Episode 2
@@ -261,6 +261,7 @@ data/TGL/Maelstrom/Episode 6
 data/TGL/Maelstrom/Episode 7
 data/TGL/Maelstrom/Episode 8
 data/TGL/QuickBattle
+!data/TGL/Ships.TGL
 
 data/8472phaser.tga
 data/Blinker_Blank.tga
