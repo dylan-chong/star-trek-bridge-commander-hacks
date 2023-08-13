@@ -12,6 +12,7 @@ def SetUpKeyHandler():
         return
 
     HasSetUpKeyHandler = 1
+    App.g_kKeyboardBinding.BindKey(App.WC_B, App.TGKeyboardEvent.KS_KEYDOWN, Custom.CrazyShipAbilities.KeyBinds.ET_INPUT_USE_ABILITY, 0, 0)
     App.TopWindow_GetTopWindow().AddPythonFuncHandlerForInstance(ET_INPUT_USE_ABILITY, __name__ + '.UseAbility')
 
 def UseAbility(_pObject, _pEvent):

@@ -123,5 +123,3 @@ def Initialize():
     App.g_kKeyboardBinding.BindKey(App.WC_ALT_6, App.TGKeyboardEvent.KS_NORMAL, App.ET_MANAGE_POWER, App.KeyboardBinding.GET_INT_EVENT, 5, App.KeyboardBinding.KBT_SINGLE_KEY_TO_EVENT)
     App.g_kKeyboardBinding.BindKey(App.WC_ALT_7, App.TGKeyboardEvent.KS_NORMAL, App.ET_MANAGE_POWER, App.KeyboardBinding.GET_INT_EVENT, 6, App.KeyboardBinding.KBT_SINGLE_KEY_TO_EVENT)
     App.g_kKeyboardBinding.BindKey(App.WC_ALT_8, App.TGKeyboardEvent.KS_NORMAL, App.ET_MANAGE_POWER, App.KeyboardBinding.GET_INT_EVENT, 7, App.KeyboardBinding.KBT_SINGLE_KEY_TO_EVENT)
-
-    App.g_kKeyboardBinding.BindKey(App.WC_B, App.TGKeyboardEvent.KS_KEYDOWN, Custom.CrazyShipAbilities.KeyBinds.ET_INPUT_USE_ABILITY, 0, 0)

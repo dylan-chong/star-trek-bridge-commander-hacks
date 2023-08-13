@@ -88,11 +88,8 @@ The point of this is to allow you to diff the changes to the file that this mod 
 ## TODO
 
 - Test: Orbship in multiplayer
-- Tidy: BridgeHandlers registers a key event with App.g_kKeyboardBinding
-- Investigate: Engineer menu ability and report buttons are blank in multiplayer
-    - This only sometimes happens?
-- Fix: Rebalance Prometheus for campaign
-    - Make torpedoes larger and slower so that they can stop the enemy from chasing?
+- Fix: Rebalance Defiant to be less OP
+- Feature: BugRammer should get healing by ramming, and take more damage from getting shot
 - Feature: Implement sending ship modifications across stream
     - This will fix:
         - Client wall does not get scaled
