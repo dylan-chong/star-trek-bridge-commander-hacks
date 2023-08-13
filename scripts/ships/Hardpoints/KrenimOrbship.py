@@ -651,7 +651,7 @@ KrenimOrbship = App.ShipProperty_Create("KrenimOrbship")
 
 KrenimOrbship.SetGenus(1)
 KrenimOrbship.SetSpecies(1003)
-KrenimOrbship.SetMass(2249.000000)
+KrenimOrbship.SetMass(5 * 2249.000000)
 KrenimOrbship.SetRotationalInertia(224900.000000)
 KrenimOrbship.SetShipName("KrenimOrbship")
 KrenimOrbship.SetModelFilename("data/Models/Ships/KrenimWarship/KrenimWarship.nif")
