@@ -5,7 +5,7 @@
 import App
 import GlobalPropertyTemplates
 
-AAAAAAAAAMaxCannonCharge = 3
+AAAAAAAAAMaxCannonCharge = 3 * 99999
 AAAAAAAAAMaxDefaultCannonCharge = 0
 AAAAAAAAAAAASetMaxDamage = 175.000000
 AAAAAAAAAAAASetMaxDamageDistance = 100.000000
@@ -378,10 +378,10 @@ App.g_kModelPropertyManager.RegisterLocalTemplate(ForwardCannon4)
 ExtraCannonPositions = []
 
 NExtraCannonCols = 8
-NExtraCannonRows = 3
-MinColsFromCenter = 2
+NExtraCannonRows = 1
+MinColsFromCenter = 0
 
-Width = 5.0
+Width = 0.75
 Height = Width * NExtraCannonRows / NExtraCannonCols
 
 for x in range(NExtraCannonCols):
@@ -392,9 +392,13 @@ for x in range(NExtraCannonCols):
 
 	for z in range(NExtraCannonRows):
 		xCentered = x - (NExtraCannonCols - 1) / 2.0
-		zCentered = z - (NExtraCannonRows - 1) / 2.0
 		xPercentageOfWidth = xCentered / (NExtraCannonCols - 1)
-		zPercentageOfWidth = zCentered / (NExtraCannonRows - 1)
+		if NExtraCannonRows == 1:
+			zCentered = 0
+			zPercentageOfWidth = 0
+		else:
+			zCentered = z - (NExtraCannonRows - 1) / 2.0
+			zPercentageOfWidth = zCentered / (NExtraCannonRows - 1)
 		ExtraCannonPositions.append((xPercentageOfWidth, zPercentageOfWidth))
 
 NExtraCannons = len(ExtraCannonPositions)
@@ -413,8 +417,7 @@ for i in range(NExtraCannons):
 	ExtraCannon.SetCritical(0)
 	ExtraCannon.SetTargetable(1)
 	ExtraCannon.SetPrimary(1)
-	YOffset = -11 # The cannon positions seem to be 'autocorrected' onto the ship, ignoring the actual position that is set, if it is near the ship
-	ExtraCannon.SetPosition(xMult * Width, 0.068000 + YOffset, 0.040000 + zMult * Height)
+	ExtraCannon.SetPosition(xMult * Width, 0.0, zMult * Height)
 	# ExtraCannon.SetPosition2D(60.000000, 46.000000) # I don't know what this does
 	ExtraCannon.SetPosition2D(0, 0) # I don't know what this does
 	ExtraCannon.SetRepairComplexity(1.000000)
