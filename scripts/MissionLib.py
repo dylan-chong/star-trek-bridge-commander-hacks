@@ -540,7 +540,7 @@ def CreatePlayerShip(sShipClass, pSet, pcName, sWaypoint, bUnloadShip = 0):
 	if string.find(GetMission().GetScript() or '', 'Maelstrom.') == 0:
 		# For a list of modded ships see scripts\Custom\CrazyShipAbilities\Abilities.py
 		if sShipClass == 'SovereignR' or sShipClass == 'Galaxy':
-			sShipClass = 'KrenimOrbship'
+			sShipClass = 'Defiant'
 	
 	pGame = App.Game_GetCurrentGame()
 

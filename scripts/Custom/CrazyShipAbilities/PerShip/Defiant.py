@@ -2,7 +2,7 @@ import App
 import Custom.CrazyShipAbilities.Cooldowns
 import Custom.CrazyShipAbilities.Utils
 
-DASH_COOLDOWN_S = 10
+DASH_COOLDOWN_S = 12
 
 def Initialize(OverrideExisting):
 	global Cooldown

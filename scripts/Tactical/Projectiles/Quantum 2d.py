@@ -43,7 +43,7 @@ def Create(pTorp):
 					0.2)
 
 	pTorp.SetDamage( GetDamage() )
-	pTorp.SetDamageRadiusFactor(6 * 0.1)
+	pTorp.SetDamageRadiusFactor(5 * 0.1)
 	pTorp.SetGuidanceLifetime( GetGuidanceLifetime() )
 	pTorp.SetMaxAngularAccel( GetMaxAngularAccel() )
 

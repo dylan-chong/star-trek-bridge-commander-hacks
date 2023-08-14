@@ -4,6 +4,15 @@
 
 import App
 import GlobalPropertyTemplates
+
+AAAAAAAAAMaxCannonCharge = 3
+AAAAAAAAAMaxDefaultCannonCharge = 0
+AAAAAAAAAAAASetMaxDamage = 175.000000
+AAAAAAAAAAAASetMaxDamageDistance = 100.000000
+AAAAAAAAAAAASetMinFiringCharge = AAAAAAAAAMaxCannonCharge
+AAAAAAAAAAAAPulseRechargeRate = 0.2
+AAAAAAAAAAAAPulseCooldownTime = 0.1
+
 # Setting up local templates.
 #################################################
 Hull = App.HullProperty_Create("Hull")
@@ -54,12 +63,12 @@ ShieldGenerator.SetMaxShields(ShieldGenerator.TOP_SHIELDS, 0.14 * 4800.000000)
 ShieldGenerator.SetMaxShields(ShieldGenerator.BOTTOM_SHIELDS, 0.17 * 4800.000000)
 ShieldGenerator.SetMaxShields(ShieldGenerator.LEFT_SHIELDS, 0.14 * 4800.000000)
 ShieldGenerator.SetMaxShields(ShieldGenerator.RIGHT_SHIELDS, 0.14 * 4800.000000)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.FRONT_SHIELDS, 2.0 * 24.000000)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.REAR_SHIELDS, 2.0 * 9.600000)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.TOP_SHIELDS, 2.0 * 9.600000)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.BOTTOM_SHIELDS, 2.2 * 9.600000)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.LEFT_SHIELDS, 2.0 * 9.600000)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.RIGHT_SHIELDS, 2.0 * 9.600000)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.FRONT_SHIELDS, 1.5 * 24.000000)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.REAR_SHIELDS, 1.5 * 9.600000)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.TOP_SHIELDS, 1.5 * 9.600000)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.BOTTOM_SHIELDS, 1.5 * 9.600000)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.LEFT_SHIELDS, 1.5 * 9.600000)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.RIGHT_SHIELDS, 1.5 * 9.600000)
 App.g_kModelPropertyManager.RegisterLocalTemplate(ShieldGenerator)
 #################################################
 SensorArray = App.SensorProperty_Create("Sensor Array")
@@ -91,9 +100,9 @@ ImpulseEngines.SetDisabledPercentage(0.500000)
 ImpulseEngines.SetRadius(0.160000)
 ImpulseEngines.SetNormalPowerPerSecond(240.000000)
 ImpulseEngines.SetMaxAccel(1000 * 3.000000)
-ImpulseEngines.SetMaxAngularAccel(3 * 0.670000)
-ImpulseEngines.SetMaxAngularVelocity(3 * 0.670000)
-ImpulseEngines.SetMaxSpeed(3 * 9.523810)
+ImpulseEngines.SetMaxAngularAccel(2.5 * 0.670000)
+ImpulseEngines.SetMaxAngularVelocity(2.5 * 0.670000)
+ImpulseEngines.SetMaxSpeed(2.2 * 9.523810)
 ImpulseEngines.SetEngineSound("Federation Engines")
 App.g_kModelPropertyManager.RegisterLocalTemplate(ImpulseEngines)
 #################################################
@@ -225,18 +234,11 @@ ForwardCannon1.SetIconPositionX(42.000000)
 ForwardCannon1.SetIconPositionY(66.000000)
 ForwardCannon1.SetIconAboveShip(1)
 ForwardCannon1.SetFireSound("PPhaser")
-AAAAAAAAAMaxCannonCharge = 3
-AAAAAAAAAMaxDefaultCannonCharge = 0
-ForwardCannon1.SetMaxCharge(AAAAAAAAAMaxDefaultCannonCharge) # (9.000000)
-AAAAAAAAAAAASetMaxDamage = 0.1 * 2500 # Does this do anything as the projectile file defines dmg
+ForwardCannon1.SetMaxCharge(AAAAAAAAAMaxDefaultCannonCharge)
 ForwardCannon1.SetMaxDamage(AAAAAAAAAAAASetMaxDamage)
-AAAAAAAAAAAASetMaxDamageDistance = 0.1 * 100
 ForwardCannon1.SetMaxDamageDistance(AAAAAAAAAAAASetMaxDamageDistance)
-AAAAAAAAAAAASetMinFiringCharge = AAAAAAAAAMaxCannonCharge
 ForwardCannon1.SetMinFiringCharge(AAAAAAAAAAAASetMinFiringCharge)
 ForwardCannon1.SetNormalDischargeRate(1.000000)
-AAAAAAAAAAAAPulseRechargeRate = 0.3 #0.500000
-AAAAAAAAAAAAPulseCooldownTime = 0.1 * 0.100000
 ForwardCannon1.SetRechargeRate(AAAAAAAAAAAAPulseRechargeRate)
 ForwardCannon1.SetIndicatorIconNum(0)
 ForwardCannon1.SetIndicatorIconPositionX(44.000000)
@@ -373,29 +375,48 @@ ForwardCannon4.SetModuleName("Tactical.Projectiles.PulsePhaser")
 App.g_kModelPropertyManager.RegisterLocalTemplate(ForwardCannon4)
 
 
+ExtraCannonPositions = []
+
+NExtraCannonCols = 8
+NExtraCannonRows = 3
+MinColsFromCenter = 2
+
+Width = 5.0
+Height = Width * NExtraCannonRows / NExtraCannonCols
+
+for x in range(NExtraCannonCols):
+	centreCol = (NExtraCannonCols - 1.0) / 2
+	colsFromCentre = x > centreCol and x - centreCol or centreCol - x
+	if colsFromCentre < MinColsFromCenter:
+		continue
+
+	for z in range(NExtraCannonRows):
+		xCentered = x - (NExtraCannonCols - 1) / 2.0
+		zCentered = z - (NExtraCannonRows - 1) / 2.0
+		xPercentageOfWidth = xCentered / (NExtraCannonCols - 1)
+		zPercentageOfWidth = zCentered / (NExtraCannonRows - 1)
+		ExtraCannonPositions.append((xPercentageOfWidth, zPercentageOfWidth))
+
+NExtraCannons = len(ExtraCannonPositions)
 ExtraCannons = []
-NExtraCannons = 16
-NSideCannons = NExtraCannons / 2
-Radius = 0.18
-for i in range(0, NExtraCannons):
-	import math
+
+LeftCannonIconX = (42 + 48) / 2
+RightCannonIconX = (106 + 112) / 2
+CentreIconX = (LeftCannonIconX + RightCannonIconX) / 2
+
+for i in range(NExtraCannons):
+	(xMult, zMult) = ExtraCannonPositions[i]
+
 	ExtraCannon = App.PulseWeaponProperty_Create("Forward Cannon " + str(i))
-	IsRight = i >= NSideCannons
-	SideI = i % NSideCannons
-	SideMultiplier = IsRight * 2 - 1
-	# Offset = (i * 1.0) * SideMultiplier
-	progressAroundCircle = 6.28 * SideI / NSideCannons * SideMultiplier
-	XOff = (Radius * math.sin(progressAroundCircle)) + (SideMultiplier * 0.248000)
-	YOff = Radius * math.cos(progressAroundCircle) * 0 # idk why but cannons cant seem to be below or above the ship
-	Offset = (1.0 * SideI / NSideCannons) * SideMultiplier
 	ExtraCannons.append(ExtraCannon)
 	ExtraCannon.SetMaxCondition(3000.000000)
 	ExtraCannon.SetCritical(0)
 	ExtraCannon.SetTargetable(1)
 	ExtraCannon.SetPrimary(1)
-	ExtraCannon.SetPosition(XOff, 0.068000 + YOff, 0.040000)
-	ExtraCannon.SetPosition2D(60.000000 + Offset * 1.0, 46.000000)
-	# rdCannon2.SetPosition2D(123.000000, 48.000000)
+	YOffset = -11 # The cannon positions seem to be 'autocorrected' onto the ship, ignoring the actual position that is set, if it is near the ship
+	ExtraCannon.SetPosition(xMult * Width, 0.068000 + YOffset, 0.040000 + zMult * Height)
+	# ExtraCannon.SetPosition2D(60.000000, 46.000000) # I don't know what this does
+	ExtraCannon.SetPosition2D(0, 0) # I don't know what this does
 	ExtraCannon.SetRepairComplexity(1.000000)
 	ExtraCannon.SetDisabledPercentage(0.500000)
 	ExtraCannon.SetRadius(0.010000)
@@ -404,8 +425,8 @@ for i in range(0, NExtraCannons):
 	ExtraCannon.SetGroups(1)
 	ExtraCannon.SetDamageRadiusFactor(0.070000)
 	ExtraCannon.SetIconNum(365)
-	ExtraCannon.SetIconPositionX(106.000000 -  Offset * 4)
-	ExtraCannon.SetIconPositionY(66.000000)
+	ExtraCannon.SetIconPositionX(CentreIconX + xMult * (RightCannonIconX - LeftCannonIconX))
+	ExtraCannon.SetIconPositionY(66.000000 - zMult * 15)
 	ExtraCannon.SetIconAboveShip(1)
 	ExtraCannon.SetFireSound("PPhaser")
 	ExtraCannon.SetMaxCharge(AAAAAAAAAMaxCannonCharge)
@@ -896,7 +917,7 @@ Repair.SetDisabledPercentage(0.100000)
 Repair.SetRadius(0.050000)
 Repair.SetNormalPowerPerSecond(1.000000)
 Repair.SetMaxRepairPoints(7 * 12.000000)
-Repair.SetNumRepairTeams(5)
+Repair.SetNumRepairTeams(3)
 App.g_kModelPropertyManager.RegisterLocalTemplate(Repair)
 #################################################
 ViewscreenForward = App.PositionOrientationProperty_Create("ViewscreenForward")
