@@ -4,6 +4,7 @@
 
 import App
 import GlobalPropertyTemplates
+import math
 
 AAAAAAAAAMaxCannonCharge = 3
 AAAAAAAAAMaxDefaultCannonCharge = 0
@@ -376,28 +377,17 @@ App.g_kModelPropertyManager.RegisterLocalTemplate(ForwardCannon4)
 
 
 ExtraCannonPositions = []
+NExtraCannons = 24
 
-NExtraCannonCols = 8
-NExtraCannonRows = 3
-MinColsFromCenter = 2
+Width = 11.0
+Height = Width
 
-Width = 5.0
-Height = Width * NExtraCannonRows / NExtraCannonCols
+for i in range(NExtraCannons):
+	angleRads = 3.14159 * 2 * i / NExtraCannons
+	x = math.sin(angleRads)
+	z = math.cos(angleRads)
+	ExtraCannonPositions.append((x, z))
 
-for x in range(NExtraCannonCols):
-	centreCol = (NExtraCannonCols - 1.0) / 2
-	colsFromCentre = x > centreCol and x - centreCol or centreCol - x
-	if colsFromCentre < MinColsFromCenter:
-		continue
-
-	for z in range(NExtraCannonRows):
-		xCentered = x - (NExtraCannonCols - 1) / 2.0
-		zCentered = z - (NExtraCannonRows - 1) / 2.0
-		xPercentageOfWidth = xCentered / (NExtraCannonCols - 1)
-		zPercentageOfWidth = zCentered / (NExtraCannonRows - 1)
-		ExtraCannonPositions.append((xPercentageOfWidth, zPercentageOfWidth))
-
-NExtraCannons = len(ExtraCannonPositions)
 ExtraCannons = []
 
 LeftCannonIconX = (42 + 48) / 2
@@ -413,8 +403,7 @@ for i in range(NExtraCannons):
 	ExtraCannon.SetCritical(0)
 	ExtraCannon.SetTargetable(1)
 	ExtraCannon.SetPrimary(1)
-	YOffset = -11 # The cannon positions seem to be 'autocorrected' onto the ship, ignoring the actual position that is set, if it is near the ship
-	ExtraCannon.SetPosition(xMult * Width, 0.068000 + YOffset, 0.040000 + zMult * Height)
+	ExtraCannon.SetPosition(xMult * Width, 0.068000, 0.040000 + zMult * Height)
 	# ExtraCannon.SetPosition2D(60.000000, 46.000000) # I don't know what this does
 	ExtraCannon.SetPosition2D(0, 0) # I don't know what this does
 	ExtraCannon.SetRepairComplexity(1.000000)
@@ -426,7 +415,7 @@ for i in range(NExtraCannons):
 	ExtraCannon.SetDamageRadiusFactor(0.070000)
 	ExtraCannon.SetIconNum(365)
 	ExtraCannon.SetIconPositionX(CentreIconX + xMult * (RightCannonIconX - LeftCannonIconX))
-	ExtraCannon.SetIconPositionY(66.000000 - zMult * 15)
+	ExtraCannon.SetIconPositionY(71.000000 - zMult * 6)
 	ExtraCannon.SetIconAboveShip(1)
 	ExtraCannon.SetFireSound("PPhaser")
 	ExtraCannon.SetMaxCharge(AAAAAAAAAMaxCannonCharge)
