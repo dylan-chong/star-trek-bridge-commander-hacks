@@ -26,7 +26,9 @@ def Create(pTorp):
 	kOuterCoreColor = App.TGColorA()
 	kOuterCoreColor.SetRGBA(1.000000, 120, 20, 6)
 
-	pTorp.CreateDisruptorModel(kOuterShellColor,kOuterCoreColor, 0.9, 0.07)
+	LENGTH = 1.0
+	RADIUS = 1.3
+	pTorp.CreateDisruptorModel(kOuterShellColor,kOuterCoreColor, LENGTH * 0.9, RADIUS * 0.07)
 	pTorp.SetDamage( GetDamage() )
 	pTorp.SetDamageRadiusFactor(0.1)
 	pTorp.SetGuidanceLifetime( GetGuidanceLifetime() )
@@ -41,7 +43,7 @@ def Create(pTorp):
 	return(0)
 
 def GetLaunchSpeed():
-	return(150.0)
+	return(50.0)
 
 def GetLaunchSound():
 	return("Pulse Phaser")
@@ -53,7 +55,7 @@ def GetName():
 	return("PulsePhaser")
 
 def GetDamage():
-	return 2 * 160.0
+	return 1.6 * 160.0
 
 def GetGuidanceLifetime():
 	return 0.0

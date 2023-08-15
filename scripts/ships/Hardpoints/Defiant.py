@@ -5,7 +5,7 @@
 import App
 import GlobalPropertyTemplates
 
-AAAAAAAAAMaxCannonCharge = 3 * 99999
+AAAAAAAAAMaxCannonCharge = 3
 AAAAAAAAAMaxDefaultCannonCharge = 0
 AAAAAAAAAAAASetMaxDamage = 175.000000
 AAAAAAAAAAAASetMaxDamageDistance = 100.000000
