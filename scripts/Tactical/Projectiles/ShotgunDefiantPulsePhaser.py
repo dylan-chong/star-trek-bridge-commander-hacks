@@ -38,7 +38,7 @@ def Create(pTorp):
 	# Multiplayer specific stuff.  Please, if you create a new torp
 	# type. modify the SpeciesToTorp.py file to add the new type.
 	import Multiplayer.SpeciesToTorp
-	pTorp.SetNetType (Multiplayer.SpeciesToTorp.BURSTDEFIANTPULSEPHASER)
+	pTorp.SetNetType (Multiplayer.SpeciesToTorp.SHOTGUNDEFIANTPULSEPHASER)
 
 	return(0)
 
@@ -55,7 +55,7 @@ def GetName():
 	return("PulsePhaser")
 
 def GetDamage():
-	return 1.6 * 160.0
+	return 1.3 * 160.0
 
 def GetGuidanceLifetime():
 	return 0.0

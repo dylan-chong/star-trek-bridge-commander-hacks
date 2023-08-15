@@ -90,6 +90,8 @@ The point of this is to allow you to diff the changes to the file that this mod 
 - Test: Orbship in multiplayer
 - Fix: Rebalance Defiant to be less OP
 - Feature: BugRammer should get healing by ramming, and take more damage from getting shot
+- Fix: AI not shooting beams from long distance
+    - Should fix as Defiant can simply run away from AI in campaign to heal, whereas it cannot simply do that in PvP
 - Feature: Implement sending ship modifications across stream
     - This will fix:
         - Client wall does not get scaled
