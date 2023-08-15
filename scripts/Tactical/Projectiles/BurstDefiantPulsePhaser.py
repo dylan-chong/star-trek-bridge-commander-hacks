@@ -26,7 +26,9 @@ def Create(pTorp):
 	kOuterCoreColor = App.TGColorA()
 	kOuterCoreColor.SetRGBA(1.000000, 120, 20, 6)
 
-	pTorp.CreateDisruptorModel(kOuterShellColor,kOuterCoreColor, 0.9, 0.07)
+	LENGTH = 1.0
+	RADIUS = 1.3
+	pTorp.CreateDisruptorModel(kOuterShellColor,kOuterCoreColor, LENGTH * 0.9, RADIUS * 0.07)
 	pTorp.SetDamage( GetDamage() )
 	pTorp.SetDamageRadiusFactor(0.1)
 	pTorp.SetGuidanceLifetime( GetGuidanceLifetime() )
@@ -36,12 +38,12 @@ def Create(pTorp):
 	# Multiplayer specific stuff.  Please, if you create a new torp
 	# type. modify the SpeciesToTorp.py file to add the new type.
 	import Multiplayer.SpeciesToTorp
-	pTorp.SetNetType (Multiplayer.SpeciesToTorp.PULSEPHASER)
+	pTorp.SetNetType (Multiplayer.SpeciesToTorp.BURSTDEFIANTPULSEPHASER)
 
 	return(0)
 
 def GetLaunchSpeed():
-	return(150.0)
+	return(50.0)
 
 def GetLaunchSound():
 	return("Pulse Phaser")
@@ -53,7 +55,7 @@ def GetName():
 	return("PulsePhaser")
 
 def GetDamage():
-	return 160.0
+	return 1.6 * 160.0
 
 def GetGuidanceLifetime():
 	return 0.0
@@ -62,4 +64,4 @@ def GetMaxAngularAccel():
 	return 0.1
 
 def GetLifetime():
-	return 10.0
+	return 0.1 * 10.0
