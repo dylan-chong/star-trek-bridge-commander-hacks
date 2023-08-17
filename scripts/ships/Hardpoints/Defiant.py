@@ -5,17 +5,22 @@
 import App
 import GlobalPropertyTemplates
 
-MaxCannonCharge = 3
-MaxDamage = 175.000000
-MaxDamageDistance = 100.000000
-MinFiringCharge = MaxCannonCharge
-PulseRechargeRate = 0.2
-PulseCooldownTime = 0.6
+MaxCannonCharge = 5
+MaxCannonDamage = 175.000000
+MaxCannonDamageDistance = 100.000000
+MinCannonFiringCharge = MaxCannonCharge # TODO this has no effect
+CannonRechargeRate = 0.2
+CannonCooldownTime = 0.3
+CannonArcSizeFactor = 1.8
 
 TorpedoReloadDelay = 27
+
 MaxPhotonChargeFactor = 1.3
 PhotonRechargeRateFactor = 4.0
-CannonArcSizeFactor = 1.5
+
+MaxShieldsFactor = 0.17
+ShieldRegenFactor = 1.5
+TopBottomShieldStrengthFactor = 1.4
 
 # Setting up local templates.
 #################################################
@@ -61,18 +66,18 @@ ShieldGeneratorShieldGlowColor = App.TGColorA()
 ShieldGeneratorShieldGlowColor.SetRGBA(0.250000, 0.500000, 1.000000, 1.000000)
 ShieldGenerator.SetShieldGlowColor(ShieldGeneratorShieldGlowColor)
 ShieldGenerator.SetShieldGlowDecay(1.000000)
-ShieldGenerator.SetMaxShields(ShieldGenerator.FRONT_SHIELDS, 0.17 * 12000.000000)
-ShieldGenerator.SetMaxShields(ShieldGenerator.REAR_SHIELDS, 0.17 * 4800.000000)
-ShieldGenerator.SetMaxShields(ShieldGenerator.TOP_SHIELDS, 0.17 * 4800.000000)
-ShieldGenerator.SetMaxShields(ShieldGenerator.BOTTOM_SHIELDS, 0.17 * 4800.000000)
-ShieldGenerator.SetMaxShields(ShieldGenerator.LEFT_SHIELDS, 0.17 * 4800.000000)
-ShieldGenerator.SetMaxShields(ShieldGenerator.RIGHT_SHIELDS, 0.17 * 4800.000000)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.FRONT_SHIELDS, 1.5 * 24.000000)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.REAR_SHIELDS, 1.5 * 9.600000)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.TOP_SHIELDS, 1.5 * 9.600000)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.BOTTOM_SHIELDS, 1.5 * 9.600000)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.LEFT_SHIELDS, 1.5 * 9.600000)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.RIGHT_SHIELDS, 1.5 * 9.600000)
+ShieldGenerator.SetMaxShields(ShieldGenerator.FRONT_SHIELDS, MaxShieldsFactor * 12000.000000)
+ShieldGenerator.SetMaxShields(ShieldGenerator.REAR_SHIELDS, MaxShieldsFactor * 4800.000000)
+ShieldGenerator.SetMaxShields(ShieldGenerator.TOP_SHIELDS, TopBottomShieldStrengthFactor * MaxShieldsFactor * 4800.000000)
+ShieldGenerator.SetMaxShields(ShieldGenerator.BOTTOM_SHIELDS, TopBottomShieldStrengthFactor * MaxShieldsFactor * 4800.000000)
+ShieldGenerator.SetMaxShields(ShieldGenerator.LEFT_SHIELDS, MaxShieldsFactor * 4800.000000)
+ShieldGenerator.SetMaxShields(ShieldGenerator.RIGHT_SHIELDS, MaxShieldsFactor * 4800.000000)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.FRONT_SHIELDS, ShieldRegenFactor * 24.000000)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.REAR_SHIELDS, ShieldRegenFactor * 9.600000)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.TOP_SHIELDS, TopBottomShieldStrengthFactor * ShieldRegenFactor * 9.600000)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.BOTTOM_SHIELDS, TopBottomShieldStrengthFactor * ShieldRegenFactor * 9.600000)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.LEFT_SHIELDS, ShieldRegenFactor * 9.600000)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.RIGHT_SHIELDS, ShieldRegenFactor * 9.600000)
 App.g_kModelPropertyManager.RegisterLocalTemplate(ShieldGenerator)
 #################################################
 SensorArray = App.SensorProperty_Create("Sensor Array")
@@ -276,11 +281,11 @@ for i in range(NExtraCannons):
 	ExtraCannon.SetIconAboveShip(1)
 	ExtraCannon.SetFireSound("PPhaser")
 	ExtraCannon.SetMaxCharge(MaxCannonCharge)
-	ExtraCannon.SetMaxDamage(MaxDamage)
-	ExtraCannon.SetMaxDamageDistance(MaxDamageDistance)
-	ExtraCannon.SetMinFiringCharge(MinFiringCharge)
+	ExtraCannon.SetMaxDamage(MaxCannonDamage)
+	ExtraCannon.SetMaxDamageDistance(MaxCannonDamageDistance)
+	ExtraCannon.SetMinFiringCharge(MinCannonFiringCharge)
 	ExtraCannon.SetNormalDischargeRate(1.000000)
-	ExtraCannon.SetRechargeRate(PulseRechargeRate)
+	ExtraCannon.SetRechargeRate(CannonRechargeRate)
 	ExtraCannon.SetIndicatorIconNum(0)
 	ExtraCannon.SetIndicatorIconPositionX(108.000000)
 	ExtraCannon.SetIndicatorIconPositionY(70.000000)
@@ -291,7 +296,7 @@ for i in range(NExtraCannons):
 	ExtraCannon.SetOrientation(ExtraCannonForward, ExtraCannonUp)
 	ExtraCannon.SetArcWidthAngles(CannonArcSizeFactor * -0.174533, CannonArcSizeFactor * 0.174533)
 	ExtraCannon.SetArcHeightAngles(CannonArcSizeFactor * -0.174533, CannonArcSizeFactor * 0.174533)
-	ExtraCannon.SetCooldownTime(PulseCooldownTime)
+	ExtraCannon.SetCooldownTime(CannonCooldownTime)
 	ExtraCannon.SetModuleName("Tactical.Projectiles.ShotgunDefiantPulsePhaser")
 	# ExtraCannon.SetModuleName("Tactical.Projectiles.Disruptor 1")
 	App.g_kModelPropertyManager.RegisterLocalTemplate(ExtraCannon)

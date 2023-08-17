@@ -29,5 +29,5 @@ def UseAbility(pPlayer):
 	Cooldown.Trigger()
 
 	velocity = pPlayer.GetVelocityTG()
-	velocity.Scale(14)
+	velocity.Scale(16)
 	pPlayer.SetVelocity(velocity)

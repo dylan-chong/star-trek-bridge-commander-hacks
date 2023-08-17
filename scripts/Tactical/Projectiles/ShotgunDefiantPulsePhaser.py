@@ -43,7 +43,7 @@ def Create(pTorp):
 	return(0)
 
 def GetLaunchSpeed():
-	return(50.0)
+	return(55.0)
 
 def GetLaunchSound():
 	return("Pulse Phaser")
@@ -55,7 +55,7 @@ def GetName():
 	return("PulsePhaser")
 
 def GetDamage():
-	return 1.3 * 160.0
+	return 0.65 * 160.0
 
 def GetGuidanceLifetime():
 	return 0.0
