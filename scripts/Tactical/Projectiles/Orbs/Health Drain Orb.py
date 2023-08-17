@@ -1,15 +1,14 @@
 import App
 
-CORE_SIZE = 3.5
-GLOW_SIZE = 2.0
-FLARE_SIZE = 16.0
+CORE_SIZE = 0.7
+GLOW_SIZE = 0.9
 
 def Create(pTorp):
     kGlowColor = App.TGColorA()
     kGlowColor.SetRGBA(49.0 / 255.0, 190.0 / 255.0, 48.0 / 255., 1.000000)	
     kCoreColor = App.TGColorA()
     kCoreColor.SetRGBA(218.0 / 255.0, 250.0 / 255.0, 202.0 / 255.0, 1.000000)
-    pTorp.CreateTorpedoModel('data/Textures/Tactical/TorpedoCore.tga', kCoreColor, CORE_SIZE * 0.3, 1.3, 'data/Textures/Tactical/TorpedoGlow.tga', kGlowColor, GLOW_SIZE * 3.0, 0.3, 0.6, 'data/Textures/Tactical/TorpedoFlares.tga', kGlowColor, FLARE_SIZE * 8, 0.2, 0.2)
+    pTorp.CreateTorpedoModel('data/Textures/Tactical/TorpedoCore.tga', kCoreColor, CORE_SIZE, 1.3, 'data/Textures/Tactical/TorpedoGlow.tga', kGlowColor, 3.0, GLOW_SIZE, 0.6, 'data/Textures/Tactical/TorpedoFlares.tga', kGlowColor, 8, 0.2, 0.2)
     pTorp.SetDamage(GetDamage())
     pTorp.SetDamageRadiusFactor(0.022211)
     pTorp.SetGuidanceLifetime(GetGuidanceLifetime())
