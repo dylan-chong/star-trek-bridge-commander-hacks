@@ -6,6 +6,7 @@ SHIPS_WITH_ABILITIES = [
 	'Akira',
 	'BugRammer',
 	'Defiant',
+	'KrenimOrbship',
 	'Nova',
 	'Prometheus',
 	'Scimitar',
@@ -17,8 +18,16 @@ def Reset():
 	for ship in SHIPS_WITH_ABILITIES:
 		ModuleForShipName(ship).Initialize(OverrideExisting=1)
 
-def IsAvailable():
-	return GetShipAbilityModule() != Custom.CrazyShipAbilities.PerShip.NoAbilities
+def IsSupported():
+	"""Are abilities supported"""
+	mod = GetShipAbilityModule()
+	if mod == Custom.CrazyShipAbilities.PerShip.NoAbilities:
+		return 0
+
+	isSupportedResult = ExecModuleFuncIfExists(mod, 'IsSupported')
+	if isSupportedResult == None:
+		return 1
+	return isSupportedResult
 
 def GetTitle():
 	return GetShipAbilityModule(Initialize=1).GetTitle()
@@ -62,6 +71,18 @@ def GetShipAbilityModule(Initialize=0):
 		# delete the global variables that have already been initialized
 		mod.Initialize(OverrideExisting=0)
 	return mod
+
+def ExecModuleFuncIfExists(mod, funcName, *args):
+	if not hasattr(mod, funcName):
+		return None
+	func = getattr(mod, funcName)
+
+	if len(args) == 0:
+		return func()
+	if len(args) == 1:
+		return func(args[0])
+	if len(args) == 2:
+		return func(args[0], args[1])
 
 def ModuleForShipName(shipName):
 	return __import__('Custom.CrazyShipAbilities.PerShip.' + shipName)

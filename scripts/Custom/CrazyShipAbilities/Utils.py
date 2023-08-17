@@ -109,3 +109,8 @@ def EmitEventAfterDelay(eType, delayS):
 	pTimer.SetTimerStart(App.g_kUtopiaModule.GetGameTime() + delayS)
 	pTimer.SetEvent(pEvent)
 	App.g_kTimerManager.AddTimer(pTimer)
+
+def ReregisterEventHanders(handlers, target, handlerModuleName):
+	for eventType, funcName in handlers:
+		App.g_kEventManager.RemoveBroadcastHandler(eventType, target, handlerModuleName + '.' + funcName)
+		App.g_kEventManager.AddBroadcastPythonFuncHandler(eventType, target, handlerModuleName + '.' + funcName)

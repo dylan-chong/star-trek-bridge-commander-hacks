@@ -49,7 +49,7 @@ def UseAbility(_pObject, _pEvent):
     Custom.CrazyShipAbilities.Abilities.UseAbility()
 
 def GetAbilityButtonTitle():
-    if not Custom.CrazyShipAbilities.Abilities.IsAvailable():
+    if not Custom.CrazyShipAbilities.Abilities.IsSupported():
         return App.TGString('No ability available')
 
     nCooldowns = Custom.CrazyShipAbilities.Abilities.GetNCooldowns()
