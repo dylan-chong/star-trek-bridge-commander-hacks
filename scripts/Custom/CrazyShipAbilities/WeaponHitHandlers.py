@@ -2,13 +2,11 @@ import math
 import App
 import Custom.CrazyShipAbilities.Utils
 
-# TODO generate orb over time, or outgoing damage generates orbs
-
-TORP_RADIUS_TO_TORP_HANDLER = {
-    0.022211: 'HealthDrainTorpHitHandler',
-    0.022212: 'WeaponDrainTorpHitHandler',
-}
-TORP_RADIUS_MOE = 0.0000001
+WEAPON_RADIUS_TO_TORP_HANDLER = [
+    (0.022211, 'HealthDrainTorpHitHandler'),
+    (0.022212, 'WeaponDrainTorpHitHandler'),
+]
+WEAPON_RADIUS_MOE = 0.0000001
 
 SHIELD_DRAIN = 122
 SHIELD_GAIN_FACTOR = 1.55
@@ -73,15 +71,13 @@ def WeaponHitHandler(_pObject, pEvent):
 
     damageRadius = pEvent.GetRadius()
 
-    for torpRadius in TORP_RADIUS_TO_TORP_HANDLER.keys():
-        if damageRadius < torpRadius - TORP_RADIUS_MOE:
+    for torpRadius, funcName in WEAPON_RADIUS_TO_TORP_HANDLER:
+        if damageRadius < torpRadius - WEAPON_RADIUS_MOE:
             continue 
-        if damageRadius > torpRadius + TORP_RADIUS_MOE:
+        if damageRadius > torpRadius + WEAPON_RADIUS_MOE:
             continue 
 
-        funcName = TORP_RADIUS_TO_TORP_HANDLER[torpRadius]
         handlerFunc = getattr(__import__(__name__), funcName)
-
         handlerFunc(targetShip, firingShip, isHullHit)
 
 def IsKrenimOrbship(Ship):
