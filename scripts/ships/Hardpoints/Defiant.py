@@ -6,19 +6,20 @@ import App
 import GlobalPropertyTemplates
 
 MaxCannonCharge = 5
-MaxCannonDamage = 175.000000
-MaxCannonDamageDistance = 100.000000
 MinCannonFiringCharge = MaxCannonCharge # TODO this has no effect
-CannonRechargeRate = 0.2
+CannonRechargeRate = 0.08
 CannonCooldownTime = 0.3
 CannonArcSizeFactor = 1.8
 
-TorpedoReloadDelay = 27
+NCannonCols = 12
+NCannonRows = 1
 
-MaxPhotonChargeFactor = 1.3
-PhotonRechargeRateFactor = 4.0
+TorpedoReloadDelay = 30
 
-MaxShieldsFactor = 0.17
+MaxPhotonChargeFactor = 1.2
+PhotonRechargeRateFactor = 2.5
+
+MaxShieldsFactor = 0.16
 ShieldRegenFactor = 1.5
 TopBottomShieldStrengthFactor = 1.4
 
@@ -223,44 +224,33 @@ kFiringChainString.SetString("")
 PulsePhasers.SetFiringChainString(kFiringChainString)
 App.g_kModelPropertyManager.RegisterLocalTemplate(PulsePhasers)
 #################################################
-ExtraCannonPositions = []
+CannonPositions = []
 
-NExtraCannonCols = 8
-NExtraCannonRows = 1
-MinColsFromCenter = 0
+Width = 0.8
+Height = Width * NCannonRows / NCannonCols
 
-Width = 0.75
-Height = Width * NExtraCannonRows / NExtraCannonCols
-
-for x in range(NExtraCannonCols):
-	centreCol = (NExtraCannonCols - 1.0) / 2
-	colsFromCentre = x > centreCol and x - centreCol or centreCol - x
-	if colsFromCentre < MinColsFromCenter:
-		continue
-
-	for z in range(NExtraCannonRows):
-		xCentered = x - (NExtraCannonCols - 1) / 2.0
-		xPercentageOfWidth = xCentered / (NExtraCannonCols - 1)
-		if NExtraCannonRows == 1:
+for x in range(NCannonCols):
+	for z in range(NCannonRows):
+		xCentered = x - (NCannonCols - 1) / 2.0
+		xPercentageOfWidth = xCentered / (NCannonCols - 1)
+		if NCannonRows == 1:
 			zCentered = 0
 			zPercentageOfWidth = 0
 		else:
-			zCentered = z - (NExtraCannonRows - 1) / 2.0
-			zPercentageOfWidth = zCentered / (NExtraCannonRows - 1)
-		ExtraCannonPositions.append((xPercentageOfWidth, zPercentageOfWidth))
+			zCentered = z - (NCannonRows - 1) / 2.0
+			zPercentageOfWidth = zCentered / (NCannonRows - 1)
+		CannonPositions.append((xPercentageOfWidth, zPercentageOfWidth))
 
-NExtraCannons = len(ExtraCannonPositions)
-ExtraCannons = []
+NExtraCannons = len(CannonPositions)
 
 LeftCannonIconX = (42 + 48) / 2
 RightCannonIconX = (106 + 112) / 2
 CentreIconX = (LeftCannonIconX + RightCannonIconX) / 2
 
 for i in range(NExtraCannons):
-	(xMult, zMult) = ExtraCannonPositions[i]
+	(xMult, zMult) = CannonPositions[i]
 
 	ExtraCannon = App.PulseWeaponProperty_Create("Forward Cannon " + str(i))
-	ExtraCannons.append(ExtraCannon)
 	ExtraCannon.SetMaxCondition(3000.000000)
 	ExtraCannon.SetCritical(0)
 	ExtraCannon.SetTargetable(1)
@@ -281,8 +271,8 @@ for i in range(NExtraCannons):
 	ExtraCannon.SetIconAboveShip(1)
 	ExtraCannon.SetFireSound("PPhaser")
 	ExtraCannon.SetMaxCharge(MaxCannonCharge)
-	ExtraCannon.SetMaxDamage(MaxCannonDamage)
-	ExtraCannon.SetMaxDamageDistance(MaxCannonDamageDistance)
+	ExtraCannon.SetMaxDamage(175.000000)
+	ExtraCannon.SetMaxDamageDistance(100.000000)
 	ExtraCannon.SetMinFiringCharge(MinCannonFiringCharge)
 	ExtraCannon.SetNormalDischargeRate(1.000000)
 	ExtraCannon.SetRechargeRate(CannonRechargeRate)
