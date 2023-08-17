@@ -49,8 +49,9 @@ SHIELDDRAINORB = 44
 HULLDRAINORB = 45
 WEAPONDRAINORB = 46
 SHOTGUNDEFIANTPULSEPHASER = 46
-NULL = 48
-MAX_TORPS = 49
+SHOTGUNDEFIANTANTIPROTON = 46
+NULL = 49
+MAX_TORPS = 50
 
 # Setup tuples
 kSpeciesTuple = ((UNKNOWN, None),
@@ -101,6 +102,7 @@ kSpeciesTuple = ((UNKNOWN, None),
 	(HULLDRAINORB, "Hull Drain Orb"),
 	(WEAPONDRAINORB, "Weapon Drain Orb"),
 	(SHOTGUNDEFIANTPULSEPHASER, "Shotgun Defiant Pulse Phaser"),
+	(SHOTGUNDEFIANTANTIPROTON, "Shotgun Defiant Anti Proton"),
 	(NULL, "Null"),
 	(MAX_TORPS, None))
 
