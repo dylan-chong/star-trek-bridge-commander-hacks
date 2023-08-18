@@ -116,8 +116,7 @@ def ReregisterEventHanders(handlers, target, handlerModuleName):
 		App.g_kEventManager.AddBroadcastPythonFuncHandler(eventType, target, handlerModuleName + '.' + funcName)
 
 def ChangePlayerRepairPointsBy(amount):
-	import MissionLib
-	player = MissionLib.GetPlayer()
+	player = App.Game_GetCurrentPlayer()
 	if not player:
 		return
 
@@ -133,8 +132,7 @@ def GetShipType(ship):
 	return ship.GetShipProperty().GetName().GetCString()
 
 def GetPlayerShipType():
-	import MissionLib
-	pPlayer = MissionLib.GetPlayer()
+	pPlayer = App.Game_GetCurrentPlayer()
 
 	if not pPlayer:
 		return None

@@ -1,4 +1,3 @@
-import math
 import App
 import Custom.CrazyShipAbilities.Cooldowns
 import Custom.CrazyShipAbilities.Utils
@@ -124,13 +123,12 @@ def CreateHealthRecorderTimer():
 	pTimer.SetEvent(pEvent)
 	return App.g_kTimerManager.AddTimer(pTimer)
 
-def RecordRammerHealth(_pObject, _pEvent):
+def RecordRammerHealth(_pObject = None, _pEvent = None):
 	global LastRammerHealth
 	if not IsPlayerRammer():
 		return
 
-	import MissionLib
-	hull = MissionLib.GetPlayer().GetHull()
+	hull = App.Game_GetCurrentPlayer().GetHull()
 	if not hull:
 		return
 	LastRammerHealth = hull.GetCondition()
@@ -142,22 +140,50 @@ def ObjectCollisionHandler(pObject, pEvent):
 	source = App.ShipClass_Cast(pEvent.GetSource())
 	target = App.ShipClass_Cast(pEvent.GetDestination())
 
-	if source.GetName() != App.Game_GetCurrentPlayer().GetName():
+	if not source or source.GetName() != App.Game_GetCurrentPlayer().GetName():
 		return
 
-	import MissionLib
-	player = MissionLib.GetPlayer()
-	hull = player.GetHull()
-	healthDifference = LastRammerHealth - hull.GetCondition()
-	print('collision with player and', target.GetName(), LastRammerHealth, hull.GetCondition())
-
-	hull.SetCondition(LastRammerHealth)
-
-
+	ReversePlayerRammingDamage()
+	damageDealt = DamageTarget(target, pEvent.GetCollisionForce())
 
 def WeaponHitHandler(pObject, pEvent):
 	targetShip = App.ShipClass_Cast(pEvent.GetTargetObject())
 	firingShip = App.ShipClass_Cast(pEvent.GetFiringObject())
+
+def ReversePlayerRammingDamage():
+	player = App.Game_GetCurrentPlayer()
+	hull = player.GetHull()
+
+	hull.SetCondition(LastRammerHealth)
+	if hull.GetCondition() == hull.GetMaxCondition():
+		player.RemoveVisibleDamage()
+
+def DamageTarget(target, force):
+	# 1.8 force is pretty normal for a impulse 7 impact (a pretty reasonable speed to get an impact)
+	BASE_DAMAGE_FORCE = 1.8
+	BASE_DAMAGE = 1700.0
+
+	# 4.1 force is pretty normal for a impulse 9 impact. Do triple damage
+	HIGH_DAMAGE_FORCE = 4.1
+	HIGH_DAMAGE = BASE_DAMAGE * 3.0
+
+	GRADIENT = (HIGH_DAMAGE - BASE_DAMAGE) / (HIGH_DAMAGE_FORCE - BASE_DAMAGE_FORCE)
+
+	MIN_DAMAGE_FORCE = 0.01
+	MIN_DAMAGE = 100
+	MAX_DAMAGE = HIGH_DAMAGE
+
+	damage = GRADIENT * (force - BASE_DAMAGE_FORCE) + BASE_DAMAGE
+	cappedDamage = max(MIN_DAMAGE, min(MAX_DAMAGE, damage))
+
+	if force < MIN_DAMAGE_FORCE:
+		return 0
+
+	hull = target.GetHull()
+	print('collision', target.GetName(), force, 'damage: ', damage, cappedDamage)
+
+	hull.SetCondition(hull.GetCondition() - cappedDamage)
+	return cappedDamage
 
 def RepairBoostFinished(_pObject, _pEvent):
 	Custom.CrazyShipAbilities.Utils.ChangePlayerRepairPointsBy(-5000)

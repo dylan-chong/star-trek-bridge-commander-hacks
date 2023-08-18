@@ -11,6 +11,7 @@ import GlobalPropertyTemplates
 
 HullHealthFactor = 1000
 
+# Make subsystems not realisically damageable so they don't get destroyed on collision
 SubsystemRepairComplexity = 0.000001
 SubsystemHealthFactor = 1000
 CriticalHealthFactor = SubsystemHealthFactor
@@ -21,12 +22,11 @@ DisabledFactor = 0
 # Mass determines both damage output from ramming, and damage taken.
 # Because health is multiplied to prevent death from ramming, mass is mainly used to control damage output.
 # We want to keep damage output 0 so we can manually control damage in the collision handler.
-Mass = 0.000001
+Mass = 0.1
 
 Hull = App.HullProperty_Create("Hull")
 
-# Hull.SetMaxCondition(HullHealthFactor * 6000.000000)
-Hull.SetMaxCondition(1000000.00)
+Hull.SetMaxCondition(HullHealthFactor * 6000.000000)
 Hull.SetCritical(1)
 Hull.SetTargetable(1)
 Hull.SetPrimary(1)
@@ -66,18 +66,18 @@ ShieldGeneratorShieldGlowColor = App.TGColorA()
 ShieldGeneratorShieldGlowColor.SetRGBA(0.498039, 0.247059, 1.000000, 1.000000)
 ShieldGenerator.SetShieldGlowColor(ShieldGeneratorShieldGlowColor)
 ShieldGenerator.SetShieldGlowDecay(1.000000)
-ShieldGenerator.SetMaxShields(ShieldGenerator.FRONT_SHIELDS, 9999.03 * 3600.000000)
-ShieldGenerator.SetMaxShields(ShieldGenerator.REAR_SHIELDS, 9999.03 * 2400.000000)
-ShieldGenerator.SetMaxShields(ShieldGenerator.TOP_SHIELDS, 9999.03 * 3600.000000)
-ShieldGenerator.SetMaxShields(ShieldGenerator.BOTTOM_SHIELDS, 9999.03 * 3600.000000)
-ShieldGenerator.SetMaxShields(ShieldGenerator.LEFT_SHIELDS, 9999.03 * 2400.000000)
-ShieldGenerator.SetMaxShields(ShieldGenerator.RIGHT_SHIELDS, 9999.03 * 2400.000000)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.FRONT_SHIELDS, 12 * 7.200000)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.REAR_SHIELDS, 12 * 4.800000)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.TOP_SHIELDS, 12 * 7.200000)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.BOTTOM_SHIELDS, 12 * 7.200000)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.LEFT_SHIELDS, 12 * 4.800000)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.RIGHT_SHIELDS, 12 * 4.800000)
+ShieldGenerator.SetMaxShields(ShieldGenerator.FRONT_SHIELDS, 0.25 * 3600.000000)
+ShieldGenerator.SetMaxShields(ShieldGenerator.REAR_SHIELDS, 0.25 * 2400.000000)
+ShieldGenerator.SetMaxShields(ShieldGenerator.TOP_SHIELDS, 0.25 * 3600.000000)
+ShieldGenerator.SetMaxShields(ShieldGenerator.BOTTOM_SHIELDS, 0.25 * 3600.000000)
+ShieldGenerator.SetMaxShields(ShieldGenerator.LEFT_SHIELDS, 0.25 * 2400.000000)
+ShieldGenerator.SetMaxShields(ShieldGenerator.RIGHT_SHIELDS, 0.25 * 2400.000000)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.FRONT_SHIELDS, 6 * 7.200000)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.REAR_SHIELDS, 6 * 4.800000)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.TOP_SHIELDS, 6 * 7.200000)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.BOTTOM_SHIELDS, 6 * 7.200000)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.LEFT_SHIELDS, 6 * 4.800000)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.RIGHT_SHIELDS, 6 * 4.800000)
 App.g_kModelPropertyManager.RegisterLocalTemplate(ShieldGenerator)
 #################################################
 SensorArray = App.SensorProperty_Create("Sensor Array")

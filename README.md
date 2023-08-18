@@ -88,12 +88,16 @@ The point of this is to allow you to diff the changes to the file that this mod 
 ## TODO
 
 - Test: Orbship in multiplayer
+    - Possible Feature: ShipScriptActions.FlickerShields() to highlight shield drain
 - Feature: BugRammer should get healing by ramming, and take more damage from getting shot
-    - ramming damage should be done to the enemy
+    - ramming damage should be done to the enemy based on force
+    - ram should trigger healing
+    - enemy should get knocked back a bit
     - incoming damage gets multiplied by health factor increase
         - need new constants file for this
     - temp boost in mass to increase damage done to starbases, and temp boost in size too
     - test what happens when you ram planets
+    - make rammer subsystems non targetable since they can't realisitcally destroyed anyway
 - Fix: AI not shooting beams from long distance
     - Should fix as Defiant can simply run away from AI in campaign to heal, whereas it cannot simply do that in PvP
 - Feature: Implement sending ship modifications across stream
