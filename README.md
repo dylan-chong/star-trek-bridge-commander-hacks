@@ -89,9 +89,7 @@ The point of this is to allow you to diff the changes to the file that this mod 
 
 - Test: Orbship in multiplayer
 - Feature: BugRammer should get healing by ramming, and take more damage from getting shot
-    - calculate how much damage has been done to the player
-        - TODO NEXT timer hack to record last known health
-    - check what ship is doing collision, do nothing if not player
+    - ramming damage should be done to the enemy
     - incoming damage gets multiplied by health factor increase
         - need new constants file for this
     - temp boost in mass to increase damage done to starbases, and temp boost in size too

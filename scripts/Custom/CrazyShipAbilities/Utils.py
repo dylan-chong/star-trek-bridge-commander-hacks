@@ -132,11 +132,11 @@ def ChangePlayerRepairPointsBy(amount):
 def GetShipType(ship):
 	return ship.GetShipProperty().GetName().GetCString()
 
-def GetPlayerShipType(ship):
-    import MissionLib
-    pPlayer = MissionLib.GetPlayer()
+def GetPlayerShipType():
+	import MissionLib
+	pPlayer = MissionLib.GetPlayer()
 
-    if not pPlayer:
-        return None
+	if not pPlayer:
+		return None
 
 	return GetShipType(pPlayer)

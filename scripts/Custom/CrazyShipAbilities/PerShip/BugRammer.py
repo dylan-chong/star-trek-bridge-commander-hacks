@@ -28,9 +28,9 @@ def Initialize(OverrideExisting):
 		(ET_RECORD_RAMMER_HEALTH, 'RecordRammerHealth'),
 	], App.Game_GetCurrentGame(), __name__)
 
-    if RecordHealthTimerId:
-        App.g_kTimerManager.DeleteTimer(RecordHealthTimerId)
-    RecordHealthTimerId = CreateHealthRecorderTimer()
+	if 'RecordHealthTimerId' in globals().keys():
+		App.g_kTimerManager.DeleteTimer(RecordHealthTimerId)
+	RecordHealthTimerId = CreateHealthRecorderTimer()
 
 def GetTitle():
 	return 'Spawn Ram'
@@ -113,42 +113,45 @@ def SetShipKamazakeAI(pShip, targetName):
 	pShip.SetAI(pKamakaze)
 
 def CreateHealthRecorderTimer():
-    pEvent = App.TGEvent_Create()
-    pEvent.SetEventType(ET_RECORD_RAMMER_HEALTH)
-    pEvent.SetDestination(App.Game_GetCurrentGame())
+	pEvent = App.TGEvent_Create()
+	pEvent.SetEventType(ET_RECORD_RAMMER_HEALTH)
+	pEvent.SetDestination(App.Game_GetCurrentGame())
 
-    pTimer = App.TGTimer_Create()
-    pTimer.SetTimerStart(App.g_kUtopiaModule.GetGameTime() + 0.125)
-    pTimer.SetDelay(0.125)
-    pTimer.SetDuration(-1)
-    pTimer.SetEvent(pEvent)
-    return App.g_kTimerManager.AddTimer(pTimer)
+	pTimer = App.TGTimer_Create()
+	pTimer.SetTimerStart(App.g_kUtopiaModule.GetGameTime() + 0.125)
+	pTimer.SetDelay(0.125)
+	pTimer.SetDuration(-1)
+	pTimer.SetEvent(pEvent)
+	return App.g_kTimerManager.AddTimer(pTimer)
 
 def RecordRammerHealth(_pObject, _pEvent):
-    global LastRammerHealth
-    if not IsPlayerRammer():
-        return
+	global LastRammerHealth
+	if not IsPlayerRammer():
+		return
 
-    hull = pPlayer.GetHull()
-    if not hull:
-    LastRammerHealth = hull.GetCondition()
+	import MissionLib
+	hull = MissionLib.GetPlayer().GetHull()
+	if not hull:
+		return
+	LastRammerHealth = hull.GetCondition()
 
 def ObjectCollisionHandler(pObject, pEvent):
-    if not IsPlayerRammer():
-        return
+	if not IsPlayerRammer():
+		return
 
 	source = App.ShipClass_Cast(pEvent.GetSource())
 	target = App.ShipClass_Cast(pEvent.GetDestination())
 
-    if source.GetName() != App.Game_GetCurrentPlayer().GetName():
-        return
+	if source.GetName() != App.Game_GetCurrentPlayer().GetName():
+		return
 
-    import MissionLib
-    player = MissionLib.GetPlayer()
-    hull = player.GetHull()
-    healthDifference = LastRammerHealth - hull.GetCondition()
+	import MissionLib
+	player = MissionLib.GetPlayer()
+	hull = player.GetHull()
+	healthDifference = LastRammerHealth - hull.GetCondition()
+	print('collision with player and', target.GetName(), LastRammerHealth, hull.GetCondition())
 
-    hull.SetCondition(LastRammerHealth)
+	hull.SetCondition(LastRammerHealth)
 
 
 
