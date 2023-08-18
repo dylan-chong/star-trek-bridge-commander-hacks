@@ -134,13 +134,10 @@ def RecordRammerHealth(_pObject, _pEvent):
     LastRammerHealth = hull.GetCondition()
 
 def ObjectCollisionHandler(pObject, pEvent):
-    if not IsPlayerRammer():
-        return
-
 	source = App.ShipClass_Cast(pEvent.GetSource())
 	target = App.ShipClass_Cast(pEvent.GetDestination())
 
-    if source.GetName() != App.Game_GetCurrentPlayer().GetName():
+    if not Custom.CrazyShipAbilities.Utils.IsPlayer(source):
         return
 
     import MissionLib
@@ -150,11 +147,20 @@ def ObjectCollisionHandler(pObject, pEvent):
 
     hull.SetCondition(LastRammerHealth)
 
-
-
 def WeaponHitHandler(pObject, pEvent):
-	targetShip = App.ShipClass_Cast(pEvent.GetTargetObject())
-	firingShip = App.ShipClass_Cast(pEvent.GetFiringObject())
+	target = App.ShipClass_Cast(pEvent.GetTargetObject())
+	firing = App.ShipClass_Cast(pEvent.GetFiringObject())
+
+    if not Custom.CrazyShipAbilities.Utils.IsPlayer(target):
+        return
+    if not pEvent.IsHullHit():
+        return
+
+    extraDamage = pEvent.GetDamage() *
+    Custom.CrazyShipAbilities.Constants.BUG_RAMMER_HEALTH_MULTIPLIER - 1
+
+    hull = target.GetHull()
+    hull.SetCondition(hull.GetCondition() - extraDamage)
 
 def RepairBoostFinished(_pObject, _pEvent):
 	Custom.CrazyShipAbilities.Utils.ChangePlayerRepairPointsBy(-5000)

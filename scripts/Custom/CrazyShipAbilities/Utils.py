@@ -140,3 +140,7 @@ def GetPlayerShipType(ship):
         return None
 
 	return GetShipType(pPlayer)
+
+def IsPlayer(ship):
+    player = App.Game_GetCurrentPlayer()
+    return player and ship.GetName() == player.GetName()

@@ -92,8 +92,6 @@ The point of this is to allow you to diff the changes to the file that this mod 
     - calculate how much damage has been done to the player
         - TODO NEXT timer hack to record last known health
     - check what ship is doing collision, do nothing if not player
-    - incoming damage gets multiplied by health factor increase
-        - need new constants file for this
     - temp boost in mass to increase damage done to starbases, and temp boost in size too
     - test what happens when you ram planets
 - Fix: AI not shooting beams from long distance
