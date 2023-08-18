@@ -114,3 +114,17 @@ def ReregisterEventHanders(handlers, target, handlerModuleName):
 	for eventType, funcName in handlers:
 		App.g_kEventManager.RemoveBroadcastHandler(eventType, target, handlerModuleName + '.' + funcName)
 		App.g_kEventManager.AddBroadcastPythonFuncHandler(eventType, target, handlerModuleName + '.' + funcName)
+
+def ChangePlayerRepairPointsBy(amount):
+	import MissionLib
+	player = MissionLib.GetPlayer()
+	if not player:
+		return
+
+	repairSubsystem = player.GetRepairSubsystem()
+	if not repairSubsystem:
+		return
+
+	repair = repairSubsystem.GetProperty()
+	currentPoints = repair.GetMaxRepairPoints()
+	repair.SetMaxRepairPoints(currentPoints + amount)

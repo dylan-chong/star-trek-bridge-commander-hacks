@@ -194,26 +194,12 @@ def HullDrainTorpHitHandler(TargetShip, FiringShip):
 	if not ShouldUpdateFiringShip(FiringShip) or targetDrain == 0:
 		return
 	
-	ChangePlayerRepairPointsBy(REPAIR_GAIN)
+	Custom.CrazyShipAbilities.Utils.ChangePlayerRepairPointsBy(REPAIR_GAIN)
 	Custom.CrazyShipAbilities.Utils.EmitEventAfterDelay(ET_DECREMENT_BUFFED_REPAIR_POINTS, REPAIR_GAIN_DURATION_S)
 
 
-def ChangePlayerRepairPointsBy(amount):
-	import MissionLib
-	player = MissionLib.GetPlayer()
-	if not player:
-		return
-
-	repairSubsystem = player.GetRepairSubsystem()
-	if not repairSubsystem:
-		return
-
-	repair = repairSubsystem.GetProperty()
-	currentPoints = repair.GetMaxRepairPoints()
-	repair.SetMaxRepairPoints(currentPoints + amount)
-
 def RepairBoostFinished(_pObject, _pEvent):
-	ChangePlayerRepairPointsBy(-REPAIR_GAIN)
+	Custom.CrazyShipAbilities.Utils.ChangePlayerRepairPointsBy(-REPAIR_GAIN)
 
 def WeaponDrainTorpHitHandler(TargetShip, FiringShip, IsHullHit):
 	sensorArray = TargetShip.GetSensorSubsystem()
