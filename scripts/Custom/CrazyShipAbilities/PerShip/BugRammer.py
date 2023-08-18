@@ -137,31 +137,24 @@ def ObjectCollisionHandler(pObject, pEvent):
     if not IsPlayerRammer():
         return
 
-	math.e = pEvent
-	math.o = pObject
-
 	source = App.ShipClass_Cast(pEvent.GetSource())
-	dest = App.ShipClass_Cast(pEvent.GetDestination())
+	target = App.ShipClass_Cast(pEvent.GetDestination())
 
-	# if App.Game_GetCurrentPlayer().GetObjID() != source.GetObjID:
-	# 	return
+    if source.GetName() != App.Game_GetCurrentPlayer().GetName():
+        return
 
-	print('Collision from', source.GetName(), 'to', dest.GetName())
-	print('- points, force', pEvent.GetNumPoints(), pEvent.GetCollisionForce())
-	print('- health lost', source.GetName(), source.GetHull().GetMaxCondition() - source.GetHull().GetCondition())
-	print('- health lost', dest.GetName(), dest.GetHull().GetMaxCondition() - dest.GetHull().GetCondition())
-	# massDiff = source.GetMass() - dest.GetMass()
-	# print('- is player mass smaller', massDiff > 0)
-	# print('- est damage: mass diff * force / 100', massDiff * pEvent.GetCollisionForce() / 100.00)
+    import MissionLib
+    player = MissionLib.GetPlayer()
+    hull = player.GetHull()
+    healthDifference = LastRammerHealth - hull.GetCondition()
 
-	# Custom.CrazyShipAbilities.Utils.ChangePlayerRepairPointsBy(5000)
-	# Custom.CrazyShipAbilities.Utils.EmitEventAfterDelay(ET_DECREMENT_BUFFED_REPAIR_POINTS, 5)
+    hull.SetCondition(LastRammerHealth)
+
+
 
 def WeaponHitHandler(pObject, pEvent):
 	targetShip = App.ShipClass_Cast(pEvent.GetTargetObject())
 	firingShip = App.ShipClass_Cast(pEvent.GetFiringObject())
-	# print('Weapon hit')
-	pass
 
 def RepairBoostFinished(_pObject, _pEvent):
 	Custom.CrazyShipAbilities.Utils.ChangePlayerRepairPointsBy(-5000)

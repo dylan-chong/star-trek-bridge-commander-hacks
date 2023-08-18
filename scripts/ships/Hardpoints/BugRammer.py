@@ -20,9 +20,7 @@ DisabledFactor = 0
 
 # Mass determines both damage output from ramming, and damage taken.
 # Because health is multiplied to prevent death from ramming, mass is mainly used to control damage output.
-# We want to keep damage output small so you don't one-hit enemies. We can manually do damage in the collision handler.
-# 
-# Galor mass is 1061, as a reference point
+# We want to keep damage output 0 so we can manually control damage in the collision handler.
 Mass = 0.000001
 
 Hull = App.HullProperty_Create("Hull")
