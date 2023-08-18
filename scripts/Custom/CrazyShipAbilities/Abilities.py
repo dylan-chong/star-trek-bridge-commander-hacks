@@ -55,17 +55,14 @@ def UseAbility():
 	return GetShipAbilityModule(Initialize=1).UseAbility(pPlayer)
 
 def GetShipAbilityModule(Initialize=0):
-	pGame = App.Game_GetCurrentGame()
-	pPlayer = pGame.GetPlayer()
-	if not pPlayer:
+	shipType = Custom.CrazyShipAbilities.Utils.GetPlayerShipType()
+	if not shipType:
 		return Custom.CrazyShipAbilities.PerShip.NoAbilities
 
-	playerShipName = pPlayer.GetShipProperty().GetName().GetCString()
-
-	if playerShipName not in SHIPS_WITH_ABILITIES:
+	if shipType not in SHIPS_WITH_ABILITIES:
 		return Custom.CrazyShipAbilities.PerShip.NoAbilities
 
-	mod = ModuleForShipName(playerShipName)
+	mod = ModuleForShipName(shipType)
 	if Initialize:
 		# We need this here becuase it appears that serialization of the game in the campaign can
 		# delete the global variables that have already been initialized

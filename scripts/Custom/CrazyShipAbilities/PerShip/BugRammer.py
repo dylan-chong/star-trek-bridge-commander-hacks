@@ -12,9 +12,10 @@ BUG_BEEFY_DRONE_SCALE = 1.5
 BUG_BEEFY_DRONE_SPEED_MULT = 0.5
 
 ET_DECREMENT_BUFFED_REPAIR_POINTS = App.UtopiaModule_GetNextEventType()
+ET_RECORD_RAMMER_HEALTH = App.UtopiaModule_GetNextEventType()
 
 def Initialize(OverrideExisting):
-	global Cooldown, RammerNames
+	global Cooldown, RammerNames, RecordHealthTimerId
 	if 'Cooldown' in globals().keys() and not OverrideExisting:
 		return
 	Cooldown = Custom.CrazyShipAbilities.Cooldowns.SimpleCooldown(BUG_DRONE_COOLDOWN_S)
@@ -24,7 +25,12 @@ def Initialize(OverrideExisting):
 		(App.ET_OBJECT_COLLISION, 'ObjectCollisionHandler'),
 		(App.ET_WEAPON_HIT, 'WeaponHitHandler'),
 		(ET_DECREMENT_BUFFED_REPAIR_POINTS, 'RepairBoostFinished'),
+		(ET_RECORD_RAMMER_HEALTH, 'RecordRammerHealth'),
 	], App.Game_GetCurrentGame(), __name__)
+
+    if RecordHealthTimerId:
+        App.g_kTimerManager.DeleteTimer(RecordHealthTimerId)
+    RecordHealthTimerId = CreateHealthRecorderTimer()
 
 def GetTitle():
 	return 'Spawn Ram'
@@ -106,7 +112,31 @@ def SetShipKamazakeAI(pShip, targetName):
 	pScript.SetTargetObjectName(targetName)
 	pShip.SetAI(pKamakaze)
 
+def CreateHealthRecorderTimer():
+    pEvent = App.TGEvent_Create()
+    pEvent.SetEventType(ET_RECORD_RAMMER_HEALTH)
+    pEvent.SetDestination(App.Game_GetCurrentGame())
+
+    pTimer = App.TGTimer_Create()
+    pTimer.SetTimerStart(App.g_kUtopiaModule.GetGameTime() + 0.125)
+    pTimer.SetDelay(0.125)
+    pTimer.SetDuration(-1)
+    pTimer.SetEvent(pEvent)
+    return App.g_kTimerManager.AddTimer(pTimer)
+
+def RecordRammerHealth(_pObject, _pEvent):
+    global LastRammerHealth
+    if not IsPlayerRammer():
+        return
+
+    hull = pPlayer.GetHull()
+    if not hull:
+    LastRammerHealth = hull.GetCondition()
+
 def ObjectCollisionHandler(pObject, pEvent):
+    if not IsPlayerRammer():
+        return
+
 	math.e = pEvent
 	math.o = pObject
 
@@ -135,3 +165,6 @@ def WeaponHitHandler(pObject, pEvent):
 
 def RepairBoostFinished(_pObject, _pEvent):
 	Custom.CrazyShipAbilities.Utils.ChangePlayerRepairPointsBy(-5000)
+
+def IsPlayerRammer():
+	return 'BugRammer' == Custom.CrazyShipAbilities.Utils.GetPlayerShipType()

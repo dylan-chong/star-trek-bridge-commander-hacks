@@ -128,3 +128,15 @@ def ChangePlayerRepairPointsBy(amount):
 	repair = repairSubsystem.GetProperty()
 	currentPoints = repair.GetMaxRepairPoints()
 	repair.SetMaxRepairPoints(currentPoints + amount)
+
+def GetShipType(ship):
+	return ship.GetShipProperty().GetName().GetCString()
+
+def GetPlayerShipType(ship):
+    import MissionLib
+    pPlayer = MissionLib.GetPlayer()
+
+    if not pPlayer:
+        return None
+
+	return GetShipType(pPlayer)
