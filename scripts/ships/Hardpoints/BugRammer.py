@@ -5,11 +5,10 @@
 
 import App
 import GlobalPropertyTemplates
+import Custom.CrazyShipAbilities.Constants
 
 # Local Templates
 #################################################
-
-HullHealthFactor = 1000
 
 # Make subsystems not realisically damageable so they don't get destroyed on collision
 SubsystemRepairComplexity = 0.000001
@@ -26,7 +25,7 @@ Mass = 0.1
 
 Hull = App.HullProperty_Create("Hull")
 
-Hull.SetMaxCondition(HullHealthFactor * 6000.000000)
+Hull.SetMaxCondition(Custom.CrazyShipAbilities.Constants.BUG_RAMMER_HEALTH_FACTOR * 6000.000000)
 Hull.SetCritical(1)
 Hull.SetTargetable(1)
 Hull.SetPrimary(1)
@@ -66,12 +65,12 @@ ShieldGeneratorShieldGlowColor = App.TGColorA()
 ShieldGeneratorShieldGlowColor.SetRGBA(0.498039, 0.247059, 1.000000, 1.000000)
 ShieldGenerator.SetShieldGlowColor(ShieldGeneratorShieldGlowColor)
 ShieldGenerator.SetShieldGlowDecay(1.000000)
-ShieldGenerator.SetMaxShields(ShieldGenerator.FRONT_SHIELDS, 0.25 * 3600.000000)
-ShieldGenerator.SetMaxShields(ShieldGenerator.REAR_SHIELDS, 0.25 * 2400.000000)
-ShieldGenerator.SetMaxShields(ShieldGenerator.TOP_SHIELDS, 0.25 * 3600.000000)
-ShieldGenerator.SetMaxShields(ShieldGenerator.BOTTOM_SHIELDS, 0.25 * 3600.000000)
-ShieldGenerator.SetMaxShields(ShieldGenerator.LEFT_SHIELDS, 0.25 * 2400.000000)
-ShieldGenerator.SetMaxShields(ShieldGenerator.RIGHT_SHIELDS, 0.25 * 2400.000000)
+ShieldGenerator.SetMaxShields(ShieldGenerator.FRONT_SHIELDS, 0.8 * 3600.000000)
+ShieldGenerator.SetMaxShields(ShieldGenerator.REAR_SHIELDS, 0.8 * 2400.000000)
+ShieldGenerator.SetMaxShields(ShieldGenerator.TOP_SHIELDS, 0.8 * 3600.000000)
+ShieldGenerator.SetMaxShields(ShieldGenerator.BOTTOM_SHIELDS, 0.8 * 3600.000000)
+ShieldGenerator.SetMaxShields(ShieldGenerator.LEFT_SHIELDS, 0.8 * 2400.000000)
+ShieldGenerator.SetMaxShields(ShieldGenerator.RIGHT_SHIELDS, 0.8 * 2400.000000)
 ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.FRONT_SHIELDS, 6 * 7.200000)
 ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.REAR_SHIELDS, 6 * 4.800000)
 ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.TOP_SHIELDS, 6 * 7.200000)
@@ -109,8 +108,8 @@ ImpulseEngines.SetDisabledPercentage(DisabledFactor * 0.500000)
 ImpulseEngines.SetRadius(0.020000)
 ImpulseEngines.SetNormalPowerPerSecond(120.000000)
 ImpulseEngines.SetMaxAccel(1000000 * 3.000000)
-ImpulseEngines.SetMaxAngularAccel(12 * 0.670000)
-ImpulseEngines.SetMaxAngularVelocity(12 * 0.670000)
+ImpulseEngines.SetMaxAngularAccel(8 * 0.670000)
+ImpulseEngines.SetMaxAngularVelocity(8 * 0.670000)
 ImpulseEngines.SetMaxSpeed(2 * 9.523810)
 ImpulseEngines.SetEngineSound("Klingon Engines")
 App.g_kModelPropertyManager.RegisterLocalTemplate(ImpulseEngines)

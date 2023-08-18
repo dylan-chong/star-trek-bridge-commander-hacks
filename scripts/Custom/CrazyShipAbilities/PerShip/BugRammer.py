@@ -1,6 +1,7 @@
 import App
 import Custom.CrazyShipAbilities.Cooldowns
 import Custom.CrazyShipAbilities.Utils
+import Custom.CrazyShipAbilities.Constants
 
 BUG_DRONE_COOLDOWN_S = 12
 BUG_DRONE_HP = 50
@@ -10,7 +11,10 @@ BUG_BEEFY_DRONE_NAME_PREFIX = 'BeefyRam'
 BUG_BEEFY_DRONE_SCALE = 1.5
 BUG_BEEFY_DRONE_SPEED_MULT = 0.5
 
-ET_DECREMENT_BUFFED_REPAIR_POINTS = App.UtopiaModule_GetNextEventType()
+HEALING_FROM_DAMAGE = 50 * Custom.CrazyShipAbilities.Constants.BUG_RAMMER_HEALTH_FACTOR
+HEALING_DURATION_S = 5
+
+ET_STOP_HEALING = App.UtopiaModule_GetNextEventType()
 ET_RECORD_RAMMER_HEALTH = App.UtopiaModule_GetNextEventType()
 
 def Initialize(OverrideExisting):
@@ -23,7 +27,7 @@ def Initialize(OverrideExisting):
 	Custom.CrazyShipAbilities.Utils.ReregisterEventHanders([
 		(App.ET_OBJECT_COLLISION, 'ObjectCollisionHandler'),
 		(App.ET_WEAPON_HIT, 'WeaponHitHandler'),
-		(ET_DECREMENT_BUFFED_REPAIR_POINTS, 'RepairBoostFinished'),
+		(ET_STOP_HEALING, 'RepairBoostFinished'),
 		(ET_RECORD_RAMMER_HEALTH, 'RecordRammerHealth'),
 	], App.Game_GetCurrentGame(), __name__)
 
@@ -145,6 +149,9 @@ def ObjectCollisionHandler(pObject, pEvent):
 
 	ReversePlayerRammingDamage()
 	damageDealt = DamageTarget(target, pEvent.GetCollisionForce())
+	if damageDealt > 0:
+		print ('collision', target.GetName(), damageDealt)
+	HealFromDamageDealt(damageDealt)
 
 def WeaponHitHandler(pObject, pEvent):
 	targetShip = App.ShipClass_Cast(pEvent.GetTargetObject())
@@ -170,7 +177,7 @@ def DamageTarget(target, force):
 	GRADIENT = (HIGH_DAMAGE - BASE_DAMAGE) / (HIGH_DAMAGE_FORCE - BASE_DAMAGE_FORCE)
 
 	MIN_DAMAGE_FORCE = 0.01
-	MIN_DAMAGE = 100
+	MIN_DAMAGE = 200
 	MAX_DAMAGE = HIGH_DAMAGE
 
 	damage = GRADIENT * (force - BASE_DAMAGE_FORCE) + BASE_DAMAGE
@@ -180,13 +187,21 @@ def DamageTarget(target, force):
 		return 0
 
 	hull = target.GetHull()
-	print('collision', target.GetName(), force, 'damage: ', damage, cappedDamage)
-
 	hull.SetCondition(hull.GetCondition() - cappedDamage)
 	return cappedDamage
 
+def HealFromDamageDealt(damageDealt):
+	if damageDealt == 0:
+		return
+
+	Custom.CrazyShipAbilities.Utils.ChangePlayerRepairPointsBy(HEALING_FROM_DAMAGE)
+
+	Custom.CrazyShipAbilities.Utils.EmitEventAfterDelay(ET_STOP_HEALING, HEALING_DURATION_S)
+
+	RecordRammerHealth() # Prevent 2 close collisions from reverting healing
+
 def RepairBoostFinished(_pObject, _pEvent):
-	Custom.CrazyShipAbilities.Utils.ChangePlayerRepairPointsBy(-5000)
+	Custom.CrazyShipAbilities.Utils.ChangePlayerRepairPointsBy(-HEALING_FROM_DAMAGE)
 
 def IsPlayerRammer():
 	return 'BugRammer' == Custom.CrazyShipAbilities.Utils.GetPlayerShipType()
