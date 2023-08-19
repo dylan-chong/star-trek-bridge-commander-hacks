@@ -168,12 +168,13 @@ def ObjectCollisionHandler(pObject, pEvent):
 	RecordRammerHealth() # Prevent 2 close collisions from reverting healing
 
 	if not target: return
+	damage = CalcRamDamage(target, source)
+
 	if not CanUseCollisionYet(): return
 	SetCollisionUsed()
 
-	damageDealt = DamageTarget(target, source)
-
-	HealAndBuffFromDamageDealt(damageDealt)
+	DamageHull(damage, target)
+	HealAndBuffFromDamageDealt(damage)
 
 def CanUseCollisionYet():
 	if not LastUsedCollisionTime: return 1
@@ -185,7 +186,7 @@ def SetCollisionUsed():
 
 def WeaponHitHandler(pObject, pEvent):
 	target = App.ShipClass_Cast(pEvent.GetTargetObject())
-	if not Custom.CrazyShipAbilities.Utils.IsPlayer(target): return
+	if not IsRammer(target): return
 
 	if pEvent.IsHullHit():
 		damageMultiplier = Custom.CrazyShipAbilities.Constants.BUG_RAMMER_HEALTH_MULTIPLIER - 1
@@ -207,7 +208,7 @@ def ReversePlayerRammingDamage():
 	if hull.GetCondition() == hull.GetMaxCondition():
 		player.RemoveVisibleDamage()
 
-def DamageTarget(target, source):
+def CalcRamDamage(target, source):
 	# Velocities are not the ramming velocities, but the bounce away velocities.
 	# The bigger the ramming, the bigger the bounce away velocities.
 	#
@@ -226,8 +227,6 @@ def DamageTarget(target, source):
 
 	if velocityLength < MIN_RAM_DAMAGE_VELOCITY: return 0
 
-	hull = target.GetHull()
-	hull.SetCondition(hull.GetCondition() - scaledDamage)
 	return scaledDamage
 
 def HealAndBuffFromDamageDealt(damageDealt):
@@ -263,6 +262,9 @@ def BuffFinished(_pObject, _pEvent):
 
 def IsPlayerRammer():
 	return 'BugRammer' == Custom.CrazyShipAbilities.Utils.GetPlayerShipType()
+
+def IsRammer(ship):
+	return 'BugRammer' == Custom.CrazyShipAbilities.Utils.GetShipType(ship)
 
 def ChangePlayerScale(amount):
 	player = App.Game_GetCurrentPlayer()
