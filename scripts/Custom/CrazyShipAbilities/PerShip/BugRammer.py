@@ -10,21 +10,35 @@ EACH_N_DRONE_IS_BEEFY = 8
 BUG_BEEFY_DRONE_NAME_PREFIX = 'BeefyRam'
 BUG_BEEFY_DRONE_SCALE = 1.5
 BUG_BEEFY_DRONE_SPEED_MULT = 0.5
-
-HEALING_FROM_DAMAGE = 85 * Custom.CrazyShipAbilities.Constants.BUG_RAMMER_HEALTH_MULTIPLIER
-HEALING_DURATION_S = 6
-
 ET_STOP_BUFF = App.UtopiaModule_GetNextEventType()
 ET_RECORD_RAMMER_HEALTH = App.UtopiaModule_GetNextEventType()
 
-SCALE_BOOST = 0.25
+BUFF_DURATION_S = 6
+
+HEALING_FROM_DAMAGE_FACTOR = 4.0 * Custom.CrazyShipAbilities.Constants.BUG_RAMMER_HEALTH_MULTIPLIER
+
+MIN_SCALE_BOOST = 0.1
+MAX_SCALE_BOOST = 0.8
+DAMAGE_BOOST_FROM_SCALE = 0.2
+
+# 1.8 force is pretty normal for a impulse 7 impact (a pretty reasonable speed to get an impact)
+BASE_RAM_DAMAGE_FORCE = 1.8
+BASE_RAM_DAMAGE = 1200.0
+# 4.1 force is pretty normal for a impulse 9 impact. Do triple damage
+HIGH_RAM_DAMAGE_FORCE = 4.1
+HIGH_RAM_DAMAGE = BASE_RAM_DAMAGE * 3.0
+# Ram limits
+MIN_RAM_DAMAGE_FORCE = 0.01
+MIN_RAM_DAMAGE = 200
+MAX_RAM_DAMAGE = HIGH_RAM_DAMAGE
 
 def Initialize(OverrideExisting):
-	global Cooldown, RammerNames, RecordHealthTimerId
+	global Cooldown, RammerNames, Buffs, RecordHealthTimerId
 	if 'Cooldown' in globals().keys() and not OverrideExisting:
 		return
 	Cooldown = Custom.CrazyShipAbilities.Cooldowns.SimpleCooldown(BUG_DRONE_COOLDOWN_S)
 	RammerNames = []
+	Buffs = []
 
 	Custom.CrazyShipAbilities.Utils.ReregisterEventHanders([
 		(App.ET_OBJECT_COLLISION, 'ObjectCollisionHandler'),
@@ -131,12 +145,10 @@ def CreateHealthRecorderTimer():
 
 def RecordRammerHealth(_pObject = None, _pEvent = None):
 	global LastRammerHealth
-	if not IsPlayerRammer():
-		return
+	if not IsPlayerRammer(): return
 
 	hull = App.Game_GetCurrentPlayer().GetHull()
-	if not hull:
-		return
+	if not hull: return
 	LastRammerHealth = hull.GetCondition()
 
 def ObjectCollisionHandler(pObject, pEvent):
@@ -146,20 +158,17 @@ def ObjectCollisionHandler(pObject, pEvent):
 	if not source or not Custom.CrazyShipAbilities.Utils.IsPlayer(source):
 		return
 
-	ReversePlayerRammingDamage()
 	damageDealt = DamageTarget(target, pEvent.GetCollisionForce(), source)
-	if damageDealt > 0:
-		print ('collision', target.GetName(), damageDealt)
+	ReversePlayerRammingDamage()
 	HealAndBuffFromDamageDealt(damageDealt)
+	RecordRammerHealth() # Prevent 2 close collisions from reverting healing
 
 def WeaponHitHandler(pObject, pEvent):
 	target = App.ShipClass_Cast(pEvent.GetTargetObject())
 	firing = App.ShipClass_Cast(pEvent.GetFiringObject())
 
-	if not Custom.CrazyShipAbilities.Utils.IsPlayer(target):
-		return
-	if not pEvent.IsHullHit():
-		return
+	if not Custom.CrazyShipAbilities.Utils.IsPlayer(target): return
+	if not pEvent.IsHullHit(): return
 
 	extraDamage = pEvent.GetDamage() * Custom.CrazyShipAbilities.Constants.BUG_RAMMER_HEALTH_MULTIPLIER - 1
 
@@ -175,51 +184,53 @@ def ReversePlayerRammingDamage():
 		player.RemoveVisibleDamage()
 
 def DamageTarget(target, force, source):
-	# 1.8 force is pretty normal for a impulse 7 impact (a pretty reasonable speed to get an impact)
-	BASE_DAMAGE_FORCE = 1.8
-	BASE_DAMAGE = 1700.0
+	GRADIENT = (HIGH_RAM_DAMAGE - BASE_RAM_DAMAGE) / (HIGH_RAM_DAMAGE_FORCE - BASE_RAM_DAMAGE_FORCE)
 
-	# 4.1 force is pretty normal for a impulse 9 impact. Do triple damage
-	HIGH_DAMAGE_FORCE = 4.1
-	HIGH_DAMAGE = BASE_DAMAGE * 3.0
-
-	GRADIENT = (HIGH_DAMAGE - BASE_DAMAGE) / (HIGH_DAMAGE_FORCE - BASE_DAMAGE_FORCE)
-
-	MIN_DAMAGE_FORCE = 0.01
-	MIN_DAMAGE = 200
-	MAX_DAMAGE = HIGH_DAMAGE
-
-	damage = GRADIENT * (force - BASE_DAMAGE_FORCE) + BASE_DAMAGE
-	cappedDamage = max(MIN_DAMAGE, min(MAX_DAMAGE, damage))
+	damage = GRADIENT * (force - BASE_RAM_DAMAGE_FORCE) + BASE_RAM_DAMAGE
+	cappedDamage = max(MIN_RAM_DAMAGE, min(MAX_RAM_DAMAGE, damage))
 	scaledDamage = cappedDamage * source.GetScale()
 
-	if force < MIN_DAMAGE_FORCE:
-		return 0
+	if force < MIN_RAM_DAMAGE_FORCE: return 0
 
 	hull = target.GetHull()
 	hull.SetCondition(hull.GetCondition() - scaledDamage)
 	return cappedDamage
 
 def HealAndBuffFromDamageDealt(damageDealt):
-	if damageDealt == 0:
-		return
+	if damageDealt == 0: return
 
-	Custom.CrazyShipAbilities.Utils.ChangePlayerRepairPointsBy(HEALING_FROM_DAMAGE)
-	RecordRammerHealth() # Prevent 2 close collisions from reverting healing
+	healing = CalcHealingBoost(damageDealt)
+	scale = CalcScaleBoost(damageDealt)
+	print ('- buffing: ', (healing, scale))
+	Buffs.insert(0, (healing, scale))
 
-	player = App.Game_GetCurrentPlayer()
-	player.SetScale(player.GetScale() + SCALE_BOOST)
+	ChangePlayerScale(scale)
+	Custom.CrazyShipAbilities.Utils.ChangePlayerRepairPointsBy(healing)
 
-	Custom.CrazyShipAbilities.Utils.EmitEventAfterDelay(ET_STOP_BUFF, HEALING_DURATION_S)
+	Custom.CrazyShipAbilities.Utils.EmitEventAfterDelay(ET_STOP_BUFF, BUFF_DURATION_S)
 
+def CalcScaleBoost(damageDealt):
+	GRADIENT = (MAX_SCALE_BOOST - MIN_SCALE_BOOST) / (MAX_RAM_DAMAGE - MIN_RAM_DAMAGE)
+	return GRADIENT * (damageDealt - MIN_RAM_DAMAGE) + MIN_SCALE_BOOST
+
+def CalcHealingBoost(damageDealt):
+	REPAIR_TICKS_PER_SECOND = 3
+	N_REPAIR_TICKS = BUFF_DURATION_S * REPAIR_TICKS_PER_SECOND
+
+	totalHealing = damageDealt * HEALING_FROM_DAMAGE_FACTOR
+	return totalHealing / N_REPAIR_TICKS
 
 def BuffFinished(_pObject, _pEvent):
-	player = App.Game_GetCurrentPlayer()
-	if not player:
-		return
+	if not App.Game_GetCurrentPlayer(): return
+	if len(Buffs) == 0: return
 
-	Custom.CrazyShipAbilities.Utils.ChangePlayerRepairPointsBy(-HEALING_FROM_DAMAGE)
-	player.SetScale(player.GetScale() - SCALE_BOOST)
+	healing, scale = Buffs.pop()
+	Custom.CrazyShipAbilities.Utils.ChangePlayerRepairPointsBy(-healing)
+	ChangePlayerScale(-scale)
 
 def IsPlayerRammer():
 	return 'BugRammer' == Custom.CrazyShipAbilities.Utils.GetPlayerShipType()
+
+def ChangePlayerScale(amount):
+	player = App.Game_GetCurrentPlayer()
+	player.SetScale(player.GetScale() + amount)
