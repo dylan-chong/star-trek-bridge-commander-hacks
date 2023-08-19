@@ -17,6 +17,9 @@ HEALING_DURATION_S = 5
 ET_STOP_HEALING = App.UtopiaModule_GetNextEventType()
 ET_RECORD_RAMMER_HEALTH = App.UtopiaModule_GetNextEventType()
 
+SCALE_BOOST = 0.1
+DAMAGE_FROM_SCALE_MULT = 1.0
+
 def Initialize(OverrideExisting):
 	global Cooldown, RammerNames, RecordHealthTimerId
 	if 'Cooldown' in globals().keys() and not OverrideExisting:
@@ -138,13 +141,10 @@ def RecordRammerHealth(_pObject = None, _pEvent = None):
 	LastRammerHealth = hull.GetCondition()
 
 def ObjectCollisionHandler(pObject, pEvent):
-	if not IsPlayerRammer():
-		return
-
 	source = App.ShipClass_Cast(pEvent.GetSource())
 	target = App.ShipClass_Cast(pEvent.GetDestination())
 
-	if not source or source.GetName() != App.Game_GetCurrentPlayer().GetName():
+	if not source or not Custom.CrazyShipAbilities.Utils.IsPlayer(source):
 		return
 
 	ReversePlayerRammingDamage()
@@ -154,8 +154,18 @@ def ObjectCollisionHandler(pObject, pEvent):
 	HealFromDamageDealt(damageDealt)
 
 def WeaponHitHandler(pObject, pEvent):
-	targetShip = App.ShipClass_Cast(pEvent.GetTargetObject())
-	firingShip = App.ShipClass_Cast(pEvent.GetFiringObject())
+	target = App.ShipClass_Cast(pEvent.GetTargetObject())
+	firing = App.ShipClass_Cast(pEvent.GetFiringObject())
+
+	if not Custom.CrazyShipAbilities.Utils.IsPlayer(target):
+		return
+	if not pEvent.IsHullHit():
+		return
+
+	extraDamage = pEvent.GetDamage() * Custom.CrazyShipAbilities.Constants.BUG_RAMMER_HEALTH_MULTIPLIER - 1
+
+	hull = target.GetHull()
+	hull.SetCondition(hull.GetCondition() - extraDamage)
 
 def ReversePlayerRammingDamage():
 	player = App.Game_GetCurrentPlayer()
@@ -201,6 +211,12 @@ def HealFromDamageDealt(damageDealt):
 	RecordRammerHealth() # Prevent 2 close collisions from reverting healing
 
 def RepairBoostFinished(_pObject, _pEvent):
+	player = App.Game_GetCurrentPlayer()
+	if not player:
+		return
+
+	# TODO NEXT damage boost and scale
+	player.SetScale(player.GetScale() - SCALE_BOOST)
 	Custom.CrazyShipAbilities.Utils.ChangePlayerRepairPointsBy(-HEALING_FROM_DAMAGE)
 
 def IsPlayerRammer():

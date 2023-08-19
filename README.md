@@ -90,11 +90,11 @@ The point of this is to allow you to diff the changes to the file that this mod 
 - Test: Orbship in multiplayer
     - Possible Feature: ShipScriptActions.FlickerShields() to highlight shield drain
 - Feature: BugRammer should get healing by ramming, and take more damage from getting shot
+    - temp boost in mass to increase damage done to starbases, and temp boost in size too
     - fix: sometimes doesn't work. due to second game?
     - enemy should get knocked back a bit
     - incoming damage gets multiplied by health factor increase
         - need new constants file for this
-    - temp boost in mass to increase damage done to starbases, and temp boost in size too
     - test what happens when you ram planets
     - make rammer subsystems non targetable since they can't realisitcally destroyed anyway
     - heavier ships should take less damage from ramming
