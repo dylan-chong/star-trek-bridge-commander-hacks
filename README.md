@@ -92,6 +92,7 @@ The point of this is to allow you to diff the changes to the file that this mod 
 - Feature: BugRammer should get healing by ramming, and take more damage from getting shot
     - enemy should get knocked back a bit
     - heavier ships should take less damage from ramming
+        - TODO NEXT test
     - tractor beams can stop the ship instantly
     - cannons are very annoying
     - multiplayer

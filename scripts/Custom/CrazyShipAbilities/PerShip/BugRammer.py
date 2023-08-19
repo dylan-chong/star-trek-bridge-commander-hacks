@@ -32,6 +32,9 @@ MIN_RAM_DAMAGE_VELOCITY = 2.0
 MIN_RAM_DAMAGE = 100
 MAX_RAM_DAMAGE = BASE_RAM_DAMAGE * 4.0
 
+MIN_TARGET_MASS_FOR_DAMAGE_NERF = 1000000
+DAMAGE_NERF_FACTOR = 0.5
+
 MIN_COLLISION_PERIOD_S = 0.333
 
 SHIELD_DAMAGE_BLEEDTHROUGH = 0.8
@@ -223,7 +226,13 @@ def CalcRamDamage(target, source):
 
 	damage = GRADIENT * (velocityLength - BASE_RAM_DAMAGE_VELOCITY) + BASE_RAM_DAMAGE
 	cappedDamage = max(MIN_RAM_DAMAGE, min(MAX_RAM_DAMAGE, damage))
-	scaledDamage = cappedDamage + cappedDamage * (source.GetScale() - 1) * DAMAGE_BOOST_FROM_SCALE
+
+	if target.GetMass() > MIN_TARGET_MASS_FOR_DAMAGE_NERF:
+		massCappedDamage = cappedDamage * DAMAGE_NERF_FACTOR
+	else:
+		massCappedDamage = cappedDamage
+
+	scaledDamage = massCappedDamage + massCappedDamage * (source.GetScale() - 1) * DAMAGE_BOOST_FROM_SCALE
 
 	if velocityLength < MIN_RAM_DAMAGE_VELOCITY: return 0
 
