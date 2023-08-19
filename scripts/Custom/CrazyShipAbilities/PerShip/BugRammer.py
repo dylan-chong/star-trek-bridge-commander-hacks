@@ -18,27 +18,31 @@ BUFF_DURATION_S = 6
 HEALING_FROM_DAMAGE_FACTOR = 4.0 * Custom.CrazyShipAbilities.Constants.BUG_RAMMER_HEALTH_MULTIPLIER
 
 MIN_SCALE_BOOST = 0.1
-MAX_SCALE_BOOST = 0.8
+MAX_SCALE_BOOST = 0.5
 DAMAGE_BOOST_FROM_SCALE = 0.2
 
-# 1.8 force is pretty normal for a impulse 7 impact (a pretty reasonable speed to get an impact)
-BASE_RAM_DAMAGE_FORCE = 1.8
+# 7.5 force is pretty normal for a impulse 6 impact (a pretty reasonable speed to get an impact)
+BASE_RAM_DAMAGE_VELOCITY = 7.5
 BASE_RAM_DAMAGE = 1200.0
-# 4.1 force is pretty normal for a impulse 9 impact. Do triple damage
-HIGH_RAM_DAMAGE_FORCE = 4.1
+# 20 force is pretty normal for a impulse 9 impact. Do triple damage
+HIGH_RAM_DAMAGE_VELOCITY = 20.0
 HIGH_RAM_DAMAGE = BASE_RAM_DAMAGE * 3.0
 # Ram limits
-MIN_RAM_DAMAGE_FORCE = 0.01
-MIN_RAM_DAMAGE = 200
-MAX_RAM_DAMAGE = HIGH_RAM_DAMAGE
+MIN_RAM_DAMAGE_VELOCITY = 2.0
+MIN_RAM_DAMAGE = 100
+MAX_RAM_DAMAGE = BASE_RAM_DAMAGE * 4.0
+
+MIN_COLLISION_PERIOD_S = 0.333
 
 def Initialize(OverrideExisting):
-	global Cooldown, RammerNames, Buffs, RecordHealthTimerId
+	global Cooldown, RammerNames, Buffs, RecordHealthTimerId, LastUsedCollisionTime, LastRammerHealth
 	if 'Cooldown' in globals().keys() and not OverrideExisting:
 		return
 	Cooldown = Custom.CrazyShipAbilities.Cooldowns.SimpleCooldown(BUG_DRONE_COOLDOWN_S)
 	RammerNames = []
 	Buffs = []
+	LastUsedCollisionTime = None
+	LastRammerHealth = None
 
 	Custom.CrazyShipAbilities.Utils.ReregisterEventHanders([
 		(App.ET_OBJECT_COLLISION, 'ObjectCollisionHandler'),
@@ -158,10 +162,24 @@ def ObjectCollisionHandler(pObject, pEvent):
 	if not source or not Custom.CrazyShipAbilities.Utils.IsPlayer(source):
 		return
 
-	damageDealt = DamageTarget(target, pEvent.GetCollisionForce(), source)
 	ReversePlayerRammingDamage()
-	HealAndBuffFromDamageDealt(damageDealt)
 	RecordRammerHealth() # Prevent 2 close collisions from reverting healing
+
+	if not target: return
+	if not CanUseCollisionYet(): return
+	SetCollisionUsed()
+
+	damageDealt = DamageTarget(target, source)
+
+	HealAndBuffFromDamageDealt(damageDealt)
+
+def CanUseCollisionYet():
+	if not LastUsedCollisionTime: return 1
+	return App.g_kUtopiaModule.GetGameTime() > LastUsedCollisionTime + MIN_COLLISION_PERIOD_S
+
+def SetCollisionUsed():
+	global LastUsedCollisionTime
+	LastUsedCollisionTime = App.g_kUtopiaModule.GetGameTime()
 
 def WeaponHitHandler(pObject, pEvent):
 	target = App.ShipClass_Cast(pEvent.GetTargetObject())
@@ -178,30 +196,40 @@ def WeaponHitHandler(pObject, pEvent):
 def ReversePlayerRammingDamage():
 	player = App.Game_GetCurrentPlayer()
 	hull = player.GetHull()
+	if not hull: return
 
 	hull.SetCondition(LastRammerHealth)
 	if hull.GetCondition() == hull.GetMaxCondition():
 		player.RemoveVisibleDamage()
 
-def DamageTarget(target, force, source):
-	GRADIENT = (HIGH_RAM_DAMAGE - BASE_RAM_DAMAGE) / (HIGH_RAM_DAMAGE_FORCE - BASE_RAM_DAMAGE_FORCE)
+def DamageTarget(target, source):
+	# Velocities are not the ramming velocities, but the bounce away velocities.
+	# The bigger the ramming, the bigger the bounce away velocities.
+	#
+	# The reason we use the velocity diff between the two ships is because when the mass of the
+	# rammer is small and the target big, the force on the collision event always is 0.
+	# This would result in 0 damage being done to large ships.
+	velocityDiff = Custom.CrazyShipAbilities.Utils.CloneVector(source.GetVelocityTG())
+	velocityDiff.Subtract(target.GetVelocityTG())
+	velocityLength = velocityDiff.Length()
 
-	damage = GRADIENT * (force - BASE_RAM_DAMAGE_FORCE) + BASE_RAM_DAMAGE
+	GRADIENT = (HIGH_RAM_DAMAGE - BASE_RAM_DAMAGE) / (HIGH_RAM_DAMAGE_VELOCITY - BASE_RAM_DAMAGE_VELOCITY)
+
+	damage = GRADIENT * (velocityLength - BASE_RAM_DAMAGE_VELOCITY) + BASE_RAM_DAMAGE
 	cappedDamage = max(MIN_RAM_DAMAGE, min(MAX_RAM_DAMAGE, damage))
-	scaledDamage = cappedDamage * source.GetScale()
+	scaledDamage = cappedDamage + cappedDamage * (source.GetScale() - 1) * DAMAGE_BOOST_FROM_SCALE
 
-	if force < MIN_RAM_DAMAGE_FORCE: return 0
+	if velocityLength < MIN_RAM_DAMAGE_VELOCITY: return 0
 
 	hull = target.GetHull()
 	hull.SetCondition(hull.GetCondition() - scaledDamage)
-	return cappedDamage
+	return scaledDamage
 
 def HealAndBuffFromDamageDealt(damageDealt):
 	if damageDealt == 0: return
 
 	healing = CalcHealingBoost(damageDealt)
 	scale = CalcScaleBoost(damageDealt)
-	print ('- buffing: ', (healing, scale))
 	Buffs.insert(0, (healing, scale))
 
 	ChangePlayerScale(scale)

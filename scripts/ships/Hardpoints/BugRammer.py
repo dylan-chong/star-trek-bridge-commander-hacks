@@ -12,7 +12,7 @@ import Custom.CrazyShipAbilities.Constants
 
 # Make subsystems not realisically damageable so they don't get destroyed on collision
 SubsystemRepairComplexity = 0.000001
-SubsystemHealthFactor = 1000
+SubsystemHealthFactor = 100000
 CriticalHealthFactor = SubsystemHealthFactor
 EngineHealthFactor = SubsystemHealthFactor
 
@@ -155,7 +155,7 @@ WarpCore.SetDisabledPercentage(DisabledFactor * 0.500000)
 WarpCore.SetRadius(0.020000)
 WarpCore.SetMainBatteryLimit(0.5 * 60000.000000)
 WarpCore.SetBackupBatteryLimit(0.4 * 60000.000000)
-WarpCore.SetMainConduitCapacity(0.2 * 675.000000)
+WarpCore.SetMainConduitCapacity(0.3 * 675.000000)
 WarpCore.SetBackupConduitCapacity(3 * 75.000000)
 WarpCore.SetPowerOutput(0.2 * 600.000000)
 App.g_kModelPropertyManager.RegisterLocalTemplate(WarpCore)
