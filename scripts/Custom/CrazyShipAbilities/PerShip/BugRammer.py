@@ -14,6 +14,9 @@ BUG_BEEFY_DRONE_SPEED_MULT = 0.5
 ET_DECREMENT_BUFFED_REPAIR_POINTS = App.UtopiaModule_GetNextEventType()
 ET_RECORD_RAMMER_HEALTH = App.UtopiaModule_GetNextEventType()
 
+SCALE_BOOST = 0.1
+DAMAGE_FROM_SCALE_MULT = 1.0
+
 def Initialize(OverrideExisting):
 	global Cooldown, RammerNames, RecordHealthTimerId
 	if 'Cooldown' in globals().keys() and not OverrideExisting:
@@ -163,6 +166,12 @@ def WeaponHitHandler(pObject, pEvent):
     hull.SetCondition(hull.GetCondition() - extraDamage)
 
 def RepairBoostFinished(_pObject, _pEvent):
+    player = App.Game_GetCurrentPlayer()
+    if not player:
+        return
+
+    # TODO NEXT damage boost and scale
+    player.SetScale(player.GetScale() - SCALE_BOOST)
 	Custom.CrazyShipAbilities.Utils.ChangePlayerRepairPointsBy(-5000)
 
 def IsPlayerRammer():
