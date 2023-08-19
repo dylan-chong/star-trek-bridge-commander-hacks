@@ -114,3 +114,31 @@ def ReregisterEventHanders(handlers, target, handlerModuleName):
 	for eventType, funcName in handlers:
 		App.g_kEventManager.RemoveBroadcastHandler(eventType, target, handlerModuleName + '.' + funcName)
 		App.g_kEventManager.AddBroadcastPythonFuncHandler(eventType, target, handlerModuleName + '.' + funcName)
+
+def ChangePlayerRepairPointsBy(amount):
+	player = App.Game_GetCurrentPlayer()
+	if not player:
+		return
+
+	repairSubsystem = player.GetRepairSubsystem()
+	if not repairSubsystem:
+		return
+
+	repair = repairSubsystem.GetProperty()
+	currentPoints = repair.GetMaxRepairPoints()
+	repair.SetMaxRepairPoints(currentPoints + amount)
+
+def GetShipType(ship):
+	return ship.GetShipProperty().GetName().GetCString()
+
+def GetPlayerShipType():
+	pPlayer = App.Game_GetCurrentPlayer()
+
+	if not pPlayer:
+		return None
+
+	return GetShipType(pPlayer)
+
+def IsPlayer(ship):
+    player = App.Game_GetCurrentPlayer()
+    return player and ship.GetName() == player.GetName()
