@@ -34,6 +34,8 @@ MAX_RAM_DAMAGE = BASE_RAM_DAMAGE * 4.0
 
 MIN_COLLISION_PERIOD_S = 0.333
 
+SHIELD_DAMAGE_BLEEDTHROUGH = 0.8
+
 def Initialize(OverrideExisting):
 	global Cooldown, RammerNames, Buffs, RecordHealthTimerId, LastUsedCollisionTime, LastRammerHealth
 	if 'Cooldown' in globals().keys() and not OverrideExisting:
@@ -183,15 +185,18 @@ def SetCollisionUsed():
 
 def WeaponHitHandler(pObject, pEvent):
 	target = App.ShipClass_Cast(pEvent.GetTargetObject())
-	firing = App.ShipClass_Cast(pEvent.GetFiringObject())
-
 	if not Custom.CrazyShipAbilities.Utils.IsPlayer(target): return
-	if not pEvent.IsHullHit(): return
 
-	extraDamage = pEvent.GetDamage() * Custom.CrazyShipAbilities.Constants.BUG_RAMMER_HEALTH_MULTIPLIER - 1
+	if pEvent.IsHullHit():
+		damageMultiplier = Custom.CrazyShipAbilities.Constants.BUG_RAMMER_HEALTH_MULTIPLIER - 1
+	else:
+		damageMultiplier = SHIELD_DAMAGE_BLEEDTHROUGH * Custom.CrazyShipAbilities.Constants.BUG_RAMMER_HEALTH_MULTIPLIER
 
-	hull = target.GetHull()
-	hull.SetCondition(hull.GetCondition() - extraDamage)
+	DamageHull(damageMultiplier * pEvent.GetDamage(), target)
+
+def DamageHull(damage, ship):
+	hull = ship.GetHull()
+	hull.SetCondition(hull.GetCondition() - damage)
 
 def ReversePlayerRammingDamage():
 	player = App.Game_GetCurrentPlayer()
