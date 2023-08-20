@@ -1,3 +1,4 @@
+import math
 import App
 import Custom.CrazyShipAbilities.Cooldowns
 import Custom.CrazyShipAbilities.Utils
@@ -29,12 +30,10 @@ HIGH_RAM_DAMAGE_VELOCITY = 20.0
 HIGH_RAM_DAMAGE = BASE_RAM_DAMAGE * 3.0
 # Ram limits
 MIN_RAM_DAMAGE_VELOCITY = 2.0
-MIN_RAM_DAMAGE = 100
-MAX_RAM_DAMAGE = BASE_RAM_DAMAGE * 4.0
+MIN_RAM_DAMAGE_BEFORE_SCALE = 100
+MAX_RAM_DAMAGE_BEFORE_SCALE = BASE_RAM_DAMAGE * 4.0
 
-MIN_TARGET_MASS_FOR_DAMAGE_NERF = 1000000
-DAMAGE_NERF_FACTOR = 0.5
-
+# Prevent grinding collisions (many tiny collisions) from damaging enemy / healing too much
 MIN_COLLISION_PERIOD_S = 0.333
 
 SHIELD_DAMAGE_BLEEDTHROUGH = 0.8
@@ -156,7 +155,8 @@ def RecordRammerHealth(_pObject = None, _pEvent = None):
 	global LastRammerHealth
 	if not IsPlayerRammer(): return
 
-	hull = App.Game_GetCurrentPlayer().GetHull()
+	player = App.Game_GetCurrentPlayer()
+	hull = player.GetHull()
 	if not hull: return
 	LastRammerHealth = hull.GetCondition()
 
@@ -212,6 +212,18 @@ def ReversePlayerRammingDamage():
 		player.RemoveVisibleDamage()
 
 def CalcRamDamage(target, source):
+	GRADIENT = (HIGH_RAM_DAMAGE - BASE_RAM_DAMAGE) / (HIGH_RAM_DAMAGE_VELOCITY - BASE_RAM_DAMAGE_VELOCITY)
+
+	velocityLength = CalcVelocityDiffLength(target, source)
+	if velocityLength < MIN_RAM_DAMAGE_VELOCITY: return 0
+
+	baseDamage = GRADIENT * (velocityLength - BASE_RAM_DAMAGE_VELOCITY) + BASE_RAM_DAMAGE
+
+	cappedBaseDamage = max(MIN_RAM_DAMAGE_BEFORE_SCALE, min(MAX_RAM_DAMAGE_BEFORE_SCALE, baseDamage))
+
+	return CalcBoostedDamageFromScale(source, cappedBaseDamage) * CalcRamDamageNerfFactor(target)
+
+def CalcVelocityDiffLength(target, source):
 	# Velocities are not the ramming velocities, but the bounce away velocities.
 	# The bigger the ramming, the bigger the bounce away velocities.
 	#
@@ -220,23 +232,19 @@ def CalcRamDamage(target, source):
 	# This would result in 0 damage being done to large ships.
 	velocityDiff = Custom.CrazyShipAbilities.Utils.CloneVector(source.GetVelocityTG())
 	velocityDiff.Subtract(target.GetVelocityTG())
-	velocityLength = velocityDiff.Length()
+	return velocityDiff.Length()
 
-	GRADIENT = (HIGH_RAM_DAMAGE - BASE_RAM_DAMAGE) / (HIGH_RAM_DAMAGE_VELOCITY - BASE_RAM_DAMAGE_VELOCITY)
+def CalcRamDamageNerfFactor(target):
+	# With the formula: nerfFactor = 1.0 / (math.log(target.GetMass()) / math.log(2) / 11)
+	# - large bases and borg cubes are around 0.5
+	# - warbird and lighter bases like ds9 are 0.7
+	# - galaxy is 0.89
+	# - sovereign, keldon, and most ships are a little over 1.0 but this is capped
+	nerfFactor = 1.0 / (math.log(target.GetMass()) / math.log(2) / 11)
+	return min(1.0, nerfFactor)
 
-	damage = GRADIENT * (velocityLength - BASE_RAM_DAMAGE_VELOCITY) + BASE_RAM_DAMAGE
-	cappedDamage = max(MIN_RAM_DAMAGE, min(MAX_RAM_DAMAGE, damage))
-
-	if target.GetMass() > MIN_TARGET_MASS_FOR_DAMAGE_NERF:
-		massCappedDamage = cappedDamage * DAMAGE_NERF_FACTOR
-	else:
-		massCappedDamage = cappedDamage
-
-	scaledDamage = massCappedDamage + massCappedDamage * (source.GetScale() - 1) * DAMAGE_BOOST_FROM_SCALE
-
-	if velocityLength < MIN_RAM_DAMAGE_VELOCITY: return 0
-
-	return scaledDamage
+def CalcBoostedDamageFromScale(source, damage):
+	return damage + damage * (source.GetScale() - 1) * DAMAGE_BOOST_FROM_SCALE
 
 def HealAndBuffFromDamageDealt(damageDealt):
 	if damageDealt == 0: return
@@ -251,8 +259,8 @@ def HealAndBuffFromDamageDealt(damageDealt):
 	Custom.CrazyShipAbilities.Utils.EmitEventAfterDelay(ET_STOP_BUFF, BUFF_DURATION_S)
 
 def CalcScaleBoost(damageDealt):
-	GRADIENT = (MAX_SCALE_BOOST - MIN_SCALE_BOOST) / (MAX_RAM_DAMAGE - MIN_RAM_DAMAGE)
-	return GRADIENT * (damageDealt - MIN_RAM_DAMAGE) + MIN_SCALE_BOOST
+	GRADIENT = (MAX_SCALE_BOOST - MIN_SCALE_BOOST) / (MAX_RAM_DAMAGE_BEFORE_SCALE - MIN_RAM_DAMAGE_BEFORE_SCALE)
+	return GRADIENT * (damageDealt - MIN_RAM_DAMAGE_BEFORE_SCALE) + MIN_SCALE_BOOST
 
 def CalcHealingBoost(damageDealt):
 	REPAIR_TICKS_PER_SECOND = 3
