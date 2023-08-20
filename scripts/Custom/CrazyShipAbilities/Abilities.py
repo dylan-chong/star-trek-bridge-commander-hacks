@@ -1,6 +1,7 @@
 import App
 
 import Custom.CrazyShipAbilities.PerShip.NoAbilities
+import Custom.CrazyShipAbilities.Utils
 
 SHIPS_WITH_ABILITIES = [
 	'Akira',
