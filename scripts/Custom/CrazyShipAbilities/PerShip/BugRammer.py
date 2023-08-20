@@ -16,7 +16,7 @@ ET_RECORD_RAMMER_HEALTH = App.UtopiaModule_GetNextEventType()
 
 BUFF_DURATION_S = 6
 
-HEALING_FROM_DAMAGE_FACTOR = 4.0 * Custom.CrazyShipAbilities.Constants.BUG_RAMMER_HEALTH_MULTIPLIER
+HEALING_FROM_DAMAGE_FACTOR = 1.5 * Custom.CrazyShipAbilities.Constants.BUG_RAMMER_HEALTH_MULTIPLIER
 
 MIN_SCALE_BOOST = 0.1
 MAX_SCALE_BOOST = 0.5
@@ -24,19 +24,19 @@ DAMAGE_BOOST_FROM_SCALE = 0.2
 
 # 7.5 force is pretty normal for a impulse 6 impact (a pretty reasonable speed to get an impact)
 BASE_RAM_DAMAGE_VELOCITY = 7.5
-BASE_RAM_DAMAGE = 1200.0
+BASE_RAM_DAMAGE = 1000.0
 # 20 force is pretty normal for a impulse 9 impact. Do triple damage
-HIGH_RAM_DAMAGE_VELOCITY = 20.0
-HIGH_RAM_DAMAGE = BASE_RAM_DAMAGE * 3.0
+HIGH_BASE_RAM_DAMAGE_VELOCITY = 20.0
+HIGH_BASE_RAM_DAMAGE = BASE_RAM_DAMAGE * 3.0
 # Ram limits
-MIN_RAM_DAMAGE_VELOCITY = 2.0
-MIN_RAM_DAMAGE_BEFORE_SCALE = 100
-MAX_RAM_DAMAGE_BEFORE_SCALE = BASE_RAM_DAMAGE * 4.0
+MIN_BASE_RAM_DAMAGE_VELOCITY = 2.0
+MIN_BASE_RAM_DAMAGE = 100
+MAX_BASE_RAM_DAMAGE = BASE_RAM_DAMAGE * 4.0
 
 # Prevent grinding collisions (many tiny collisions) from damaging enemy / healing too much
 MIN_COLLISION_PERIOD_S = 0.333
 
-SHIELD_DAMAGE_BLEEDTHROUGH = 0.8
+SHIELD_DAMAGE_BLEEDTHROUGH = 0.7
 
 def Initialize(OverrideExisting):
 	global Cooldown, RammerNames, Buffs, RecordHealthTimerId, LastUsedCollisionTime, LastRammerHealth
@@ -212,14 +212,14 @@ def ReversePlayerRammingDamage():
 		player.RemoveVisibleDamage()
 
 def CalcRamDamage(target, source):
-	GRADIENT = (HIGH_RAM_DAMAGE - BASE_RAM_DAMAGE) / (HIGH_RAM_DAMAGE_VELOCITY - BASE_RAM_DAMAGE_VELOCITY)
+	GRADIENT = (HIGH_BASE_RAM_DAMAGE - BASE_RAM_DAMAGE) / (HIGH_BASE_RAM_DAMAGE_VELOCITY - BASE_RAM_DAMAGE_VELOCITY)
 
 	velocityLength = CalcVelocityDiffLength(target, source)
-	if velocityLength < MIN_RAM_DAMAGE_VELOCITY: return 0
+	if velocityLength < MIN_BASE_RAM_DAMAGE_VELOCITY: return 0
 
 	baseDamage = GRADIENT * (velocityLength - BASE_RAM_DAMAGE_VELOCITY) + BASE_RAM_DAMAGE
 
-	cappedBaseDamage = max(MIN_RAM_DAMAGE_BEFORE_SCALE, min(MAX_RAM_DAMAGE_BEFORE_SCALE, baseDamage))
+	cappedBaseDamage = max(MIN_BASE_RAM_DAMAGE, min(MAX_BASE_RAM_DAMAGE, baseDamage))
 
 	return CalcBoostedDamageFromScale(source, cappedBaseDamage) * CalcRamDamageNerfFactor(target)
 
@@ -259,8 +259,9 @@ def HealAndBuffFromDamageDealt(damageDealt):
 	Custom.CrazyShipAbilities.Utils.EmitEventAfterDelay(ET_STOP_BUFF, BUFF_DURATION_S)
 
 def CalcScaleBoost(damageDealt):
-	GRADIENT = (MAX_SCALE_BOOST - MIN_SCALE_BOOST) / (MAX_RAM_DAMAGE_BEFORE_SCALE - MIN_RAM_DAMAGE_BEFORE_SCALE)
-	return GRADIENT * (damageDealt - MIN_RAM_DAMAGE_BEFORE_SCALE) + MIN_SCALE_BOOST
+	GRADIENT = (MAX_SCALE_BOOST - MIN_SCALE_BOOST) / (MAX_BASE_RAM_DAMAGE - MIN_BASE_RAM_DAMAGE)
+	baseScaleBoost =  GRADIENT * (damageDealt - MIN_BASE_RAM_DAMAGE) + MIN_SCALE_BOOST
+	return max(MIN_SCALE_BOOST, min(MAX_SCALE_BOOST, baseScaleBoost))
 
 def CalcHealingBoost(damageDealt):
 	REPAIR_TICKS_PER_SECOND = 3
