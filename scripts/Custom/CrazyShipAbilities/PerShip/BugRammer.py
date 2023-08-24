@@ -1,3 +1,12 @@
+"""
+BugRammer - highly maneuverable ship that uses collisions as it's primary attack method.
+Upon colliding with a ship with sufficient speed, does damage to the enemy ship, and any damage done to the rammer itself is reversed.
+Healing over a short time is also triggered, and also the rammer is increased in size temporarily to increase speed and collision damage.
+
+Damage done to the shields is bled-through as a balancing mechanism.
+The rammer can collide with enemies to heal and offset this damage, therefore allowing this ship to fulfill the role as a tank.
+"""
+
 import math
 import App
 import Custom.CrazyShipAbilities.Cooldowns
@@ -36,7 +45,7 @@ MAX_BASE_RAM_DAMAGE = BASE_RAM_DAMAGE * 4.0
 # Prevent grinding collisions (many tiny collisions) from damaging enemy / healing too much
 MIN_COLLISION_PERIOD_S = 0.333
 
-SHIELD_DAMAGE_BLEEDTHROUGH = 0.7
+SHIELD_DAMAGE_BLEEDTHROUGH = 0.85
 
 def Initialize(OverrideExisting):
 	global Cooldown, RammerNames, Buffs, RecordHealthTimerId, LastUsedCollisionTime, LastRammerHealth
@@ -71,6 +80,7 @@ def GetNReady():
 def GetNCooldowns():
 	return Cooldown.GetNCooldowns()
 
+# TODO this old function needs a refactor. Could simply remove as it seems to cause the ship to be overpowered.
 def UseAbility(pPlayer):
 	import MissionLib
 	global RammerNames

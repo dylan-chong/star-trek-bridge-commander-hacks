@@ -90,12 +90,14 @@ The point of this is to allow you to diff the changes to the file that this mod 
 - Test: Orbship in multiplayer
     - Possible Feature: ShipScriptActions.FlickerShields() to highlight shield drain
 - Feature: BugRammer should get healing by ramming, and take more damage from getting shot
-    - enemy should get knocked back a bit
-    - heavier ships should take less damage from ramming
-        - TODO NEXT test
+    - fix enemy not dying if health is set to 0
+    - fix do you take double damage if your shields are low?
     - tractor beams can stop the ship instantly
-    - cannons are very annoying
+    - enemy should get knocked back a bit?
+    - rammer children are not useful now
+        - need to make a new ship
     - multiplayer
+    - ability to take out subsystems?
 - Fix: AI not shooting beams from long distance
     - Should fix as Defiant can simply run away from AI in campaign to heal, whereas it cannot simply do that in PvP
 - Feature: Implement sending ship modifications across stream
