@@ -283,9 +283,9 @@ def ProcessSubsystemForDifficulty(pSubsystem, pShipProperty, pNewProperty):
 		pCurrentProperty = pWeapon.GetProperty()
 		pCurrentProperty.SetMaxDamage(pEWProperty.GetMaxDamage() * fOFactor)
 		fPct = pWeapon.GetChargeLevel() / pWeapon.GetMaxCharge()
-		pCurrentProperty.SetMaxCharge(pEWProperty.GetMaxCharge() * fOFactor) # AAAAAA this breaks scimitar default disruptors
+		pCurrentProperty.SetMaxCharge(max(pEWProperty.GetMaxCharge() * fOFactor, 1)) # min to prevent scimitar and founder from not being able to fire disruptors
 		pWeapon.SetChargeLevel(pCurrentProperty.GetMaxCharge() * fPct)
-		pCurrentProperty.SetMinFiringCharge(pEWProperty.GetMinFiringCharge() * fOFactor) # AAAAAA this breaks scimitar default disruptors
+		pCurrentProperty.SetMinFiringCharge(min(pEWProperty.GetMinFiringCharge() * fOFactor, 1)) # min to prevent scimitar and founder from not being able to fire disruptors
 		pCurrentProperty.SetRechargeRate(pEWProperty.GetRechargeRate() * fOFactor)
 
 	# If it's a shield, we should adjust the shield values.

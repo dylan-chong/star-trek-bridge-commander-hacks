@@ -7,6 +7,7 @@ SHIPS_WITH_ABILITIES = [
 	'Akira',
 	'BugRammer',
 	'Defiant',
+	'Founder',
 	'KrenimOrbship',
 	'Nova',
 	'Prometheus',

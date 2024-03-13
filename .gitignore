@@ -649,7 +649,6 @@ scripts/ships/Hardpoints/FedComplex.py
 scripts/ships/Hardpoints/fedoutpost.py
 scripts/ships/Hardpoints/fedstarbase.py
 scripts/ships/Hardpoints/Fighter.py
-scripts/ships/Hardpoints/Founder.py
 scripts/ships/Hardpoints/freighter.py
 scripts/ships/Hardpoints/Galaxy.py
 scripts/ships/Hardpoints/Galor.py
