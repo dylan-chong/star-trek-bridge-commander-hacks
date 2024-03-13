@@ -1,16 +1,18 @@
 #####  Created by:
 #####  Tactical Display Icon Editor
 
-
-
 import App
 import GlobalPropertyTemplates
+
+SHIELD_FACTOR = 0.002
+SHIELD_REGEN_FACTOR = 0.3
+HULL_FACTOR = 0.5
 
 # Local Templates
 #################################################
 Hull = App.HullProperty_Create("Hull")
 
-Hull.SetMaxCondition(100000.000000)
+Hull.SetMaxCondition(HULL_FACTOR * 100000.000000)
 Hull.SetCritical(1)
 Hull.SetTargetable(1)
 Hull.SetPrimary(1)
@@ -45,23 +47,23 @@ ShieldGenerator.SetPosition2D(50.000000, 50.000000)
 ShieldGenerator.SetRepairComplexity(1.000000)
 ShieldGenerator.SetDisabledPercentage(0.500000)
 ShieldGenerator.SetRadius(0.650000)
-ShieldGenerator.SetNormalPowerPerSecond(3000.000000)
+ShieldGenerator.SetNormalPowerPerSecond(SHIELD_FACTOR * 3000.000000)
 ShieldGeneratorShieldGlowColor = App.TGColorA()
 ShieldGeneratorShieldGlowColor.SetRGBA(0.500000, 0.250000, 1.000000, 1.000000)
 ShieldGenerator.SetShieldGlowColor(ShieldGeneratorShieldGlowColor)
 ShieldGenerator.SetShieldGlowDecay(1.000000)
-ShieldGenerator.SetMaxShields(ShieldGenerator.FRONT_SHIELDS, 59400.000000)
-ShieldGenerator.SetMaxShields(ShieldGenerator.REAR_SHIELDS, 39600.000000)
-ShieldGenerator.SetMaxShields(ShieldGenerator.TOP_SHIELDS, 59400.000000)
-ShieldGenerator.SetMaxShields(ShieldGenerator.BOTTOM_SHIELDS, 59400.000000)
-ShieldGenerator.SetMaxShields(ShieldGenerator.LEFT_SHIELDS, 39600.000000)
-ShieldGenerator.SetMaxShields(ShieldGenerator.RIGHT_SHIELDS, 39600.000000)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.FRONT_SHIELDS, 118.800003)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.REAR_SHIELDS, 79.199997)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.TOP_SHIELDS, 118.800003)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.BOTTOM_SHIELDS, 118.800003)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.LEFT_SHIELDS, 79.199997)
-ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.RIGHT_SHIELDS, 79.199997)
+ShieldGenerator.SetMaxShields(ShieldGenerator.FRONT_SHIELDS, SHIELD_FACTOR * 59400.000000)
+ShieldGenerator.SetMaxShields(ShieldGenerator.REAR_SHIELDS, SHIELD_FACTOR * 39600.000000)
+ShieldGenerator.SetMaxShields(ShieldGenerator.TOP_SHIELDS, SHIELD_FACTOR * 59400.000000)
+ShieldGenerator.SetMaxShields(ShieldGenerator.BOTTOM_SHIELDS, SHIELD_FACTOR * 59400.000000)
+ShieldGenerator.SetMaxShields(ShieldGenerator.LEFT_SHIELDS, SHIELD_FACTOR * 39600.000000)
+ShieldGenerator.SetMaxShields(ShieldGenerator.RIGHT_SHIELDS, SHIELD_FACTOR * 39600.000000)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.FRONT_SHIELDS, SHIELD_REGEN_FACTOR * 118.800003)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.REAR_SHIELDS, SHIELD_REGEN_FACTOR * 79.199997)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.TOP_SHIELDS, SHIELD_REGEN_FACTOR * 118.800003)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.BOTTOM_SHIELDS, SHIELD_REGEN_FACTOR * 118.800003)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.LEFT_SHIELDS, SHIELD_REGEN_FACTOR * 79.199997)
+ShieldGenerator.SetShieldChargePerSecond(ShieldGenerator.RIGHT_SHIELDS, SHIELD_REGEN_FACTOR * 79.199997)
 App.g_kModelPropertyManager.RegisterLocalTemplate(ShieldGenerator)
 #################################################
 SensorArray = App.SensorProperty_Create("Sensor Array")
