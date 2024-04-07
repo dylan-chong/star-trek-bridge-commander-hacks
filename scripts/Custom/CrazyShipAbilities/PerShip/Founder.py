@@ -14,7 +14,7 @@ import Custom.CrazyShipAbilities.Utils
 import Custom.CrazyShipAbilities.Constants
 
 BUG_DRONE_SPAWN_DISTANCE = 100
-BUG_DRONE_COOLDOWN_S = 12
+BUG_DRONE_COOLDOWN_S = 10.5
 BUG_DRONE_HP = 150
 BUG_DRONE_NAME_PREFIX = 'Ram'
 BUG_DRONE_SCALE = 1.2
