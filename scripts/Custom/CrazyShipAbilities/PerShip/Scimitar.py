@@ -1,8 +1,9 @@
 import App
+import MissionLib
 import Custom.CrazyShipAbilities.Cooldowns
 import Custom.CrazyShipAbilities.Utils
 
-DASH_COOLDOWN_S = 15
+DASH_COOLDOWN_S = 0
 
 def Initialize(OverrideExisting):
 	global Cooldown
@@ -28,6 +29,56 @@ def UseAbility(pPlayer):
 
 	Cooldown.Trigger()
 
-	velocity = pPlayer.GetVelocityTG()
-	velocity.Scale(20)
-	pPlayer.SetVelocity(velocity)
+	# velocity = pPlayer.GetVelocityTG()
+	# velocity.Scale(20)
+	# pPlayer.SetVelocity(velocity)
+
+	FireAllCannons(App.Game_GetCurrentPlayer(), GetEnemies())
+	
+
+def FireAllCannons(pShip, lTargets):
+	pMatch = pShip.StartGetSubsystemMatch(App.CT_WEAPON_SYSTEM)
+	pSystem = pShip.GetNextSubsystemMatch(pMatch)
+
+	while pSystem != None:
+		pWeapSystem = App.WeaponSystem_Cast(pSystem)
+		for pTarget in lTargets:
+			weapProperty = pWeapSystem.GetProperty()
+			isCannon = weapProperty.GetWeaponSystemType() == App.WeaponSystemProperty.WST_PULSE
+
+			if not pWeapSystem.IsInTargetList(pTarget) and isCannon and pWeapSystem.CanFire():
+				weapProperty.SetSingleFire(0)
+				pWeapSystem.StartFiring(pTarget)
+			
+		pSystem = pShip.GetNextSubsystemMatch(pMatch)
+
+	pShip.EndGetSubsystemMatch(pMatch)
+
+def GetEnemies():
+	pGame = App.Game_GetCurrentGame()
+	pSet = pGame.GetPlayerSet()
+	enemies = MissionLib.GetEnemyGroup()
+	return GetShipsInSet(enemies, pSet)
+
+def GetShipsInSet(pGroup, pSet = None):
+	# If pSet is not given, get player set
+	if pSet == None:
+		pGame = App.Game_GetCurrentGame()
+		pSet = pGame.GetPlayerSet()
+
+	ships = []
+	pObject = pSet.GetFirstObject()
+	pFirstObject = pObject
+	while not (App.IsNull(pObject)):
+		name = pObject.GetName()
+		if pGroup.IsNameInGroup(name):
+			ship = MissionLib.GetShip(name)
+			ships.append(ship)
+
+		pObject = pSet.GetNextObject(pObject.GetObjID())
+
+		if (pObject.GetObjID() == pFirstObject.GetObjID()):
+			# Exit loop
+			pObject = None
+
+	return ships
