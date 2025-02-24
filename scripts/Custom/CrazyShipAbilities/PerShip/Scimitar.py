@@ -16,6 +16,7 @@ def Initialize(OverrideExisting):
 
 	Custom.CrazyShipAbilities.Utils.ReregisterEventHanders([
 		(ET_RECHARGE_CANNONS, 'RechargePlayerCannons'),
+		(ET_RESET_FIRE_ALL_CANNONS, 'ResetFireAllCannons'),
 	], App.Game_GetCurrentGame(), __name__)
 
 def GetTitle():
@@ -40,16 +41,15 @@ def UseAbility(pPlayer):
 	# velocity.Scale(20)
 	# pPlayer.SetVelocity(velocity)
 
-	SetFireAllCannons(App.Game_GetCurrentPlayer(), GetEnemies(), 1)
+	# SetFireAllCannons(App.Game_GetCurrentPlayer(), GetEnemies(), 1)
 
+	Custom.CrazyShipAbilities.Utils.EmitEventAfterDelay(ET_RESET_FIRE_ALL_CANNONS, 0.0)
 	Custom.CrazyShipAbilities.Utils.EmitEventAfterDelay(ET_RECHARGE_CANNONS, 0.5)
-	Custom.CrazyShipAbilities.Utils.EmitEventAfterDelay(ET_RECHARGE_CANNONS, 1.0)
+	Custom.CrazyShipAbilities.Utils.EmitEventAfterDelay(ET_RESET_FIRE_ALL_CANNONS, 1.0)
 	Custom.CrazyShipAbilities.Utils.EmitEventAfterDelay(ET_RECHARGE_CANNONS, 1.5)
-	Custom.CrazyShipAbilities.Utils.EmitEventAfterDelay(ET_RECHARGE_CANNONS, 2.0)
+	Custom.CrazyShipAbilities.Utils.EmitEventAfterDelay(ET_RESET_FIRE_ALL_CANNONS, 2.0)
 	Custom.CrazyShipAbilities.Utils.EmitEventAfterDelay(ET_RECHARGE_CANNONS, 2.5)
-
-	Custom.CrazyShipAbilities.Utils.EmitEventAfterDelay(ET_RESET_FIRE_ALL_CANNONS, 3)
-	
+	Custom.CrazyShipAbilities.Utils.EmitEventAfterDelay(ET_RESET_FIRE_ALL_CANNONS, 3.0)
 
 def SetFireAllCannons(pShip, lTargets, shouldFire):
 	pMatch = pShip.StartGetSubsystemMatch(App.CT_WEAPON_SYSTEM)
@@ -57,26 +57,29 @@ def SetFireAllCannons(pShip, lTargets, shouldFire):
 
 	while pSystem != None:
 		pWeapSystem = App.WeaponSystem_Cast(pSystem)
-		for pTarget in lTargets:
-			weapProperty = pWeapSystem.GetProperty()
-			isCannon = weapProperty.GetWeaponSystemType() == App.WeaponSystemProperty.WST_PULSE
+		weapProperty = pWeapSystem.GetProperty()
 
-			if not isCannon:
-				continue
+		isCannon = weapProperty.GetWeaponSystemType() == App.WeaponSystemProperty.WST_PULSE
+		if isCannon:
+			for pTarget in lTargets:
+				if not pWeapSystem.IsInTargetList(pTarget) and shouldFire:
+					weapProperty.SetSingleFire(0)
+					pWeapSystem.StartFiring(pTarget)
 
-			if not pWeapSystem.IsInTargetList(pTarget) and pWeapSystem.CanFire() and shouldFire:
-				weapProperty.SetSingleFire(0)
-				pWeapSystem.StartFiring(pTarget)
-			
+				if not shouldFire:
+					weapProperty.SetSingleFire(1)
+					pWeapSystem.StopFiring()
+
 		pSystem = pShip.GetNextSubsystemMatch(pMatch)
 
 	pShip.EndGetSubsystemMatch(pMatch)
 
 def ResetFireAllCannons(_pObject, _pEvent):
 	SetFireAllCannons(App.Game_GetCurrentPlayer(), GetEnemies(), 0)
+	RechargeCannons(App.Game_GetCurrentPlayer())
 
 def RechargePlayerCannons(_pObject, _pEvent):
-	RechargeCannons(App.Game_GetCurrentPlayer())
+	SetFireAllCannons(App.Game_GetCurrentPlayer(), GetEnemies(), 1)
 
 def RechargeCannons(pShip):
 	pPulseSys = pShip.GetPulseWeaponSystem()
