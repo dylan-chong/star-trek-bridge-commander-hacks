@@ -3,20 +3,20 @@ import MissionLib
 import Custom.CrazyShipAbilities.Cooldowns
 import Custom.CrazyShipAbilities.Utils
 
-DASH_COOLDOWN_S = 0
+ABILITY_COOLDOWN_S = 10
 
-ET_RECHARGE_CANNONS = App.UtopiaModule_GetNextEventType()
-ET_RESET_FIRE_ALL_CANNONS = App.UtopiaModule_GetNextEventType()
+ET_FIRE_CANNONS = App.UtopiaModule_GetNextEventType()
+ET_RESET_CANNONS = App.UtopiaModule_GetNextEventType()
 
 def Initialize(OverrideExisting):
 	global Cooldown
 	if 'Cooldown' in globals().keys() and not OverrideExisting:
 		return
-	Cooldown = Custom.CrazyShipAbilities.Cooldowns.SimpleCooldown(DASH_COOLDOWN_S)
+	Cooldown = Custom.CrazyShipAbilities.Cooldowns.SimpleCooldown(ABILITY_COOLDOWN_S)
 
 	Custom.CrazyShipAbilities.Utils.ReregisterEventHanders([
-		(ET_RECHARGE_CANNONS, 'RechargePlayerCannons'),
-		(ET_RESET_FIRE_ALL_CANNONS, 'ResetFireAllCannons'),
+		(ET_FIRE_CANNONS, 'FireCannons'),
+		(ET_RESET_CANNONS, 'ResetCannons'),
 	], App.Game_GetCurrentGame(), __name__)
 
 def GetTitle():
@@ -41,15 +41,13 @@ def UseAbility(pPlayer):
 	# velocity.Scale(20)
 	# pPlayer.SetVelocity(velocity)
 
-	# SetFireAllCannons(App.Game_GetCurrentPlayer(), GetEnemies(), 1)
-
-	Custom.CrazyShipAbilities.Utils.EmitEventAfterDelay(ET_RESET_FIRE_ALL_CANNONS, 0.0)
-	Custom.CrazyShipAbilities.Utils.EmitEventAfterDelay(ET_RECHARGE_CANNONS, 0.5)
-	Custom.CrazyShipAbilities.Utils.EmitEventAfterDelay(ET_RESET_FIRE_ALL_CANNONS, 1.0)
-	Custom.CrazyShipAbilities.Utils.EmitEventAfterDelay(ET_RECHARGE_CANNONS, 1.5)
-	Custom.CrazyShipAbilities.Utils.EmitEventAfterDelay(ET_RESET_FIRE_ALL_CANNONS, 2.0)
-	Custom.CrazyShipAbilities.Utils.EmitEventAfterDelay(ET_RECHARGE_CANNONS, 2.5)
-	Custom.CrazyShipAbilities.Utils.EmitEventAfterDelay(ET_RESET_FIRE_ALL_CANNONS, 3.0)
+	Custom.CrazyShipAbilities.Utils.EmitEventAfterDelay(ET_RESET_CANNONS, 0.0)
+	Custom.CrazyShipAbilities.Utils.EmitEventAfterDelay(ET_FIRE_CANNONS, 0.5)
+	Custom.CrazyShipAbilities.Utils.EmitEventAfterDelay(ET_RESET_CANNONS, 1.0)
+	Custom.CrazyShipAbilities.Utils.EmitEventAfterDelay(ET_FIRE_CANNONS, 1.5)
+	Custom.CrazyShipAbilities.Utils.EmitEventAfterDelay(ET_RESET_CANNONS, 2.0)
+	Custom.CrazyShipAbilities.Utils.EmitEventAfterDelay(ET_FIRE_CANNONS, 2.5)
+	Custom.CrazyShipAbilities.Utils.EmitEventAfterDelay(ET_RESET_CANNONS, 3.0)
 
 def SetFireAllCannons(pShip, lTargets, shouldFire):
 	pMatch = pShip.StartGetSubsystemMatch(App.CT_WEAPON_SYSTEM)
@@ -74,11 +72,11 @@ def SetFireAllCannons(pShip, lTargets, shouldFire):
 
 	pShip.EndGetSubsystemMatch(pMatch)
 
-def ResetFireAllCannons(_pObject, _pEvent):
+def ResetCannons(_pObject, _pEvent):
 	SetFireAllCannons(App.Game_GetCurrentPlayer(), GetEnemies(), 0)
 	RechargeCannons(App.Game_GetCurrentPlayer())
 
-def RechargePlayerCannons(_pObject, _pEvent):
+def FireCannons(_pObject, _pEvent):
 	SetFireAllCannons(App.Game_GetCurrentPlayer(), GetEnemies(), 1)
 
 def RechargeCannons(pShip):

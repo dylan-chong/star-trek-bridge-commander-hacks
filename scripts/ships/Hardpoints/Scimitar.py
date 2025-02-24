@@ -252,7 +252,7 @@ App.g_kModelPropertyManager.RegisterLocalTemplate(DisruptorCannons)
 AAAAAAAMaxCannonChargeFactor = 1.5
 AAAAAAARechargeFactor = 0.15 # 0.75 for no single fire
 AAAAAAADamageFactor = 0.2 # 0.005 for no single fire (still powerful?)
-AAAAAAAAAACannonCooldownFactor = 20.0
+AAAAAAAAAACannonCooldownFactor = 0.5 # 20.0
 AAAAAAAAAAAACannonArc = 1.4 * 0.9
 ForwardCannon1 = App.PulseWeaponProperty_Create("Forward Cannon 1")
 
